@@ -4,12 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SMART BUZZER — Cerdas Cermat Digital</title>
+
+<!-- QR Code Library -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<!-- PeerJS (WebRTC) -->
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 :root {
   --bg:#fff8e7; --bg2:#ffeaa7; --card:#ffffff;
   --yellow:#ffd93d; --yellow-soft:#fff3b0; --red:#ff6b6b; --red-soft:#ffb3b3;
-  --green:#26de81; --purple:#a55eea;
+  --green:#26de81; --purple:#a55eea; --blue:#45aaf2;
   --text:#2d2d2d; --text-soft:#6b6b6b; --dim:#999;
 }
 html, body { height:100%; font-family:'Segoe UI',system-ui,sans-serif; color:var(--text); overflow:hidden; }
@@ -20,7 +26,7 @@ body {
     linear-gradient(135deg, var(--bg) 0%, var(--bg2) 100%);
 }
 
-/* LANDING */
+/* ============ LANDING ============ */
 .landing {
   position:fixed; inset:0; z-index:100;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -51,7 +57,7 @@ body {
 .choice-btn.juri { border-color:#ff6b6b; }
 .choice-btn.juri .c-title { color:#ee5253; }
 
-/* APP */
+/* ============ APP ============ */
 .app { height:100vh; display:flex; flex-direction:column; padding:12px; gap:12px; }
 .app.hidden { display:none; }
 .header {
@@ -72,9 +78,10 @@ body {
   background:#fff; cursor:pointer; font-size:1.1rem;
 }
 
-.main { flex:1; display:grid; grid-template-columns:1fr 360px; gap:12px; min-height:0; }
+.main { flex:1; display:grid; grid-template-columns:1fr 380px; gap:12px; min-height:0; }
 @media (max-width:960px) { .main { grid-template-columns:1fr; overflow-y:auto; } }
 
+/* ============ STAGE ============ */
 .stage {
   background:#fff; border:3px solid #ff6b6b; border-radius:20px;
   padding:22px; display:flex; flex-direction:column; gap:14px;
@@ -93,7 +100,7 @@ body {
 .chip.hit { background:rgba(238,82,83,0.2); color:#ee5253; }
 @keyframes pulse { 50% { opacity:0.4; } }
 
-/* TIMER */
+/* ============ TIMER ============ */
 .timer-box {
   background:linear-gradient(135deg,#fff8e7,#ffeaa7);
   border:3px solid #ffd93d; border-radius:16px;
@@ -121,7 +128,7 @@ body {
 .timer-controls .tc-pause { background:#ffd93d; color:#2d2d2d; }
 .timer-controls .tc-reset { background:#ff6b6b; color:white; }
 
-/* BIG BUZZER */
+/* ============ BUZZER DISPLAY ============ */
 .big-buzzer { position:relative; z-index:1; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
 .idle-display .idle-icon { font-size:5rem; margin-bottom:14px; }
 .idle-display .idle-text {
@@ -144,7 +151,7 @@ body {
   text-shadow:0 4px 30px currentColor;
 }
 
-/* LEADERBOARD */
+/* ============ LEADERBOARD ============ */
 .leaderboard {
   background:#fff8e7; border-radius:14px; padding:12px 14px;
   border:2px dashed #ffd93d; position:relative; z-index:1;
@@ -156,13 +163,25 @@ body {
 .lb-name { flex:1; font-weight:800; }
 .lb-score { font-weight:900; color:#ee5253; font-family:'Courier New',monospace; }
 
-/* PANEL JURI */
+/* ============ PANEL JURI ============ */
 .panel {
   background:#fff; border:3px solid #ffd93d; border-radius:20px;
   padding:16px; display:flex; flex-direction:column; gap:10px;
   overflow-y:auto;
 }
 .panel h2 { font-size:0.9rem; color:#ee5253; letter-spacing:2px; text-transform:uppercase; }
+
+.juri-info {
+  font-size:0.72rem; font-weight:800; color:#a55eea; text-align:center;
+  padding:8px; background:#f5e8ff; border-radius:8px;
+  display:flex; justify-content:space-between; align-items:center; gap:8px;
+}
+.promote-btn {
+  background:linear-gradient(135deg,#a55eea,#8e44ad); color:white;
+  border:none; border-radius:6px; padding:5px 10px;
+  font-family:inherit; font-weight:900; font-size:0.65rem;
+  cursor:pointer; text-transform:uppercase;
+}
 
 .joined-panel {
   background:linear-gradient(135deg,#e8fff5,#d4f8e8);
@@ -226,9 +245,10 @@ body {
 .ctrl-btn.correct { background:linear-gradient(135deg,#26de81,#20bf6b); }
 .ctrl-btn.wrong { background:linear-gradient(135deg,#ff6b6b,#ee5253); }
 .ctrl-btn.code-reset { background:linear-gradient(135deg,#a55eea,#8e44ad); }
+.ctrl-btn.qr-btn { background:linear-gradient(135deg,#45aaf2,#2d98da); }
 .ctrl-btn.secondary { background:#fff; color:#2d2d2d; border:2px solid #ffd93d; }
 
-/* PESERTA */
+/* ============ PESERTA ============ */
 .peserta-stage {
   background:#fff; border:3px solid #ffd93d; border-radius:20px;
   padding:22px; display:flex; flex-direction:column; gap:14px;
@@ -265,7 +285,7 @@ body {
   50% { box-shadow:0 30px 80px rgba(38,222,129,0.8); }
 }
 
-/* MODAL */
+/* ============ MODAL ============ */
 .modal-overlay {
   position:fixed; inset:0; background:rgba(45,27,46,0.7);
   backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center;
@@ -321,7 +341,38 @@ body {
   font-weight:900; cursor:pointer; text-transform:uppercase;
 }
 
-/* TOAST */
+/* ============ QR MODAL ============ */
+.qr-modal-body {
+  display:flex; flex-direction:column; align-items:center; gap:16px; padding:10px 0;
+}
+.qr-frame {
+  background:#fff; padding:20px; border-radius:16px;
+  border:4px dashed #ff6b6b;
+  box-shadow:0 8px 30px rgba(238,82,83,0.2);
+}
+#qrCanvas { display:block; width:260px; height:260px; }
+.qr-code-text {
+  font-family:'Courier New',monospace; font-size:2rem; font-weight:900;
+  letter-spacing:6px; color:#ee5253;
+  background:#fff8e7; padding:10px 24px; border-radius:12px;
+  border:2px solid #ffd93d;
+}
+.qr-link {
+  font-size:0.72rem; color:#6b6b6b; word-break:break-all;
+  text-align:center; max-width:100%; padding:0 10px;
+  font-family:'Courier New',monospace;
+}
+.qr-hint {
+  font-size:0.82rem; color:#6b6b6b; text-align:center;
+  line-height:1.5; max-width:340px;
+}
+.qr-actions {
+  display:grid; grid-template-columns:1fr 1fr; gap:8px;
+  width:100%; max-width:340px;
+}
+.qr-actions .btn-primary, .qr-actions .btn-secondary { padding:12px; font-size:0.85rem; }
+
+/* ============ TOAST ============ */
 .toast {
   position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-100px);
   background:#fff; border:3px solid #ff6b6b; border-radius:14px;
@@ -333,7 +384,7 @@ body {
 .toast.warn { border-color:#ffd93d; }
 .toast.error { border-color:#ee5253; }
 
-/* STATUS BAR */
+/* ============ STATUS BAR ============ */
 .status-bar {
   position:fixed; bottom:8px; left:50%; transform:translateX(-50%);
   background:#fff; border:2px solid #ffd93d; border-radius:20px;
@@ -352,26 +403,26 @@ body {
 <div class="landing" id="landing">
   <div style="font-size:5rem; margin-bottom:16px;">🎯</div>
   <h1>SMART BUZZER</h1>
-  <p class="sub">Cerdas Cermat Digital — Tanpa Server</p>
+  <p class="sub">Cerdas Cermat Digital — Scan QR atau ketik kode untuk masuk</p>
   <div class="landing-choices">
     <button class="choice-btn peserta" onclick="showPesertaForm()">
       <span class="c-icon">🙋</span>
       <div class="c-title">MASUK SEBAGAI PESERTA</div>
-      <div class="c-desc">Masukkan kode room dari juri</div>
+      <div class="c-desc">Scan QR dari juri, atau ketik kode room</div>
     </button>
     <button class="choice-btn juri" onclick="showJuriForm()">
       <span class="c-icon">👨‍⚖️</span>
       <div class="c-title">MASUK SEBAGAI JURI</div>
-      <div class="c-desc">Buat room baru / gabung juri</div>
+      <div class="c-desc">Buat room, tampilkan QR, kontrol permainan</div>
     </button>
   </div>
 </div>
 
-<!-- MODAL PESERTA -->
+<!-- MODAL PESERTA (KODE MANUAL) -->
 <div class="modal-overlay hidden" id="pesertaJoinModal">
   <div class="modal">
     <h2>🔑 Masukkan Kode Room</h2>
-    <p class="sub">Kode 6 digit dari juri. Siapa pun yang tahu kode boleh masuk, lalu pilih regu.</p>
+    <p class="sub">Ketik 6 digit kode dari juri. Atau scan QR yang ditampilkan juri.</p>
     <div class="code-input-wrap">
       <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="0">
       <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="1">
@@ -404,6 +455,27 @@ body {
     <p class="sub" id="teamChoiceSub">Regu yang sudah terpakai ditandai dan tidak bisa dipilih.</p>
     <div class="team-choices" id="teamChoicesBox"></div>
     <button class="btn-secondary" onclick="closeModals()">BATAL</button>
+  </div>
+</div>
+
+<!-- MODAL QR CODE -->
+<div class="modal-overlay hidden" id="qrModal">
+  <div class="modal">
+    <h2>📱 Scan QR untuk Masuk</h2>
+    <p class="sub">Peserta scan QR ini dengan kamera HP — kode room otomatis terisi.</p>
+    <div class="qr-modal-body">
+      <div class="qr-frame"><div id="qrCanvas"></div></div>
+      <div class="qr-code-text" id="qrCodeText">------</div>
+      <div class="qr-link" id="qrLink"></div>
+      <div class="qr-hint">
+        💡 <strong>Cara pakai:</strong><br>
+        Buka kamera HP → arahkan ke QR → tap notifikasi link → browser terbuka otomatis dengan kode terisi.
+      </div>
+      <div class="qr-actions">
+        <button class="btn-primary" onclick="copyRoomLink()">📋 SALIN LINK</button>
+        <button class="btn-secondary" onclick="closeModals()">TUTUP</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -481,8 +553,11 @@ body {
     <div class="panel" id="juriPanel" style="display:none;">
       <h2>👨‍⚖️ Panel Juri</h2>
 
-      <div class="juri-info" style="font-size:0.72rem; font-weight:800; color:#a55eea; text-align:center; padding:8px; background:#f5e8ff; border-radius:8px;" id="juriInfo">
-        👑 JURI UTAMA
+      <div class="juri-info" id="juriInfo">
+        <span id="juriInfoText">👑 JURI UTAMA</span>
+        <button class="promote-btn" id="promoteBtn" style="display:none;" onclick="promoteSelf()">
+          👑 Jadi Juri Utama
+        </button>
       </div>
 
       <div class="joined-panel">
@@ -510,6 +585,10 @@ body {
       <div class="ctrl-actions">
         <button class="ctrl-btn code-reset" onclick="resetRoomCode()">🔑 RESET KODE</button>
         <button class="ctrl-btn secondary" onclick="kickAll()">🚫 KELUARKAN SEMUA</button>
+      </div>
+
+      <div class="ctrl-actions" style="grid-template-columns:1fr;">
+        <button class="ctrl-btn qr-btn" onclick="showQRCode()">📱 TAMPILKAN QR CODE</button>
       </div>
 
       <div class="ctrl-actions">
@@ -552,26 +631,18 @@ body {
   <span id="peerText" style="color:#6b6b6b;"></span>
 </div>
 
-<!-- PeerJS CDN (WebRTC publik gratis) -->
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
-
 <script>
 /* ============================================================
-   SMART BUZZER — SINGLE HTML (No Server)
-   Sinkronisasi:
-   - BroadcastChannel: antar tab di browser yang sama
-   - localStorage: persistensi & fallback antar tab
-   - PeerJS (WebRTC): antar perangkat fisik via internet
+   SMART BUZZER — SINGLE HTML + QR CODE
+   Sinkronisasi: BroadcastChannel + localStorage + PeerJS
    ============================================================ */
 
-/* ---------- KONSTANTA ---------- */
 const TEAM_COLORS = ['#ff4757','#ff9f43','#26de81','#45aaf2','#a55eea','#fd79a8','#f6c90e','#4ecdc4','#dfe6e9'];
 const TEAM_NAMES  = ['Merah','Oranye','Hijau','Biru','Ungu','Pink','Kuning','Tosca','Putih'];
 const MIN_TEAMS = 2;
 const MAX_TEAMS = 9;
 const CLAIM_TIMEOUT = 2000;
 
-/* ---------- STATE ---------- */
 const state = {
   role: null,
   roomCode: null,
@@ -592,13 +663,14 @@ const state = {
   settings: { roundDuration: 30, answerDuration: 15 },
   history: [],
   isPrimary: false,
-  hasEverConnected: false,
   bc: null,
   peer: null,
-  connections: {},   // peerId -> DataConnection
+  connections: {},
   isHost: false,
   pendingClaim: null,
-  lastBuzzTeam: null
+  lastBuzzTeam: null,
+  _timerInt: null,
+  _lastTick: null
 };
 
 /* ---------- UTIL ---------- */
@@ -634,7 +706,7 @@ function loadRoom(code) {
   } catch (_) { return null; }
 }
 
-/* ---------- BROADCAST CHANNEL (antar tab) ---------- */
+/* ---------- BROADCAST CHANNEL ---------- */
 function initBC() {
   if ('BroadcastChannel' in window) {
     try {
@@ -652,7 +724,6 @@ function initBC() {
 function busSend(msg) {
   if (state.bc) { try { state.bc.postMessage(msg); } catch (_) {} }
   try { localStorage.setItem('sb_bus_msg', JSON.stringify({ ...msg, _ts: Date.now() })); } catch (_) {}
-  // Kirim juga ke semua peer WebRTC
   Object.values(state.connections).forEach(conn => {
     if (conn && conn.open) { try { conn.send(msg); } catch (_) {} }
   });
@@ -665,7 +736,6 @@ function handleBusMessage(msg) {
   switch (msg.type) {
     case 'JOIN':
       if (state.role === 'juri' && msg.roomCode === state.roomCode) {
-        // Cek kuota
         if (!state.devices[msg.deviceId] && Object.keys(state.devices).length >= state.totalReguAktif) {
           busSend({ type:'FULL', from: state.deviceId, to: msg.deviceId, message: 'Room penuh' });
           return;
@@ -719,25 +789,6 @@ function handleBusMessage(msg) {
       break;
 
     case 'STATE':
-      if (msg.to === state.deviceId || state.role === 'peserta') {
-        // Peserta sync dari juri
-        const saved = loadRoom(state.roomCode);
-        if (saved) {
-          state.teams = saved.teams;
-          state.totalReguAktif = saved.totalReguAktif;
-          state.devices = saved.devices || {};
-          state.buzzerArmed = saved.buzzerArmed;
-          state.activeTeam = saved.activeTeam;
-          state.roundTimer = saved.roundTimer;
-          state.answerTimer = saved.answerTimer;
-          state.settings = saved.settings || state.settings;
-          if (state.role === 'peserta') renderPesertaPanel();
-          renderStage();
-          startTimerLoop();
-        }
-      }
-      break;
-
     case 'ARM':
     case 'RESET':
     case 'LOCK':
@@ -745,7 +796,6 @@ function handleBusMessage(msg) {
     case 'TEAM_COUNT':
     case 'BUZZ_WINNER':
     case 'CODE_CHANGED':
-      // Peserta menerima update dari juri
       if (state.role === 'peserta') {
         const saved = loadRoom(state.roomCode);
         if (saved) {
@@ -768,14 +818,10 @@ function handleBusMessage(msg) {
   }
 }
 
-/* ---------- PEERJS (WebRTC antar perangkat) ---------- */
+/* ---------- PEERJS ---------- */
 function initPeer() {
   return new Promise((resolve) => {
-    if (typeof Peer === 'undefined') {
-      console.warn('PeerJS tidak tersedia');
-      resolve(null);
-      return;
-    }
+    if (typeof Peer === 'undefined') { resolve(null); return; }
     try {
       state.peer = new Peer('sb-' + state.deviceId, {
         config: {
@@ -794,7 +840,6 @@ function initPeer() {
         console.warn('PeerJS error:', err.type);
         updateNetStatus(false);
         if (err.type === 'unavailable-id') {
-          // ID sudah dipakai — regenerate
           localStorage.removeItem('sb_device_id');
           state.deviceId = 'DEV-' + Math.random().toString(36).slice(2, 8).toUpperCase();
           localStorage.setItem('sb_device_id', state.deviceId);
@@ -849,12 +894,11 @@ function initTeams(n) {
   }
 }
 
-/* ---------- MASUK SEBAGAI JURI ---------- */
+/* ---------- MASUK JURI ---------- */
 async function joinAsJuri() {
   const code = document.getElementById('juriRoomCodeInput').value.trim();
 
   if (!code) {
-    // Buat room baru
     state.roomCode = generateRoomCode();
     state.role = 'juri';
     state.isPrimary = true;
@@ -866,8 +910,8 @@ async function joinAsJuri() {
     enterJuriApp();
     showToast('✅ Room dibuat. Kode: ' + state.roomCode, 'ok');
     initPeer();
+    updateRoomURL();
   } else {
-    // Gabung sebagai secondary atau peserta?
     const saved = loadRoom(code);
     if (!saved) {
       showToast('❌ Kode room tidak ditemukan di perangkat ini. Buat room baru atau minta kode dari juri utama.', 'error');
@@ -885,20 +929,20 @@ async function joinAsJuri() {
     enterJuriApp();
     showToast('✅ Kamu JURI PENDUKUNG di room ' + code, 'ok');
     initPeer().then(() => {
-      // Connect ke host jika ada
       if (saved.hostDeviceId) connectToPeer('sb-' + saved.hostDeviceId);
     });
+    updateRoomURL();
   }
 }
 
-/* ---------- MASUK SEBAGAI PESERTA ---------- */
+/* ---------- MASUK PESERTA ---------- */
 async function joinAsPeserta() {
   const code = [...document.querySelectorAll('.code-digit')].map(i => i.value).join('');
   if (code.length !== 6) { showToast('⚠️ Kode harus 6 digit', 'warn'); return; }
 
   const saved = loadRoom(code);
   if (!saved) {
-    showToast('❌ Kode tidak dikenali di perangkat ini. Minta kode terbaru ke juri.', 'error');
+    showToast('❌ Kode tidak dikenali. Minta kode terbaru ke juri.', 'error');
     SFX.fail();
     return;
   }
@@ -910,14 +954,12 @@ async function joinAsPeserta() {
   state.devices = saved.devices || {};
   state.settings = saved.settings || state.settings;
 
-  // Cek kuota
   if (!state.devices[state.deviceId] && Object.keys(state.devices).length >= state.totalReguAktif) {
     showToast('❌ Room penuh. Semua regu sudah diisi peserta.', 'error');
     SFX.fail();
     return;
   }
 
-  // Daftarkan
   if (!state.devices[state.deviceId]) {
     state.devices[state.deviceId] = { deviceId: state.deviceId, teamId: null, teamName: null, joinedAt: Date.now() };
   }
@@ -927,7 +969,6 @@ async function joinAsPeserta() {
   closeModals();
   openTeamChoice();
 
-  // Init peer & connect ke host
   await initPeer();
   if (saved.hostDeviceId) connectToPeer('sb-' + saved.hostDeviceId);
 
@@ -947,7 +988,6 @@ function claimTeam(teamId) {
   state.pendingClaim = { teamId, timer: null };
   busSend({ type: 'CLAIM', from: state.deviceId, roomCode: state.roomCode, teamId });
 
-  // Fallback: jika tidak ada juri (single-device), langsung accept
   state.pendingClaim.timer = setTimeout(() => {
     if (state.pendingClaim && state.pendingClaim.teamId === teamId) {
       state.pendingClaim = null;
@@ -1035,7 +1075,10 @@ function renderStage() {
 
 /* ---------- RENDER JURI PANEL ---------- */
 function renderJuriPanel() {
-  document.getElementById('juriInfo').textContent = state.isPrimary ? '👑 JURI UTAMA' : '👥 JURI PENDUKUNG';
+  document.getElementById('juriInfoText').textContent = state.isPrimary ? '👑 JURI UTAMA' : '👥 JURI PENDUKUNG';
+  const promoteBtn = document.getElementById('promoteBtn');
+  if (promoteBtn) promoteBtn.style.display = state.isPrimary ? 'none' : 'inline-block';
+
   document.getElementById('teamCountBadge').textContent = state.totalReguAktif;
   document.getElementById('teamCountValue').textContent = state.totalReguAktif;
   document.getElementById('btnMinus').disabled = state.totalReguAktif <= MIN_TEAMS;
@@ -1149,8 +1192,8 @@ function tickTimers() {
   if (state.roundTimer) {
     const remaining = Math.max(0, Math.ceil((state.roundTimer.endsAt - Date.now()) / 1000));
     const pct = Math.max(0, (state.roundTimer.endsAt - Date.now()) / (state.roundTimer.duration * 1000)) * 100;
-    document.getElementById('roundTimerDisplay').textContent = formatTime(remaining);
     const disp = document.getElementById('roundTimerDisplay');
+    disp.textContent = formatTime(remaining);
     disp.classList.toggle('warning', remaining <= 10 && remaining > 5);
     disp.classList.toggle('danger', remaining <= 5);
     const fill = document.getElementById('roundTimerFill');
@@ -1200,7 +1243,6 @@ function armBuzzer() {
   SFX.click();
   showToast('🔓 RONDE ' + state.roundNumber + ' — BEL DIBUKA!', 'ok');
 
-  // Auto-lock saat timer habis
   setTimeout(() => {
     if (state.roundTimer && Date.now() >= state.roundTimer.endsAt) {
       state.buzzerArmed = false;
@@ -1227,7 +1269,6 @@ function buzz() {
 
   let codeChanged = false;
   if (state.lastBuzzTeam !== null && state.lastBuzzTeam !== state.pesertaTeamId) {
-    // Ganti kode
     const oldCode = state.roomCode;
     let newCode;
     do { newCode = generateRoomCode(); } while (loadRoom(newCode));
@@ -1238,6 +1279,9 @@ function buzz() {
     busSend({ type: 'CODE_CHANGED', from: state.deviceId, oldCode, newCode });
     document.getElementById('roomCodeDisplay').textContent = newCode;
     showToast('🔑 Kode room berganti: ' + newCode, 'ok');
+    updateRoomURL();
+    // Refresh QR jika terbuka
+    if (!document.getElementById('qrModal').classList.contains('hidden')) showQRCode();
   } else {
     state.lastBuzzTeam = state.pesertaTeamId;
     saveRoom();
@@ -1252,7 +1296,6 @@ function buzz() {
   SFX.buzz(state.pesertaTeamId);
   showToast('🔔 ' + t.name + ' menekan bel!', 'ok');
 
-  // Auto-salah saat timer jawab habis
   setTimeout(() => {
     if (state.answerTimer && Date.now() >= state.answerTimer.endsAt) {
       state.teams[state.answerTimer.teamId].score = Math.max(0, state.teams[state.answerTimer.teamId].score - 5);
@@ -1323,7 +1366,6 @@ function setTeamCount(n) {
     state.teams.push({ id:i, name:'Regu '+TEAM_NAMES[i], color:TEAM_COLORS[i], score:0 });
   }
   if (n < old) {
-    // Reassign
     const toMove = Object.values(state.devices).filter(d => d.teamId !== null && d.teamId >= n);
     toMove.forEach(d => {
       let slot = -1;
@@ -1339,6 +1381,7 @@ function setTeamCount(n) {
   renderJuriPanel();
   renderJoined();
   showToast(`👥 Jumlah kelompok: ${n}`, 'ok');
+  if (!document.getElementById('qrModal').classList.contains('hidden')) showQRCode();
 }
 
 function resetRoomCode() {
@@ -1356,6 +1399,8 @@ function resetRoomCode() {
   renderJuriPanel();
   renderJoined();
   showToast('🔑 Kode baru: ' + newCode, 'ok');
+  updateRoomURL();
+  if (!document.getElementById('qrModal').classList.contains('hidden')) showQRCode();
 }
 
 function kickAll() {
@@ -1382,6 +1427,13 @@ function releaseTeam(teamId) {
   showToast('🔓 Regu dilepas', 'ok');
 }
 
+function promoteSelf() {
+  if (state.role !== 'juri') return;
+  state.isPrimary = true;
+  showToast('👑 Kamu sekarang JURI UTAMA', 'ok');
+  renderJuriPanel();
+}
+
 function startRoundTimer() {
   if (state.role !== 'juri') return;
   state.roundTimer = { endsAt: Date.now() + state.settings.roundDuration * 1000, duration: state.settings.roundDuration };
@@ -1402,6 +1454,82 @@ function resetTimer(which) {
   if (which === 'round') state.roundTimer = null;
   if (which === 'answer') state.answerTimer = null;
   saveRoom();
+}
+
+/* ---------- QR CODE ---------- */
+function buildRoomURL() {
+  const base = location.origin + location.pathname;
+  return base + '?room=' + state.roomCode;
+}
+
+function updateRoomURL() {
+  try {
+    const url = new URL(location.href);
+    url.searchParams.set('room', state.roomCode);
+    history.replaceState(null, '', url.toString());
+  } catch (_) {}
+}
+
+function showQRCode() {
+  if (state.role !== 'juri') return;
+  if (!state.roomCode) return showToast('⚠️ Room belum dibuat', 'warn');
+
+  const url = buildRoomURL();
+  document.getElementById('qrCodeText').textContent = state.roomCode;
+  document.getElementById('qrLink').textContent = url;
+
+  const canvasBox = document.getElementById('qrCanvas');
+  canvasBox.innerHTML = '';
+
+  if (typeof QRCode === 'undefined') {
+    canvasBox.innerHTML = '<div style="width:260px;height:260px;display:flex;align-items:center;justify-content:center;color:#999;font-size:0.8rem;text-align:center;padding:20px;">QR library tidak tersedia.<br>Gunakan link di bawah atau ketik kode manual.</div>';
+  } else {
+    try {
+      new QRCode(canvasBox, {
+        text: url,
+        width: 260,
+        height: 260,
+        colorDark: '#2d2d2d',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    } catch (e) {
+      canvasBox.innerHTML = '<div style="width:260px;height:260px;display:flex;align-items:center;justify-content:center;color:#999;font-size:0.8rem;text-align:center;padding:20px;">Gagal membuat QR.<br>Gunakan link atau kode manual.</div>';
+    }
+  }
+
+  document.getElementById('qrModal').classList.remove('hidden');
+  SFX.click();
+}
+
+function copyRoomLink() {
+  const url = buildRoomURL();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('📋 Link tersalin!', 'ok');
+    }).catch(() => prompt('Salin link manual:', url));
+  } else {
+    prompt('Salin link manual:', url);
+  }
+}
+
+/* ---------- AUTO-ISI DARI URL ---------- */
+function autoFillFromURL() {
+  try {
+    const params = new URLSearchParams(location.search);
+    const room = params.get('room');
+    if (!room || !/^\d{6}$/.test(room)) return;
+
+    const digits = room.split('');
+    document.querySelectorAll('.code-digit').forEach((inp, i) => {
+      inp.value = digits[i] || '';
+    });
+
+    setTimeout(() => {
+      showPesertaForm();
+      setTimeout(() => joinAsPeserta(), 400);
+    }, 200);
+  } catch (_) {}
 }
 
 /* ---------- MODAL PILIH REGU ---------- */
@@ -1525,6 +1653,7 @@ document.addEventListener('keydown', e => {
     if (e.key === 'a' || e.key === 'A') armBuzzer();
     if (e.key === 'r' || e.key === 'R') resetRound();
     if (e.key === 'l' || e.key === 'L') lockBuzzer();
+    if (e.key === 'q' || e.key === 'Q') showQRCode();
   } else if (state.role === 'peserta' && (e.key === ' ' || e.key === 'Enter')) {
     e.preventDefault();
     buzz();
@@ -1537,6 +1666,7 @@ window.addEventListener('beforeunload', () => {
 
 initBC();
 updateNetStatus(false);
+autoFillFromURL();
 </script>
 </body>
 </html>
