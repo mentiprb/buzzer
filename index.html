@@ -496,7 +496,6 @@ body.dark .settings-panel {
   font-size: 0.75rem; font-weight: 900;
   min-width: 28px; text-align: center;
 }
-/* Stepper control */
 .team-count-stepper {
   display: flex; align-items: center; justify-content: space-between;
   background: #ffffff; border-radius: 10px;
@@ -532,7 +531,6 @@ body.dark .team-count-stepper button { background: var(--card); color: var(--yel
   letter-spacing: 0.5px;
   font-family: inherit;
 }
-/* Quick select buttons — 8 tombol (2..9) */
 .quick-count-btns {
   display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px;
 }
@@ -582,6 +580,13 @@ body.dark .team-row { background: var(--card); }
   opacity: 0.4;
   border-left-style: dashed;
 }
+.team-row.joined-anim {
+  animation: joinedFlash 1.2s ease-out;
+}
+@keyframes joinedFlash {
+  0% { background: #d4f8e8; box-shadow: 0 0 0 3px #26de81; }
+  100% { background: #fff8e7; box-shadow: none; }
+}
 .team-row .num {
   width: 26px; height: 26px;
   display: flex; align-items: center; justify-content: center;
@@ -620,6 +625,10 @@ body.dark .team-row .name { color: var(--text); }
 .ctrl-btn.wrong { background: linear-gradient(135deg, #ff6b6b, #ee5253); }
 .ctrl-btn.secondary { background: #ffffff; color: #2d2d2d; border-color: #ffd93d; }
 body.dark .ctrl-btn.secondary { background: var(--card); color: var(--text); border-color: var(--border); }
+.ctrl-btn.code-reset {
+  background: linear-gradient(135deg, #a55eea, #8e44ad);
+  box-shadow: 0 4px 14px rgba(165,94,234,0.35);
+}
 
 .settings-row {
   display: flex; align-items: center; justify-content: space-between;
@@ -653,6 +662,114 @@ body.dark .ctrl-section { border-color: var(--border); }
   letter-spacing: 1.5px; text-transform: uppercase;
   margin-bottom: 8px;
 }
+
+/* PANEL PESERTA MASUK (BARU) */
+.joined-panel {
+  background: linear-gradient(135deg, #e8fff5 0%, #d4f8e8 100%);
+  border: 2px dashed #26de81;
+  border-radius: 14px;
+  padding: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+body.dark .joined-panel {
+  background: linear-gradient(135deg, var(--card) 0%, var(--panel) 100%);
+  border-color: #26de81;
+}
+.joined-panel .jp-header {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.joined-panel .jp-title {
+  font-size: 0.75rem; font-weight: 900;
+  color: #20bf6b; letter-spacing: 1px;
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 6px;
+}
+.joined-panel .jp-badge {
+  background: #26de81; color: white;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 900;
+  min-width: 28px; text-align: center;
+}
+.joined-list {
+  display: flex; flex-direction: column; gap: 5px;
+  max-height: 200px; overflow-y: auto;
+}
+.joined-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px;
+  background: #ffffff;
+  border-radius: 8px;
+  border-left: 4px solid #26de81;
+  animation: slideIn 0.4s ease-out;
+}
+body.dark .joined-item { background: var(--bg); }
+@keyframes slideIn {
+  from { transform: translateX(-10px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.joined-item .ji-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(38,222,129,0.25);
+  animation: pulse 1.5s infinite;
+}
+.joined-item .ji-info { flex: 1; min-width: 0; }
+.joined-item .ji-name {
+  font-size: 0.82rem; font-weight: 900; color: #2d2d2d;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+body.dark .joined-item .ji-name { color: var(--text); }
+.joined-item .ji-meta {
+  font-size: 0.62rem; color: #6b6b6b;
+  font-family: 'Courier New', monospace;
+  display: flex; gap: 6px;
+}
+.joined-item .ji-time {
+  font-size: 0.62rem; color: #20bf6b; font-weight: 800;
+  font-family: 'Courier New', monospace;
+  white-space: nowrap;
+}
+.joined-empty {
+  font-size: 0.7rem; color: var(--dim);
+  text-align: center; padding: 10px 6px;
+  font-style: italic;
+}
+
+/* DEVICE PANEL */
+.device-panel {
+  background: #fff8e7; border-radius: 14px;
+  padding: 10px 12px;
+  border: 2px dashed #a55eea;
+  display: flex; flex-direction: column; gap: 6px;
+}
+body.dark .device-panel { background: var(--card); }
+.device-panel h3 {
+  font-size: 0.68rem; color: #a55eea;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.device-panel .dev-badge {
+  background: #a55eea; color: white;
+  padding: 2px 8px; border-radius: 10px;
+  font-size: 0.62rem; font-weight: 900;
+}
+.device-list {
+  display: flex; flex-direction: column; gap: 4px;
+  max-height: 120px; overflow-y: auto;
+}
+.device-item {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.7rem; padding: 5px 8px;
+  background: #ffffff; border-radius: 6px;
+  border-left: 3px solid #a55eea;
+}
+body.dark .device-item { background: var(--bg); }
+.device-item .dev-id {
+  font-family: 'Courier New', monospace;
+  font-weight: 800; color: #6b6b6b;
+}
+.device-item .dev-team { font-weight: 900; color: #ee5253; }
+
 .history-list {
   display: flex; flex-direction: column; gap: 4px;
   max-height: 100px; overflow-y: auto;
@@ -919,6 +1036,17 @@ body.dark .ti input { color: var(--text); }
         <span class="live-badge" id="liveIndicator">STANDBY</span>
       </div>
 
+      <!-- PANEL PESERTA MASUK (BARU) -->
+      <div class="joined-panel">
+        <div class="jp-header">
+          <div class="jp-title">🟢 Peserta Masuk</div>
+          <div class="jp-badge" id="joinedCount">0</div>
+        </div>
+        <div class="joined-list" id="joinedList">
+          <div class="joined-empty">Belum ada peserta masuk</div>
+        </div>
+      </div>
+
       <!-- PANEL PENGATURAN JUMLAH KELOMPOK -->
       <div class="settings-panel">
         <div class="sp-header">
@@ -938,6 +1066,12 @@ body.dark .ti input { color: var(--text); }
       </div>
 
       <div class="teams-list" id="teamsList"></div>
+
+      <!-- TOMBOL RESET KODE -->
+      <div class="ctrl-actions">
+        <button class="ctrl-btn code-reset" onclick="resetRoomCode()">🔑 RESET KODE</button>
+        <button class="ctrl-btn secondary" onclick="kickAllDevices()">🚫 KELUARKAN SEMUA</button>
+      </div>
 
       <div class="ctrl-actions">
         <button class="ctrl-btn arm" id="armBtn" onclick="armBuzzer()">🔓 ARM</button>
@@ -989,13 +1123,13 @@ body.dark .ti input { color: var(--text); }
    ============================================================ */
 const TEAM_COLORS = ['#ff4757', '#ff9f43', '#26de81', '#45aaf2', '#a55eea', '#fd79a8', '#f6c90e', '#4ecdc4', '#dfe6e9'];
 const TEAM_NAMES = ['Merah', 'Oranye', 'Hijau', 'Biru', 'Ungu', 'Pink', 'Kuning', 'Tosca', 'Putih'];
-const MIN_TEAMS = 2;   // ← minimal 2 regu
-const MAX_TEAMS = 9;   // ← maksimal 9 regu
+const MIN_TEAMS = 2;
+const MAX_TEAMS = 9;
 
 const state = {
   role: null,
   teams: [],
-  totalReguAktif: 2,     // default 2
+  totalReguAktif: 2,
   buzzerArmed: false,
   soundOn: true,
   activeTeam: null,
@@ -1005,8 +1139,115 @@ const state = {
   pesertaTeamId: null,
   buzzerTime: 0,
   roomCode: null,
-  connectedTeams: new Set()
+  // Perangkat yang terhubung: deviceId -> { teamId, teamName, deviceId, joinedAt }
+  devices: {},
+  // Channel realtime antar tab
+  bc: null
 };
+
+/* ============================================================
+   IDENTITAS PERANGKAT
+   ============================================================ */
+function getDeviceId() {
+  let id = localStorage.getItem('smartbuzzer_device_id');
+  if (!id) {
+    id = 'DEV-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+    localStorage.setItem('smartbuzzer_device_id', id);
+  }
+  return id;
+}
+
+/* ============================================================
+   REALTIME BUS (BroadcastChannel + fallback storage event)
+   ============================================================ */
+const BUS_NAME = 'smartbuzzer_bus';
+
+function initBus() {
+  // BroadcastChannel untuk tab/iframe di origin yang sama
+  if ('BroadcastChannel' in window) {
+    try {
+      state.bc = new BroadcastChannel(BUS_NAME);
+      state.bc.onmessage = (ev) => handleBusMessage(ev.data);
+    } catch (e) { console.warn('BroadcastChannel gagal', e); }
+  }
+  // Fallback: storage event (lintas tab di origin yang sama)
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'smartbuzzer_bus_msg' && e.newValue) {
+      try { handleBusMessage(JSON.parse(e.newValue)); } catch (_) {}
+    }
+  });
+}
+
+function busSend(msg) {
+  // Kirim via BroadcastChannel
+  if (state.bc) {
+    try { state.bc.postMessage(msg); } catch (_) {}
+  }
+  // Tulis juga ke localStorage sebagai fallback lintas-tab
+  try {
+    localStorage.setItem('smartbuzzer_bus_msg', JSON.stringify({ ...msg, _ts: Date.now() }));
+  } catch (_) {}
+}
+
+function handleBusMessage(msg) {
+  if (!msg || !msg.type) return;
+  if (msg.type === 'JOIN') {
+    if (!state.roomCode) return;
+    // Hanya juri yang memproses
+    if (state.role !== 'juri') return;
+    if (msg.roomCode !== state.roomCode) return;
+    if (state.devices[msg.deviceId]) return; // sudah tercatat
+
+    // Catat perangkat & tandai regu terhubung
+    state.devices[msg.deviceId] = {
+      deviceId: msg.deviceId,
+      teamId: msg.teamId,
+      teamName: msg.teamName,
+      joinedAt: msg.joinedAt || Date.now()
+    };
+
+    // Cek apakah regu ini sudah dipakai perangkat lain (di sisi juri)
+    const occupiedByOther = Object.values(state.devices).find(
+      d => d.teamId === msg.teamId && d.deviceId !== msg.deviceId
+    );
+    if (occupiedByOther) {
+      // Tolak: regu sudah dipakai
+      busSend({
+        type: 'JOIN_REJECTED',
+        deviceId: msg.deviceId,
+        teamId: msg.teamId,
+        reason: 'Regu sudah dipakai perangkat lain'
+      });
+      delete state.devices[msg.deviceId];
+      return;
+    }
+
+    SFX.success();
+    showToast(`🟢 ${msg.teamName} masuk dari perangkat ${msg.deviceId}`, 'ok');
+    renderJoined();
+    renderTeams();
+    highlightTeamRow(msg.teamId);
+    // Konfirmasi ke peserta
+    busSend({ type: 'JOIN_ACCEPTED', deviceId: msg.deviceId, teamId: msg.teamId, teamName: msg.teamName });
+  } else if (msg.type === 'LEAVE') {
+    if (!state.devices[msg.deviceId]) return;
+    delete state.devices[msg.deviceId];
+    renderJoined();
+    renderTeams();
+    showToast(`🔴 ${msg.teamName || 'Peserta'} keluar`, 'warn');
+  } else if (msg.type === 'ARM') {
+    // peserta mendengar ARM → update UI
+    if (state.role === 'peserta') updatePesertaUI();
+  } else if (msg.type === 'RESET' || msg.type === 'LOCK') {
+    if (state.role === 'peserta') updatePesertaUI();
+  } else if (msg.type === 'RESET_CODE') {
+    // Kalau peserta masih aktif dengan kode lama, beri tahu
+    if (state.role === 'peserta') {
+      showToast('⚠️ Kode room direset oleh juri. Masuk ulang dengan kode baru.', 'warn');
+      setTimeout(() => backToLanding(), 1200);
+    }
+  }
+}
 
 /* ============================================================
    FUNGSI BANTUAN
@@ -1059,12 +1300,24 @@ function enterAsJuri() {
   renderQuickCountBtns();
   renderTeams();
   renderLeaderboard();
+  renderJoined();
   updateStatusChip();
   updateTeamCountUI();
+  initBus();
   showToast('👨‍⚖️ Anda masuk sebagai JURI. Kode: ' + state.roomCode, 'ok');
 }
 
 function backToLanding() {
+  // Beritahu juri kalau peserta keluar
+  if (state.role === 'peserta' && state.pesertaTeamId !== null) {
+    const t = state.teams[state.pesertaTeamId];
+    busSend({
+      type: 'LEAVE',
+      deviceId: getDeviceId(),
+      teamId: state.pesertaTeamId,
+      teamName: t ? t.name : 'Peserta'
+    });
+  }
   SFX.click();
   document.getElementById('landing').style.display = 'flex';
   document.getElementById('app').classList.add('hidden');
@@ -1133,7 +1386,10 @@ function openPesertaModal() {
   const box = document.getElementById('pesertaTeamChoices');
   box.innerHTML = '';
   const total = state.totalReguAktif || MIN_TEAMS;
-  document.getElementById('pesertaModalSub').textContent = `Pilih regu Anda (${total} regu aktif)`;
+  const myDevice = getDeviceId();
+  document.getElementById('pesertaModalSub').textContent =
+    `Pilih regu Anda (${total} regu aktif) • Perangkat: ${myDevice}`;
+
   for (let i = 0; i < total; i++) {
     const t = state.teams[i] || { name: 'Regu ' + TEAM_NAMES[i], color: TEAM_COLORS[i] };
     const btn = document.createElement('button');
@@ -1157,8 +1413,20 @@ function openPesertaModal() {
 }
 
 function selectPesertaTeam(idx) {
+  const myDevice = getDeviceId();
+  const t = state.teams[idx];
   state.pesertaTeamId = idx;
-  state.connectedTeams.add(idx);
+
+  // Kirim JOIN ke bus — juri akan memproses & konfirmasi
+  busSend({
+    type: 'JOIN',
+    roomCode: state.roomCode,
+    deviceId: myDevice,
+    teamId: idx,
+    teamName: t.name,
+    joinedAt: Date.now()
+  });
+
   SFX.success();
   document.getElementById('pesertaModal').classList.add('hidden');
   document.getElementById('landing').style.display = 'none';
@@ -1169,7 +1437,6 @@ function selectPesertaTeam(idx) {
   document.getElementById('stagePeserta').style.display = 'flex';
   document.getElementById('panelJuri').style.display = 'none';
 
-  const t = state.teams[idx];
   document.getElementById('pesertaDot').style.background = t.color;
   document.getElementById('pesertaName').textContent = t.name;
   document.getElementById('pesertaName').style.color = t.color;
@@ -1179,11 +1446,36 @@ function selectPesertaTeam(idx) {
 
   document.getElementById('roomCode').textContent = state.roomCode;
   updatePesertaUI();
-  showToast('🙋 Anda masuk sebagai ' + t.name, 'ok');
+  showToast('🙋 Anda masuk sebagai ' + t.name + ' (perangkat ' + myDevice + ')', 'ok');
 }
 
 /* ============================================================
-   ⚙️ PANEL PENGATURAN JUMLAH KELOMPOK
+   RESET KODE & KELUARKAN SEMUA
+   ============================================================ */
+function resetRoomCode() {
+  if (!confirm('Reset kode room? Peserta baru harus memakai kode baru.')) return;
+  state.roomCode = generateRoomCode();
+  document.getElementById('roomCode').textContent = state.roomCode;
+  state.devices = {};
+  busSend({ type: 'RESET_CODE', roomCode: state.roomCode });
+  renderJoined();
+  renderTeams();
+  SFX.success();
+  showToast('🔑 Kode baru: ' + state.roomCode, 'ok');
+}
+
+function kickAllDevices() {
+  if (!confirm('Keluarkan semua perangkat peserta? Mereka harus masuk ulang dengan kode baru.')) return;
+  state.devices = {};
+  busSend({ type: 'KICK_ALL' });
+  renderJoined();
+  renderTeams();
+  SFX.click();
+  showToast('🚫 Semua perangkat dikeluarkan', 'warn');
+}
+
+/* ============================================================
+   PANEL PENGATURAN JUMLAH KELOMPOK
    ============================================================ */
 function renderQuickCountBtns() {
   const box = document.getElementById('quickCountBtns');
@@ -1222,7 +1514,6 @@ function setTeamCount(n) {
   if (n < MIN_TEAMS || n > MAX_TEAMS) return;
   state.totalReguAktif = n;
 
-  // Pastikan array teams punya cukup entri
   while (state.teams.length < n) {
     const i = state.teams.length;
     state.teams.push({
@@ -1233,19 +1524,21 @@ function setTeamCount(n) {
     });
   }
 
-  // Jika ada peserta yang terpilih di luar batas, reset
   if (state.pesertaTeamId !== null && state.pesertaTeamId >= n) {
     state.pesertaTeamId = null;
   }
-
-  // Reset active team jika sudah di luar
   if (state.activeTeam !== null && state.activeTeam >= n) {
     state.activeTeam = null;
   }
+  // Perangkat yang regunya di luar batas → keluarkan
+  Object.keys(state.devices).forEach(devId => {
+    if (state.devices[devId].teamId >= n) delete state.devices[devId];
+  });
 
   updateTeamCountUI();
   renderTeams();
   renderLeaderboard();
+  renderJoined();
   SFX.click();
   showToast(`👥 Jumlah kelompok tampil: ${n}`, 'ok');
 }
@@ -1286,11 +1579,16 @@ function saveSetup() {
     const inp = document.getElementById('teamName_' + i);
     if (inp && state.teams[i]) {
       state.teams[i].name = inp.value.trim() || ('Regu ' + TEAM_NAMES[i]);
+      // Update nama di daftar perangkat juga
+      Object.values(state.devices).forEach(d => {
+        if (d.teamId === i) d.teamName = state.teams[i].name;
+      });
     }
   }
   document.getElementById('setupModal').classList.add('hidden');
   renderTeams();
   renderLeaderboard();
+  renderJoined();
   SFX.success();
   showToast('✅ Nama regu tersimpan', 'ok');
 }
@@ -1308,11 +1606,16 @@ function renderTeams() {
     row.className = 'team-row' +
       (state.activeTeam === t.id ? ' active' : '') +
       (!isActive ? ' inactive' : '');
-    const connected = state.connectedTeams.has(t.id);
+    row.dataset.teamId = i;
+
+    // Cari perangkat yang terhubung ke regu ini
+    const devEntry = Object.values(state.devices).find(d => d.teamId === i);
+    const connected = !!devEntry;
+
     row.innerHTML = `
       <div class="num" style="background:${t.color}">${t.id + 1}</div>
       <div class="name">${t.name}${!isActive ? ' <em style="font-size:0.65rem; color:#999;">(nonaktif)</em>' : ''}</div>
-      <span class="conn-status ${connected ? 'on' : 'off'}">${connected ? '● ON' : '○ OFF'}</span>
+      <span class="conn-status ${connected ? 'on' : 'off'}" title="${devEntry ? 'Perangkat: ' + devEntry.deviceId : 'Belum terhubung'}">${connected ? '● ON' : '○ OFF'}</span>
       <div class="score">${t.score}</div>
     `;
     if (isActive) {
@@ -1332,12 +1635,53 @@ function renderTeams() {
   updatePesertaUI();
 }
 
+function highlightTeamRow(teamId) {
+  const row = document.querySelector(`.team-row[data-team-id="${teamId}"]`);
+  if (!row) return;
+  row.classList.add('joined-anim');
+  setTimeout(() => row.classList.remove('joined-anim'), 1300);
+}
+
+/* ============================================================
+   PANEL PESERTA MASUK
+   ============================================================ */
+function renderJoined() {
+  const list = document.getElementById('joinedList');
+  const badge = document.getElementById('joinedCount');
+  if (!list || !badge) return;
+  const entries = Object.values(state.devices).sort((a, b) => a.joinedAt - b.joinedAt);
+  badge.textContent = entries.length;
+
+  if (entries.length === 0) {
+    list.innerHTML = '<div class="joined-empty">Belum ada peserta masuk</div>';
+    return;
+  }
+  list.innerHTML = '';
+  entries.forEach(d => {
+    const t = state.teams[d.teamId];
+    const time = new Date(d.joinedAt).toLocaleTimeString('id-ID');
+    const item = document.createElement('div');
+    item.className = 'joined-item';
+    item.innerHTML = `
+      <span class="ji-dot" style="background:${t ? t.color : '#26de81'}"></span>
+      <div class="ji-info">
+        <div class="ji-name">${t ? t.name : d.teamName}</div>
+        <div class="ji-meta">${d.deviceId} • ${time}</div>
+      </div>
+      <span class="ji-time">●</span>
+    `;
+    list.appendChild(item);
+  });
+}
+
+/* ============================================================
+   LEADERBOARD
+   ============================================================ */
 function renderLeaderboard() {
   const lb = document.getElementById('lbContent');
   if (!lb) return;
   lb.innerHTML = '';
   if (state.teams.length === 0) return;
-  // Hanya tampilkan yang aktif di klasemen
   const activeTeams = state.teams.slice(0, state.totalReguAktif);
   const sorted = [...activeTeams].sort((a, b) => b.score - a.score);
   sorted.forEach((t, i) => {
@@ -1406,7 +1750,7 @@ function updatePesertaUI() {
 }
 
 /* ============================================================
-   SUARA — KERAS & JELAS
+   SUARA
    ============================================================ */
 const SFX = (() => {
   let ctx = null;
@@ -1530,6 +1874,7 @@ function armBuzzer() {
   updateStatusChip();
   renderTeams();
   updatePesertaUI();
+  busSend({ type: 'ARM', round: state.roundNumber });
 
   SFX.click();
   showToast('🔓 RONDE ' + state.roundNumber + ' — BEL DIBUKA!', 'ok');
@@ -1551,6 +1896,7 @@ function resetRound() {
   updateStatusChip();
   renderTeams();
   updatePesertaUI();
+  busSend({ type: 'RESET' });
 
   SFX.click();
   showToast('🔄 Ronde direset');
@@ -1571,6 +1917,7 @@ function lockBuzzer() {
   updateStatusChip();
   renderTeams();
   updatePesertaUI();
+  busSend({ type: 'LOCK' });
 
   SFX.click();
   showToast('🔒 Bel dikunci');
@@ -1585,7 +1932,6 @@ function pressBuzzer(teamId) {
     if (teamId === null || teamId === undefined) return;
   }
 
-  // Cek apakah regu ini aktif (di dalam totalReguAktif)
   if (teamId >= state.totalReguAktif) {
     showToast('⚠️ Regu ini tidak aktif', 'warn');
     return;
@@ -1728,6 +2074,8 @@ function showToast(msg, type) {
    INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
+  initBus();
+
   const pBtn = document.getElementById('pesertaBtn');
   pBtn.addEventListener('click', (e) => {
     const rect = pBtn.getBoundingClientRect();
@@ -1751,6 +2099,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'r' || e.key === 'R') resetRound();
       if (e.key === 'l' || e.key === 'L') lockBuzzer();
       if (e.key === 'm' || e.key === 'M') toggleSound();
+      if (e.key === 'k' || e.key === 'K') resetRoomCode();
       const num = parseInt(e.key);
       if (num >= 1 && num <= state.totalReguAktif) {
         pressBuzzer(num - 1);
@@ -1761,6 +2110,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (state.buzzerArmed && !state.activeTeam) {
         pressBuzzer(state.pesertaTeamId);
       }
+    }
+  });
+
+  // Bersihkan ikatan perangkat saat tab ditutup
+  window.addEventListener('beforeunload', () => {
+    if (state.role === 'peserta' && state.pesertaTeamId !== null) {
+      const t = state.teams[state.pesertaTeamId];
+      busSend({
+        type: 'LEAVE',
+        deviceId: getDeviceId(),
+        teamId: state.pesertaTeamId,
+        teamName: t ? t.name : 'Peserta'
+      });
     }
   });
 });
