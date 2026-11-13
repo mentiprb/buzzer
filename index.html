@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab Maya Kimia — Virtual Chemistry Lab</title>
+<style>
+/* ============================================================
+   TEMA LAB KIMIA — Navy, Cyan, Gold, Futuristik
+   ============================================================ */
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg: #0a1628;
+  --bg2: #0d1a2e;
+  --panel: #12213a;
+  --card: #1a2d4a;
+  --cyan: #00e5ff;
+  --gold: #ffc400;
+  --green: #2ed573;
+  --red: #ff4757;
+  --purple: #a55eea;
+  --pink: #ff6b9d;
+  --orange: #ff9f43;
+  --text: #e8f0fe;
+  --dim: #8fa3bf;
+  --border: rgba(0,229,255,0.25);
+  --shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+body.light {
+  --bg: #eaf6fd; --bg2: #f7fbfe; --panel: #fff; --card: #f0f6fc;
+  --text: #0f2847; --dim: #5a7894; --border: rgba(15,40,71,0.15);
+  --shadow: 0 8px 30px rgba(15,40,71,0.12);
+}
+html, body { height: 100%; font-family: 'Segoe UI', system-ui, sans-serif; color: var(--text); overflow-x: hidden; }
+body {
+  background: radial-gradient(ellipse at top, var(--panel) 0%, var(--bg) 70%);
+  transition: background 0.4s; min-height: 100vh;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(0,229,255,0.05) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,196,0,0.04) 0%, transparent 40%);
+  pointer-events: none; z-index: 0;
+}
+.app { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 12px; min-height: 100vh; display: flex; flex-direction: column; gap: 12px; }
+
+/* ===== HEADER ===== */
+.header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 22px; background: linear-gradient(135deg, var(--panel), var(--bg2));
+  border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: var(--shadow); flex-wrap: wrap; gap: 12px;
+}
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.2rem;
+  background: linear-gradient(90deg, var(--cyan), var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: 0.5px; }
+.logo .icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--cyan), var(--gold)); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; -webkit-text-fill-color: white; }
+.header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.btn-icon { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 1.1rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+.btn-icon:hover { border-color: var(--cyan); background: rgba(0,229,255,0.1); }
+.stat-badge { display: flex; align-items: center; gap: 6px; background: rgba(255,196,0,0.15); border: 1px solid var(--gold); padding: 6px 14px; border-radius: 10px; font-weight: 800; font-size: 0.85rem; color: var(--gold); }
+
+/* ===== NAV TABS ===== */
+.nav-tabs {
+  display: flex; gap: 6px; padding: 8px; background: linear-gradient(135deg, var(--panel), var(--bg2));
+  border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow);
+  flex-wrap: wrap; position: sticky; top: 8px; z-index: 50;
+}
+.nav-tabs button {
+  flex: 1; min-width: 100px; padding: 12px 16px; border-radius: 10px; border: 2px solid transparent;
+  background: transparent; color: var(--dim); font-family: inherit;
+  font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.nav-tabs button:hover { color: var(--cyan); background: rgba(0,229,255,0.08); }
+.nav-tabs button.active {
+  color: var(--bg); background: linear-gradient(135deg, var(--cyan), #00a8cc);
+  border-color: var(--cyan); box-shadow: 0 6px 20px rgba(0,229,255,0.4);
+}
+
+/* ===== TAB CONTENT ===== */
+.tab-content { display: none; animation: fadeIn 0.4s; flex: 1; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== LAB LAYOUT ===== */
+.lab-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr 320px;
+  gap: 12px;
+  min-height: 620px;
+}
+@media (max-width: 1100px) { .lab-layout { grid-template-columns: 1fr; } }
+
+.lab-panel {
+  background: linear-gradient(160deg, var(--panel), var(--bg2));
+  border: 1px solid var(--border); border-radius: 16px;
+  padding: 16px; box-shadow: var(--shadow); overflow-y: auto;
+  max-height: 700px;
+}
+.lab-panel h3 {
+  font-size: 0.85rem; color: var(--gold); letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 10px; padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,196,0,0.2);
+}
+
+/* ===== RAK BAHAN ===== */
+.bahan-tabs { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
+.bahan-tab {
+  padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--card); color: var(--dim); font-family: inherit;
+  font-size: 0.68rem; font-weight: 700; cursor: pointer; transition: all 0.15s;
+}
+.bahan-tab.active { background: var(--cyan); color: var(--bg); border-color: var(--cyan); }
+.bahan-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+.bahan-item {
+  display: flex; align-items: center; gap: 6px; padding: 8px 10px;
+  background: var(--card); border-radius: 8px; border: 2px solid transparent;
+  cursor: grab; transition: all 0.15s; user-select: none;
+}
+.bahan-item:hover { border-color: var(--cyan); transform: translateX(2px); }
+.bahan-item.dragging { opacity: 0.5; cursor: grabbing; }
+.bahan-item .bahan-icon {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.25); box-shadow: inset -2px -2px 4px rgba(0,0,0,0.3);
+}
+.bahan-item .bahan-info { flex: 1; min-width: 0; }
+.bahan-item .bahan-name { font-size: 0.72rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bahan-item .bahan-formula { font-size: 0.65rem; color: var(--dim); font-family: 'Courier New', monospace; }
+
+/* ===== ALAT-ALAT ===== */
+.alat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.alat-item {
+  padding: 10px 6px; text-align: center; background: var(--card);
+  border-radius: 8px; border: 2px solid transparent; cursor: pointer;
+  transition: all 0.15s;
+}
+.alat-item:hover { border-color: var(--gold); background: rgba(255,196,0,0.08); }
+.alat-item.active { border-color: var(--gold); background: rgba(255,196,0,0.15); }
+.alat-item .alat-icon { font-size: 1.6rem; margin-bottom: 2px; }
+.alat-item .alat-name { font-size: 0.65rem; font-weight: 700; color: var(--dim); }
+.alat-item.active .alat-name { color: var(--gold); }
+
+/* ===== CANVAS AREA ===== */
+.canvas-wrap {
+  background: linear-gradient(180deg, #050a12 0%, #0a1628 100%);
+  border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden; position: relative; box-shadow: var(--shadow);
+  min-height: 620px;
+  display: flex; flex-direction: column;
+}
+body.light .canvas-wrap { background: linear-gradient(180deg, #d4ecfa 0%, #eaf6fd 100%); }
+#labCanvas { display: block; width: 100%; flex: 1; cursor: pointer; touch-action: none; }
+.canvas-hint {
+  position: absolute; top: 12px; left: 12px;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+  padding: 8px 14px; border-radius: 10px; font-size: 0.75rem;
+  font-weight: 700; color: var(--cyan); border: 1px solid var(--cyan);
+  pointer-events: none; z-index: 5;
+}
+.canvas-controls {
+  display: flex; gap: 6px; padding: 10px; flex-wrap: wrap;
+  background: rgba(0,0,0,0.3); border-top: 1px solid var(--border);
+}
+.ctrl-btn {
+  padding: 8px 12px; border-radius: 8px; border: 2px solid transparent;
+  font-family: inherit; font-weight: 800; font-size: 0.72rem;
+  cursor: pointer; transition: all 0.15s; color: white;
+  text-transform: uppercase; letter-spacing: 0.3px;
+}
+.ctrl-btn:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.15); }
+.ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.ctrl-btn.primary { background: linear-gradient(135deg, #00e5ff, #00a8cc); color: var(--bg); }
+.ctrl-btn.gold { background: linear-gradient(135deg, #ffc400, #cc9c00); color: var(--bg); }
+.ctrl-btn.green { background: linear-gradient(135deg, #2ed573, #1e9e54); }
+.ctrl-btn.red { background: linear-gradient(135deg, #ff4757, #cc3946); }
+.ctrl-btn.secondary { background: var(--card); color: var(--text); border-color: var(--border); }
+
+/* ===== PANEL HASIL REAKSI ===== */
+.reaction-panel {
+  position: absolute; top: 12px; right: 12px; width: 300px;
+  max-height: calc(100% - 80px); overflow-y: auto;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+  border: 2px solid var(--gold); border-radius: 14px;
+  padding: 16px; box-shadow: 0 0 30px rgba(255,196,0,0.4);
+  z-index: 10; display: none; animation: slideIn 0.3s;
+}
+@keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.reaction-panel.show { display: block; }
+.reaction-panel h4 { color: var(--gold); font-size: 0.95rem; margin-bottom: 10px; display: flex; justify-content: space-between; }
+.reaction-panel .close-rp { cursor: pointer; color: var(--dim); }
+.reaction-panel .row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 0.78rem; border-bottom: 1px dashed rgba(255,255,255,0.1); }
+.reaction-panel .row:last-of-type { border-bottom: none; }
+.reaction-panel .row span:first-child { color: var(--dim); font-weight: 600; }
+.reaction-panel .row span:last-child { font-weight: 800; text-align: right; max-width: 60%; }
+.reaction-panel .eq {
+  background: rgba(0,229,255,0.1); border-left: 3px solid var(--cyan);
+  padding: 10px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace;
+  font-size: 0.82rem; line-height: 1.5; color: var(--cyan);
+}
+.reaction-panel .explain { font-size: 0.75rem; line-height: 1.55; color: var(--text); margin-top: 8px; }
+
+/* ===== PANDUAN TAB ===== */
+.content-card {
+  background: linear-gradient(160deg, var(--panel), var(--bg2));
+  border: 1px solid var(--border); border-radius: 16px;
+  padding: 28px; box-shadow: var(--shadow);
+}
+.content-card h2 { color: var(--cyan); margin-bottom: 12px; font-size: 1.5rem; }
+.content-card h3 { color: var(--gold); margin: 20px 0 8px; font-size: 1.1rem; }
+.content-card p, .content-card li { color: var(--text); line-height: 1.75; margin-bottom: 8px; font-size: 0.95rem; }
+.content-card ul, .content-card ol { padding-left: 24px; }
+.content-card strong { color: var(--cyan); }
+.step-list { display: grid; gap: 12px; margin-top: 12px; }
+.step {
+  display: flex; gap: 12px; padding: 14px; background: var(--card);
+  border-radius: 12px; border-left: 4px solid var(--cyan);
+}
+.step .step-num {
+  width: 32px; height: 32px; border-radius: 50%; background: var(--cyan);
+  color: var(--bg); display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 0.9rem; flex-shrink: 0;
+}
+.step .step-body { flex: 1; }
+.step .step-title { font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.step .step-desc { font-size: 0.85rem; color: var(--dim); line-height: 1.5; }
+
+/* ===== MISI TAB ===== */
+.misi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.misi-card {
+  background: var(--card); border: 2px solid var(--border); border-radius: 14px;
+  padding: 18px; transition: all 0.3s; position: relative; overflow: hidden;
+}
+.misi-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(255,196,0,0.15); }
+.misi-card.selesai { border-color: var(--green); background: rgba(46,213,115,0.1); }
+.misi-card.selesai::before {
+  content: '✅ SELESAI'; position: absolute; top: 10px; right: -30px;
+  background: var(--green); color: white; padding: 4px 40px;
+  font-size: 0.65rem; font-weight: 900; transform: rotate(35deg);
+}
+.misi-card .misi-icon { font-size: 2.4rem; margin-bottom: 8px; }
+.misi-card .misi-title { font-size: 1rem; font-weight: 900; color: var(--cyan); margin-bottom: 6px; }
+.misi-card .misi-desc { font-size: 0.82rem; color: var(--dim); line-height: 1.5; margin-bottom: 12px; }
+.misi-card .misi-target { font-size: 0.78rem; color: var(--gold); font-weight: 700; padding: 8px; background: rgba(255,196,0,0.1); border-radius: 8px; margin-bottom: 8px; }
+.misi-card .misi-reward { font-size: 0.72rem; color: var(--dim); font-style: italic; }
+
+/* ===== HASIL TAB ===== */
+.log-empty { text-align: center; padding: 40px; color: var(--dim); }
+.log-empty .log-icon { font-size: 4rem; margin-bottom: 12px; opacity: 0.5; }
+.log-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.log-table th, .log-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
+.log-table th { color: var(--gold); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; }
+.log-table tr:hover td { background: rgba(0,229,255,0.05); }
+.log-table td.eq { font-family: 'Courier New', monospace; font-size: 0.75rem; color: var(--cyan); }
+.log-actions { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+
+/* ===== PENGATURAN ===== */
+.setting-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--card); border-radius: 10px; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; }
+.switch { position: relative; width: 48px; height: 26px; background: var(--dim); border-radius: 13px; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
+.switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; background: white; border-radius: 50%; transition: all 0.2s; }
+.switch.on { background: var(--green); }
+.switch.on::after { left: 24px; }
+.setting-select { padding: 8px 14px; background: var(--bg); border: 2px solid var(--border); border-radius: 8px; color: var(--text); font-family: inherit; font-weight: 700; cursor: pointer; }
+
+/* ===== TOAST ===== */
+.toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--panel); border: 2px solid var(--cyan); border-radius: 12px; padding: 14px 24px; font-weight: 800; color: var(--text); box-shadow: var(--shadow); transition: transform 0.3s; z-index: 300; font-size: 0.9rem; max-width: 90%; text-align: center; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.warn { border-color: var(--gold); color: var(--gold); }
+.toast.err { border-color: var(--red); color: var(--red); }
+.toast.ok { border-color: var(--green); color: var(--green); }
+
+/* ===== RESPONSIF ===== */
+@media (max-width: 1100px) {
+  .lab-layout { grid-template-columns: 1fr; }
+  .lab-panel { max-height: 300px; }
+  .canvas-wrap { min-height: 500px; }
+  .reaction-panel { position: relative; top: auto; right: auto; width: 100%; max-height: none; margin: 8px; }
+}
+@media (max-width: 600px) {
+  .header { padding: 8px 12px; }
+  .logo { font-size: 0.95rem; }
+  .nav-tabs button { min-width: 80px; font-size: 0.72rem; padding: 10px 8px; }
+  .content-card { padding: 18px; }
+  .stat-badge { font-size: 0.72rem; padding: 4px 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">
+      <div class="icon">🧪</div>
+      <span>VIRTUAL CHEMISTRY LAB</span>
+    </div>
+    <div class="header-actions">
+      <div class="stat-badge"><span>🏆</span><span id="badgeCount">0</span> Badge</div>
+      <div class="stat-badge"><span>🧪</span><span id="reactionCount">0</span> Reaksi</div>
+      <button class="btn-icon" id="themeBtn" onclick="toggleTheme()" title="Mode Gelap/Terang">🌙</button>
+      <button class="btn-icon" id="soundBtn" onclick="toggleSound()" title="Suara">🔊</button>
+      <button class="btn-icon" onclick="togglePresentation()" title="Mode Presentasi">⛶</button>
+    </div>
+  </div>
+
+  <!-- NAV TABS -->
+  <div class="nav-tabs">
+    <button class="active" onclick="switchTab('lab')">🧪 MEJA LAB</button>
+    <button onclick="switchTab('panduan')">📖 PANDUAN</button>
+    <button onclick="switchTab('misi')">🎯 MISI</button>
+    <button onclick="switchTab('hasil')">📊 HASIL</button>
+    <button onclick="switchTab('pengaturan')">⚙️ PENGATURAN</button>
+  </div>
+
+  <!-- ===== TAB: MEJA LAB ===== -->
+  <div class="tab-content active" id="tab-lab">
+    <div class="lab-layout">
+      <!-- RAK BAHAN -->
+      <div class="lab-panel">
+        <h3>🧴 Rak Bahan Kimia</h3>
+        <div class="bahan-tabs" id="bahanTabs"></div>
+        <div class="bahan-grid" id="bahanGrid"></div>
+
+        <h3 style="margin-top:16px;">⚗️ Alat Lab</h3>
+        <div class="alat-grid" id="alatGrid"></div>
+      </div>
+
+      <!-- CANVAS AREA -->
+      <div class="canvas-wrap">
+        <div class="canvas-hint" id="canvasHint">💡 Klik bahan di kiri, lalu klik area lab untuk menaruhnya</div>
+        <canvas id="labCanvas"></canvas>
+        <div class="reaction-panel" id="reactionPanel">
+          <h4><span>🔬 Hasil Reaksi</span><span class="close-rp" onclick="closeReactionPanel()">✕</span></h4>
+          <div id="reactionContent"></div>
+        </div>
+        <div class="canvas-controls">
+          <button class="ctrl-btn primary" onclick="addWater()">💧 TAMBAH AIR</button>
+          <button class="ctrl-btn gold" onclick="heatLiquid()">🔥 PANASKAN</button>
+          <button class="ctrl-btn green" onclick="stirLiquid()">⚗️ ADUK</button>
+          <button class="ctrl-btn red" onclick="clearBeaker()">🗑️ KOSONGKAN</button>
+          <button class="ctrl-btn secondary" onclick="resetLab()">↺ RESET</button>
+          <button class="ctrl-btn secondary" onclick="screenshotLab()">📸 SS</button>
+        </div>
+      </div>
+
+      <!-- INFO PANEL -->
+      <div class="lab-panel">
+        <h3>ℹ️ Info Zat</h3>
+        <div id="infoPanel" style="font-size:0.85rem; line-height:1.6; color:var(--dim);">
+          Pilih zat dari rak untuk melihat informasi detail.
+        </div>
+
+        <h3 style="margin-top:16px;">📋 Status Alat</h3>
+        <div id="beakerStatus" style="font-size:0.85rem;">
+          <div style="color:var(--dim);">Gelas kimia kosong</div>
+        </div>
+
+        <h3 style="margin-top:16px;">💡 Tips</h3>
+        <ul style="font-size:0.78rem; line-height:1.6; color:var(--dim); padding-left:16px;">
+          <li>Klik 2 zat berbeda untuk melihat reaksi</li>
+          <li>Tambahkan air untuk melarutkan</li>
+          <li>Panaskan untuk mempercepat reaksi</li>
+          <li>Uji indikator untuk deteksi pH</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB: PANDUAN ===== -->
+  <div class="tab-content" id="tab-panduan">
+    <div class="content-card">
+      <h2>📖 Panduan Penggunaan Lab Maya</h2>
+      <p>Selamat datang di <strong>Virtual Chemistry Lab</strong>! Lab maya ini memungkinkan Anda bereksperimen dengan bahan kimia secara aman dan interaktif.</p>
+
+      <h3>🎯 Cara Menggunakan</h3>
+      <div class="step-list">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Pilih Zat</div><div class="step-desc">Klik zat di rak bahan sebelah kiri. Setiap zat memiliki warna dan sifat fisik yang realistis.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Tambahkan ke Gelas Kimia</div><div class="step-desc">Klik area gelas kimia di canvas untuk menambahkan zat yang sudah dipilih.</div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Amati Reaksi</div><div class="step-desc">Jika dua zat yang dicampurkan bereaksi, panel hasil akan muncul otomatis dengan persamaan kimia dan penjelasan.</div></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Bereksperimen</div><div class="step-desc">Gunakan tombol TAMBAH AIR, PANASKAN, ADUK untuk melihat efek tambahan pada reaksi.</div></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Selesaikan Misi</div><div class="step-desc">Buka tab MISI untuk tantangan terstruktur dan dapatkan badge!</div></div></div>
+      </div>
+
+      <h3>🧪 Daftar Eksperimen yang Bisa Dicoba</h3>
+      <ol>
+        <li><strong>Netralisasi:</strong> HCl + NaOH → NaCl + H₂O (eksoterm)</li>
+        <li><strong>Endapan Kuning:</strong> Pb(NO₃)₂ + KI → PbI₂↓ (kuning) + KNO₃</li>
+        <li><strong>Gas Hidrogen:</strong> Zn + HCl → ZnCl₂ + H₂↑</li>
+        <li><strong>Endapan Putih:</strong> AgNO₃ + NaCl → AgCl↓ + NaNO₃</li>
+        <li><strong>Gas CO₂:</strong> CaCO₃ + HCl → CaCl₂ + H₂O + CO₂↑</li>
+        <li><strong>Larutan Biru:</strong> CuSO₄ + air → larutan biru</li>
+        <li><strong>Indikator pH:</strong> Fenolftalein + basa → pink</li>
+        <li><strong>Karat Besi:</strong> Fe + O₂ + H₂O → Fe₂O₃·xH₂O</li>
+      </ol>
+
+      <h3>⚠️ Tips Keselamatan</h3>
+      <p>Meskipun ini lab maya, biasakan sikap ilmiah: baca sifat zat, catat hasil, dan jangan mencampur zat berbahaya tanpa tujuan. Di lab sungguhan, selalu gunakan APD!</p>
+    </div>
+  </div>
+
+  <!-- ===== TAB: MISI ===== -->
+  <div class="tab-content" id="tab-misi">
+    <div class="content-card">
+      <h2>🎯 Misi Eksperimen</h2>
+      <p>Selesaikan misi untuk mendapatkan badge dan menguji pemahaman Anda.</p>
+      <div class="misi-grid" id="misiGrid" style="margin-top:20px;"></div>
+    </div>
+  </div>
+
+  <!-- ===== TAB: HASIL ===== -->
+  <div class="tab-content" id="tab-hasil">
+    <div class="content-card">
+      <h2>📊 Log Percobaan</h2>
+      <div class="log-actions">
+        <button class="ctrl-btn primary" onclick="exportLog()">⬇ Export CSV</button>
+        <button class="ctrl-btn gold" onclick="printLog()">🖨️ Print</button>
+        <button class="ctrl-btn red" onclick="clearLog()">🗑️ Hapus Log</button>
+      </div>
+      <div id="logContent"></div>
+    </div>
+  </div>
+
+  <!-- ===== TAB: PENGATURAN ===== -->
+  <div class="tab-content" id="tab-pengaturan">
+    <div class="content-card">
+      <h2>⚙️ Pengaturan</h2>
+      <h3>Tampilan</h3>
+      <div class="setting-row">
+        <span>🌙 Mode Gelap</span>
+        <div class="switch on" id="themeSwitch" onclick="toggleTheme()"></div>
+      </div>
+      <div class="setting-row">
+        <span>🔊 Suara</span>
+        <div class="switch on" id="soundSwitch" onclick="toggleSound()"></div>
+      </div>
+      <div class="setting-row">
+        <span>🎵 Musik Latar</span>
+        <div class="switch" id="musicSwitch" onclick="toggleMusic()"></div>
+      </div>
+
+      <h3 style="margin-top:24px;">Data</h3>
+      <div class="setting-row">
+        <span>📊 Total Reaksi</span>
+        <span id="statReactions" style="color:var(--cyan); font-weight:900;">0</span>
+      </div>
+      <div class="setting-row">
+        <span>🏆 Badge Diperoleh</span>
+        <span id="statBadges" style="color:var(--gold); font-weight:900;">0</span>
+      </div>
+      <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="ctrl-btn red" onclick="resetAll()">🗑️ Reset Semua Data</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   STATE GLOBAL
+   ============================================================ */
+const state = {
+  theme: 'dark',
+  soundOn: true,
+  musicOn: false,
+  selectedBahan: null,
+  beakerZat: [],
+  beakerColor: '#3a5a7a',
+  beakerTemp: 25,
+  hasEndapan: false,
+  hasGas: false,
+  bubbles: [],
+  particles: [],
+  reactionLog: [],
+  badges: [],
+  misiSelesai: [],
+  lastReaction: null,
+  waterAdded: false,
+  heated: false,
+  stirred: false,
+  animationFrame: null
+};
+
+/* ============================================================
+   DATA BAHAN KIMIA
+   ============================================================ */
+const bahanKimia = [
+  // Logam
+  { id: 'Na', name: 'Natrium', formula: 'Na', color: '#c0c0c0', category: 'Logam', wujud: 'Padat', sifat: 'Logam alkali, sangat reaktif terhadap air' },
+  { id: 'Mg', name: 'Magnesium', formula: 'Mg', color: '#d4d4d4', category: 'Logam', wujud: 'Padat', sifat: 'Logam ringan, mudah terbakar' },
+  { id: 'Ca', name: 'Kalsium', formula: 'Ca', color: '#e0e0e0', category: 'Logam', wujud: 'Padat', sifat: 'Logam alkali tanah' },
+  { id: 'Fe', name: 'Besi', formula: 'Fe', color: '#708090', category: 'Logam', wujud: 'Padat', sifat: 'Logam transisi, mudah berkarat' },
+  { id: 'Cu', name: 'Tembaga', formula: 'Cu', color: '#b87333', category: 'Logam', wujud: 'Padat', sifat: 'Logam transisi, konduktor baik' },
+  { id: 'Zn', name: 'Seng', formula: 'Zn', color: '#a8a8a8', category: 'Logam', wujud: 'Padat', sifat: 'Logam transisi, bereaksi dengan asam' },
+  // Nonlogam
+  { id: 'O2', name: 'Oksigen', formula: 'O₂', color: '#88ccff', category: 'Nonlogam', wujud: 'Gas', sifat: 'Gas tidak berwarna, pendukung pembakaran' },
+  { id: 'Cl2', name: 'Klorin', formula: 'Cl₂', color: '#c8e64b', category: 'Nonlogam', wujud: 'Gas', sifat: 'Gas kuning-hijau, beracun' },
+  { id: 'S', name: 'Belerang', formula: 'S', color: '#ffe000', category: 'Nonlogam', wujud: 'Padat', sifat: 'Padatan kuning, mudah terbakar' },
+  { id: 'C', name: 'Karbon', formula: 'C', color: '#2a2a2a', category: 'Nonlogam', wujud: 'Padat', sifat: 'Padatan hitam, intan/grafit' },
+  // Asam
+  { id: 'HCl', name: 'Asam Klorida', formula: 'HCl', color: '#f0f0f0', category: 'Asam', wujud: 'Larutan', sifat: 'Asam kuat, pH ≈ 1, korosif' },
+  { id: 'H2SO4', name: 'Asam Sulfat', formula: 'H₂SO₄', color: '#f5f5dc', category: 'Asam', wujud: 'Larutan', sifat: 'Asam kuat, sangat korosif' },
+  { id: 'HNO3', name: 'Asam Nitrat', formula: 'HNO₃', color: '#ffffe0', category: 'Asam', wujud: 'Larutan', sifat: 'Asam kuat, oksidator' },
+  { id: 'CH3COOH', name: 'Asam Asetat', formula: 'CH₃COOH', color: '#f8f8f8', category: 'Asam', wujud: 'Larutan', sifat: 'Asam lemah (cuka)' },
+  // Basa
+  { id: 'NaOH', name: 'Natrium Hidroksida', formula: 'NaOH', color: '#e0f0ff', category: 'Basa', wujud: 'Larutan', sifat: 'Basa kuat, pH ≈ 13, kaustik' },
+  { id: 'KOH', name: 'Kalium Hidroksida', formula: 'KOH', color: '#e8f0ff', category: 'Basa', wujud: 'Larutan', sifat: 'Basa kuat' },
+  { id: 'NH3', name: 'Amonia', formula: 'NH₃', color: '#e0ffe0', category: 'Basa', wujud: 'Larutan', sifat: 'Basa lemah, bau tajam' },
+  // Garam
+  { id: 'NaCl', name: 'Natrium Klorida', formula: 'NaCl', color: '#ffffff', category: 'Garam', wujud: 'Padat', sifat: 'Garam dapur, larut air' },
+  { id: 'CuSO4', name: 'Tembaga Sulfat', formula: 'CuSO₄', color: '#00a8e8', category: 'Garam', wujud: 'Padat', sifat: 'Kristal biru, larutan biru' },
+  { id: 'AgNO3', name: 'Perak Nitrat', formula: 'AgNO₃', color: '#f0f0f0', category: 'Garam', wujud: 'Padat', sifat: 'Kristal putih, mudah teroksidasi' },
+  { id: 'KI', name: 'Kalium Iodida', formula: 'KI', color: '#f0f0f0', category: 'Garam', wujud: 'Padat', sifat: 'Kristal putih, sumber iodida' },
+  { id: 'PbNO3', name: 'Timbal Nitrat', formula: 'Pb(NO₃)₂', color: '#f5f5f5', category: 'Garam', wujud: 'Padat', sifat: 'Kristal putih, beracun' },
+  { id: 'CaCO3', name: 'Kalsium Karbonat', formula: 'CaCO₃', color: '#f0f0e8', category: 'Garam', wujud: 'Padat', sifat: 'Kapur, batu gamping' },
+  // Indikator & Pelarut
+  { id: 'H2O', name: 'Air', formula: 'H₂O', color: '#cce5ff', category: 'Pelarut', wujud: 'Larutan', sifat: 'Pelarut universal' },
+  { id: 'fenolftalein', name: 'Fenolftalein', formula: 'PP', color: '#f0f0f0', category: 'Indikator', wujud: 'Larutan', sifat: 'Bening di asam, pink di basa' },
+  { id: 'lakmus', name: 'Lakmus', formula: 'Lakmus', color: '#d4b0ff', category: 'Indikator', wujud: 'Larutan', sifat: 'Merah di asam, biru di basa' }
+];
+
+const kategoriList = ['Logam', 'Nonlogam', 'Asam', 'Basa', 'Garam', 'Indikator', 'Pelarut'];
+
+/* ============================================================
+   DATA ALAT LAB
+   ============================================================ */
+const alatLab = [
+  { id: 'beaker', name: 'Gelas Kimia', icon: '🥛' },
+  { id: 'tabung', name: 'Tabung Reaksi', icon: '🧪' },
+  { id: 'erlenmeyer', name: 'Erlenmeyer', icon: '⚗️' },
+  { id: 'pipet', name: 'Pipet Tetes', icon: '💉' },
+  { id: 'bunsen', name: 'Pembakar', icon: '🔥' },
+  { id: 'termometer', name: 'Termometer', icon: '🌡️' },
+  { id: 'pengaduk', name: 'Pengaduk', icon: '🥢' },
+  { id: 'neraca', name: 'Neraca', icon: '⚖️' },
+  { id: 'corong', name: 'Corong', icon: '🔽' }
+];
+
+/* ============================================================
+   DATABASE REAKSI KIMIA
+   ============================================================ */
+const databaseReaksi = [
+  {
+    id: 'netralisasi-1',
+    reaktan: ['HCl', 'NaOH'],
+    nama: 'Netralisasi Asam-Basa',
+    persamaan: 'HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O(l)',
+    jenis: 'Netralisasi',
+    perubahan: 'Eksoterm (suhu naik), larutan menjadi netral',
+    warna: '#e0f0ff',
+    suhuDelta: +10,
+    penjelasan: 'Asam kuat HCl bereaksi dengan basa kuat NaOH menghasilkan garam NaCl dan air. Reaksi ini eksoterm (melepas kalor).',
+    misi: 'netralisasi'
+  },
+  {
+    id: 'endapan-kuning',
+    reaktan: ['PbNO3', 'KI'],
+    nama: 'Endapan Timbal Iodida',
+    persamaan: 'Pb(NO₃)₂(aq) + 2KI(aq) → PbI₂(s)↓ + 2KNO₃(aq)',
+    jenis: 'Presipitasi',
+    perubahan: 'Terbentuk endapan kuning PbI₂',
+    warna: '#fff8c0',
+    endapan: '#ffd700',
+    penjelasan: 'Timbal(II) iodida (PbI₂) tidak larut dalam air, sehingga mengendap sebagai padatan kuning.',
+    misi: 'endapan-kuning'
+  },
+  {
+    id: 'endapan-putih',
+    reaktan: ['AgNO3', 'NaCl'],
+    nama: 'Endapan Perak Klorida',
+    persamaan: 'AgNO₃(aq) + NaCl(aq) → AgCl(s)↓ + NaNO₃(aq)',
+    jenis: 'Presipitasi',
+    perubahan: 'Terbentuk endapan putih AgCl',
+    warna: '#f8f8f8',
+    endapan: '#ffffff',
+    penjelasan: 'Perak klorida (AgCl) tidak larut dalam air, mengendap sebagai padatan putih.',
+    misi: 'endapan-putih'
+  },
+  {
+    id: 'gas-hidrogen',
+    reaktan: ['Zn', 'HCl'],
+    nama: 'Gas Hidrogen dari Logam + Asam',
+    persamaan: 'Zn(s) + 2HCl(aq) → ZnCl₂(aq) + H₂(g)↑',
+    jenis: 'Redoks',
+    perubahan: 'Gelembung gas H₂, logam Zn larut',
+    warna: '#e8f4ff',
+    gas: true,
+    penjelasan: 'Seng bereaksi dengan asam klorida menghasilkan gas hidrogen dan seng klorida. Gelembung menandakan gas H₂.',
+    misi: 'gas-hidrogen'
+  },
+  {
+    id: 'gas-co2',
+    reaktan: ['CaCO3', 'HCl'],
+    nama: 'Gas Karbon Dioksida',
+    persamaan: 'CaCO₃(s) + 2HCl(aq) → CaCl₂(aq) + H₂O(l) + CO₂(g)↑',
+    jenis: 'Asam-Karbonat',
+    perubahan: 'Gelembung gas CO₂, batu kapur larut',
+    warna: '#f0f8ff',
+    gas: true,
+    penjelasan: 'Kalsium karbonat (batu kapur) bereaksi dengan HCl menghasilkan gas CO₂. Ini adalah reaksi uji karbonat.',
+    misi: 'gas-co2'
+  },
+  {
+    id: 'larutan-biru',
+    reaktan: ['CuSO4', 'H2O'],
+    nama: 'Larutan Tembaga Sulfat Biru',
+    persamaan: 'CuSO₄(s) + H₂O(l) → CuSO₄(aq)',
+    jenis: 'Pelarutan',
+    perubahan: 'Kristal biru larut, larutan biru',
+    warna: '#00a8e8',
+    penjelasan: 'Tembaga(II) sulfat larut dalam air membentuk larutan biru khas ion Cu²⁺.',
+    misi: 'larutan-biru'
+  },
+  {
+    id: 'indikator-basa',
+    reaktan: ['fenolftalein', 'NaOH'],
+    nama: 'Uji Indikator Fenolftalein',
+    persamaan: 'PP + NaOH → larutan pink',
+    jenis: 'Indikator',
+    perubahan: 'Larutan menjadi pink/magenta',
+    warna: '#ff1493',
+    penjelasan: 'Fenolftalein berwarna pink dalam larutan basa (pH > 8.2). Ini uji khas untuk mendeteksi basa.',
+    misi: 'indikator'
+  },
+  {
+    id: 'indikator-asam',
+    reaktan: ['fenolftalein', 'HCl'],
+    nama: 'Uji Indikator dalam Asam',
+    persamaan: 'PP + HCl → larutan bening',
+    jenis: 'Indikator',
+    perubahan: 'Larutan tetap bening',
+    warna: '#f0f0f0',
+    penjelasan: 'Fenolftalein tidak berwarna dalam larutan asam (pH < 8.2).',
+    misi: 'indikator'
+  },
+  {
+    id: 'karat-besi',
+    reaktan: ['Fe', 'O2'],
+    nama: 'Oksidasi Besi (Karat)',
+    persamaan: '4Fe(s) + 3O₂(g) + xH₂O → 2Fe₂O₃·xH₂O(s)',
+    jenis: 'Oksidasi',
+    perubahan: 'Besi berubah coklat kemerahan (karat)',
+    warna: '#8b4513',
+    penjelasan: 'Besi teroksidasi oleh oksigen dan air membentuk karat (besi(III) oksida hidrat).',
+    misi: 'karat'
+  },
+  {
+    id: 'pembakaran-s',
+    reaktan: ['S', 'O2'],
+    nama: 'Pembakaran Belerang',
+    persamaan: 'S(s) + O₂(g) → SO₂(g)',
+    jenis: 'Pembakaran',
+    perubahan: 'Nyala biru, gas SO₂ berbau',
+    warna: '#ffe000',
+    api: true,
+    penjelasan: 'Belerang terbakar dengan oksigen menghasilkan gas sulfur dioksida (SO₂).',
+    misi: 'pembakaran'
+  },
+  {
+    id: 'logam-air',
+    reaktan: ['Na', 'H2O'],
+    nama: 'Natrium + Air',
+    persamaan: '2Na(s) + 2H₂O(l) → 2NaOH(aq) + H₂(g)↑',
+    jenis: 'Redoks',
+    perubahan: 'Reaksi hebat, nyala kuning, gas H₂',
+    warna: '#ffffee',
+    gas: true,
+    api: true,
+    eksoterm: true,
+    penjelasan: 'Natrium bereaksi sangat hebat dengan air menghasilkan natrium hidroksida dan gas hidrogen. Reaksi eksoterm dan dapat menyala.',
+    misi: 'logam-air'
+  },
+  {
+    id: 'asam-basa-lemah',
+    reaktan: ['CH3COOH', 'NH3'],
+    nama: 'Netralisasi Asam Lemah + Basa Lemah',
+    persamaan: 'CH₃COOH(aq) + NH₃(aq) → CH₃COONH₄(aq)',
+    jenis: 'Netralisasi',
+    perubahan: 'Larutan garam amonium asetat',
+    warna: '#f8f8ff',
+    penjelasan: 'Asam asetat dan amonia bereaksi membentuk garam amonium asetat. Reaksi lebih lambat karena keduanya lemah.',
+    misi: 'netralisasi'
+  },
+  {
+    id: 'cu-ammonia',
+    reaktan: ['CuSO4', 'NH3'],
+    nama: 'Kompleks Tembaga-Amonia',
+    persamaan: 'CuSO₄(aq) + 4NH₃(aq) → [Cu(NH₃)₄]SO₄(aq)',
+    jenis: 'Kompleks',
+    perubahan: 'Warna biru tua (biru royal)',
+    warna: '#0044aa',
+    penjelasan: 'Ion Cu²⁺ membentuk kompleks dengan amonia menghasilkan warna biru tua khas ion [Cu(NH₃)₄]²⁺.',
+    misi: 'kompleks'
+  },
+  {
+    id: 'netralisasi-2',
+    reaktan: ['H2SO4', 'KOH'],
+    nama: 'Netralisasi Asam Sulfat + KOH',
+    persamaan: 'H₂SO₄(aq) + 2KOH(aq) → K₂SO₄(aq) + 2H₂O(l)',
+    jenis: 'Netralisasi',
+    perubahan: 'Eksoterm, larutan garam',
+    warna: '#f0f8ff',
+    suhuDelta: +12,
+    penjelasan: 'Asam sulfat bereaksi dengan kalium hidroksida menghasilkan kalium sulfat dan air.',
+    misi: 'netralisasi'
+  },
+  {
+    id: 'endapan-cu-oh',
+    reaktan: ['CuSO4', 'NaOH'],
+    nama: 'Endapan Tembaga(II) Hidroksida',
+    persamaan: 'CuSO₄(aq) + 2NaOH(aq) → Cu(OH)₂(s)↓ + Na₂SO₄(aq)',
+    jenis: 'Presipitasi',
+    perubahan: 'Endapan biru muda',
+    warna: '#87ceeb',
+    endapan: '#b0e0e6',
+    penjelasan: 'Tembaga(II) hidroksida mengendap sebagai padatan biru muda.',
+    misi: 'endapan'
+  },
+  {
+    id: 'netralisasi-3',
+    reaktan: ['HNO3', 'NaOH'],
+    nama: 'Netralisasi Asam Nitrat + NaOH',
+    persamaan: 'HNO₃(aq) + NaOH(aq) → NaNO₃(aq) + H₂O(l)',
+    jenis: 'Netralisasi',
+    perubahan: 'Eksoterm, larutan netral',
+    warna: '#f8f8f8',
+    suhuDelta: +8,
+    penjelasan: 'Asam nitrat bereaksi dengan natrium hidroksida membentuk natrium nitrat dan air.',
+    misi: 'netralisasi'
+  }
+];
+
+/* ============================================================
+   DATA MISI
+   ============================================================ */
+const daftarMisi = [
+  { id: 'netralisasi', icon: '🧪', title: 'Misi Netralisasi', desc: 'Campurkan asam kuat dengan basa kuat untuk menghasilkan garam dan air.', target: 'Reaksikan HCl + NaOH', reward: '🏅 Ahli Netralisasi' },
+  { id: 'endapan-kuning', icon: '🟡', title: 'Misi Endapan Kuning', desc: 'Buat endapan kuning PbI₂ dari reaksi Pb(NO₃)₂ + KI.', target: 'Reaksikan Pb(NO₃)₂ + KI', reward: '🏅 Detektif Endapan' },
+  { id: 'endapan-putih', icon: '⚪', title: 'Misi Endapan Putih', desc: 'Bentuk endapan putih AgCl dari AgNO₃ + NaCl.', target: 'Reaksikan AgNO₃ + NaCl', reward: '🏅 Pengendap Perak' },
+  { id: 'gas-hidrogen', icon: '💨', title: 'Misi Gas Hidrogen', desc: 'Hasilkan gas H₂ dari logam Zn + HCl.', target: 'Reaksikan Zn + HCl', reward: '🏅 Penjinak Gas' },
+  { id: 'gas-co2', icon: '🫧', title: 'Misi Gas CO₂', desc: 'Hasilkan gas CO₂ dari batu kapur + HCl.', target: 'Reaksikan CaCO₃ + HCl', reward: '🏅 Peniup CO₂' },
+  { id: 'larutan-biru', icon: '🔵', title: 'Misi Kristal Biru', desc: 'Larutkan CuSO₄ dalam air.', target: 'Campurkan CuSO₄ + H₂O', reward: '🏅 Kristalografer' },
+  { id: 'indikator', icon: '🌸', title: 'Misi Indikator', desc: 'Uji fenolftalein pada basa untuk melihat warna pink.', target: 'Campurkan fenolftalein + NaOH', reward: '🏅 Pembaca pH' },
+  { id: 'karat', icon: '🟤', title: 'Misi Karat Besi', desc: 'Oksidasi besi dengan oksigen.', target: 'Campurkan Fe + O₂', reward: '🏅 Pengamat Korosi' },
+  { id: 'pembakaran', icon: '🔥', title: 'Misi Pembakaran', desc: 'Bakar belerang dengan oksigen.', target: 'Campurkan S + O₂', reward: '🏅 Pengendali Api' },
+  { id: 'kompleks', icon: '💠', title: 'Misi Kompleks', desc: 'Bentuk kompleks biru Cu²⁺ dengan amonia.', target: 'Campurkan CuSO₄ + NH₃', reward: '🏅 Kimiawan Kompleks' }
+];
+
+/* ============================================================
+   SUARA
+   ============================================================ */
+const SFX = (() => {
+  let ctx = null;
+  function c() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+  function beep(freq, dur, type, gainVal) {
+    if (!state.soundOn) return;
+    const ac = c();
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type || 'sine';
+    o.frequency.value = freq;
+    const t = ac.currentTime;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(gainVal || 0.15, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(ac.destination);
+    o.start(t); o.stop(t + dur);
+  }
+  return {
+    click() { beep(800, 0.06, 'sine', 0.08); },
+    drop() { beep(500, 0.1, 'triangle', 0.12); setTimeout(() => beep(700, 0.08, 'sine', 0.08), 50); },
+    success() { [523, 659, 784].forEach((f, i) => setTimeout(() => beep(f, 0.15, 'sine', 0.15), i * 80)); },
+    fail() { beep(200, 0.2, 'sawtooth', 0.15); setTimeout(() => beep(150, 0.25, 'sawtooth', 0.12), 100); },
+    bubble() { beep(400 + Math.random() * 400, 0.05, 'sine', 0.05); },
+    pour() { for (let i = 0; i < 5; i++) setTimeout(() => beep(600 + Math.random() * 200, 0.04, 'sine', 0.06), i * 60); }
+  };
+})();
+
+function toggleSound() {
+  state.soundOn = !state.soundOn;
+  document.getElementById('soundBtn').textContent = state.soundOn ? '🔊' : '🔇';
+  const sw = document.getElementById('soundSwitch');
+  if (sw) sw.classList.toggle('on', state.soundOn);
+  if (state.soundOn) SFX.click();
+  showToast(state.soundOn ? '🔊 Suara aktif' : '🔇 Suara nonaktif');
+}
+
+/* Musik latar */
+let musicCtx = null, musicPlaying = false, musicTimer = null;
+function toggleMusic() {
+  state.musicOn = !state.musicOn;
+  const sw = document.getElementById('musicSwitch');
+  if (sw) sw.classList.toggle('on', state.musicOn);
+  if (state.musicOn) {
+    if (!musicCtx) musicCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (musicCtx.state === 'suspended') musicCtx.resume();
+    musicPlaying = true;
+    playMusicLoop();
+    showToast('🎵 Musik latar aktif');
+  } else {
+    musicPlaying = false;
+    clearTimeout(musicTimer);
+    showToast('🎵 Musik latar nonaktif');
+  }
+}
+function playMusicLoop() {
+  if (!musicPlaying) return;
+  const notes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63];
+  let t = musicCtx.currentTime;
+  notes.forEach((f, i) => {
+    const o = musicCtx.createOscillator(), g = musicCtx.createGain();
+    o.type = 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(0.03, t + 0.1);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.4);
+    o.connect(g); g.connect(musicCtx.destination);
+    o.start(t); o.stop(t + 0.5);
+    t += 0.5;
+  });
+  musicTimer = setTimeout(playMusicLoop, 3000);
+}
+
+/* ============================================================
+   RENDER RAK BAHAN
+   ============================================================ */
+let kategoriAktif = 'Logam';
+function renderBahanTabs() {
+  const tabs = document.getElementById('bahanTabs');
+  tabs.innerHTML = '';
+  kategoriList.forEach(k => {
+    const b = document.createElement('button');
+    b.className = 'bahan-tab' + (k === kategoriAktif ? ' active' : '');
+    b.textContent = k;
+    b.onclick = () => { kategoriAktif = k; renderBahanTabs(); renderBahanGrid(); };
+    tabs.appendChild(b);
+  });
+}
+function renderBahanGrid() {
+  const grid = document.getElementById('bahanGrid');
+  grid.innerHTML = '';
+  bahanKimia.filter(b => b.category === kategoriAktif).forEach(b => {
+    const div = document.createElement('div');
+    div.className = 'bahan-item';
+    div.draggable = true;
+    div.innerHTML = `
+      <div class="bahan-icon" style="background:${b.color}"></div>
+      <div class="bahan-info">
+        <div class="bahan-name">${b.name}</div>
+        <div class="bahan-formula">${b.formula}</div>
+      </div>
+    `;
+    div.onclick = () => selectBahan(b);
+    div.ondragstart = (e) => {
+      state.selectedBahan = b;
+      div.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'copy';
+    };
+    div.ondragend = () => div.classList.remove('dragging');
+    grid.appendChild(div);
+  });
+}
+
+function selectBahan(b) {
+  state.selectedBahan = b;
+  SFX.click();
+  document.querySelectorAll('.bahan-item').forEach(el => el.style.borderColor = 'transparent');
+  document.querySelectorAll('.bahan-item').forEach(el => {
+    if (el.querySelector('.bahan-name').textContent === b.name) {
+      el.style.borderColor = 'var(--cyan)';
+    }
+  });
+  document.getElementById('infoPanel').innerHTML = `
+    <div style="font-weight:900; color:var(--cyan); font-size:1rem; margin-bottom:6px;">${b.name}</div>
+    <div style="font-family:'Courier New', monospace; color:var(--gold); font-size:0.9rem; margin-bottom:8px;">${b.formula}</div>
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+      <div style="width:24px; height:24px; border-radius:50%; background:${b.color}; border:2px solid rgba(255,255,255,0.3);"></div>
+      <span style="font-size:0.78rem;">${b.wujud}</span>
+    </div>
+    <div style="font-size:0.82rem; line-height:1.5;">${b.sifat}</div>
+    <div style="margin-top:10px; padding:8px; background:rgba(0,229,255,0.08); border-radius:8px; font-size:0.75rem; color:var(--cyan);">
+      💡 Klik area gelas kimia untuk menambahkan
+    </div>
+  `;
+  document.getElementById('canvasHint').textContent = `💡 ${b.name} dipilih — klik gelas kimia untuk menambahkan`;
+}
+
+/* ============================================================
+   RENDER ALAT
+   ============================================================ */
+function renderAlat() {
+  const grid = document.getElementById('alatGrid');
+  grid.innerHTML = '';
+  alatLab.forEach(a => {
+    const div = document.createElement('div');
+    div.className = 'alat-item';
+    div.innerHTML = `<div class="alat-icon">${a.icon}</div><div class="alat-name">${a.name}</div>`;
+    div.onclick = () => showToast(`🛠️ ${a.name} — alat tersedia di meja lab`);
+    grid.appendChild(div);
+  });
+}
+
+/* ============================================================
+   CANVAS LAB
+   ============================================================ */
+const labCanvas = document.getElementById('labCanvas');
+const labCtx = labCanvas.getContext('2d');
+let beakerBounds = { x: 0, y: 0, w: 0, h: 0 };
+
+function resizeCanvas() {
+  const wrap = labCanvas.parentElement;
+  const rect = wrap.getBoundingClientRect();
+  labCanvas.width = rect.width;
+  labCanvas.height = Math.max(500, rect.height - 60);
+  const bw = Math.min(280, labCanvas.width * 0.45);
+  const bh = Math.min(320, labCanvas.height * 0.55);
+  beakerBounds = {
+    x: (labCanvas.width - bw) / 2,
+    y: labCanvas.height * 0.3,
+    w: bw,
+    h: bh
+  };
+  drawLab();
+}
+
+labCanvas.addEventListener('click', (e) => {
+  const rect = labCanvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  // cek apakah klik di dalam gelas kimia
+  if (x > beakerBounds.x && x < beakerBounds.x + beakerBounds.w &&
+      y > beakerBounds.y && y < beakerBounds.y + beakerBounds.h) {
+    if (state.selectedBahan) {
+      addZatToBeaker(state.selectedBahan);
+    } else {
+      showToast('⚠️ Pilih zat terlebih dahulu', 'warn');
+    }
+  }
+});
+
+labCanvas.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'copy';
+});
+labCanvas.addEventListener('drop', (e) => {
+  e.preventDefault();
+  if (state.selectedBahan) {
+    addZatToBeaker(state.selectedBahan);
+  }
+});
+
+/* ============================================================
+   LOGIKA REAKSI
+   ============================================================ */
+function addZatToBeaker(bahan) {
+  if (state.beakerZat.length >= 4) {
+    showToast('⚠️ Gelas penuh — kosongkan dulu', 'warn');
+    SFX.fail();
+    return;
+  }
+  state.beakerZat.push(bahan);
+  SFX.drop();
+  SFX.pour();
+
+  // Update warna cairan
+  updateBeakerColor();
+
+  // Cek reaksi
+  checkReaction();
+
+  // Update status
+  updateBeakerStatus();
+  drawLab();
+}
+
+function updateBeakerColor() {
+  if (state.beakerZat.length === 0) {
+    state.beakerColor = '#3a5a7a';
+    return;
+  }
+  // warna campur: rata-rata dari warna zat (kalau tidak ada reaksi yang override)
+  if (!state.lastReaction) {
+    let r = 0, g = 0, b = 0;
+    state.beakerZat.forEach(z => {
+      const c = hexToRgb(z.color);
+      r += c.r; g += c.g; b += c.b;
+    });
+    const n = state.beakerZat.length;
+    state.beakerColor = `rgb(${Math.round(r/n)}, ${Math.round(g/n)}, ${Math.round(b/n)})`;
+  }
+}
+
+function hexToRgb(hex) {
+  // handle rgb() string
+  if (hex.startsWith('rgb')) {
+    const m = hex.match(/\d+/g);
+    return { r: +m[0], g: +m[1], b: +m[2] };
+  }
+  const f = parseInt(hex.slice(1), 16);
+  return { r: (f >> 16) & 255, g: (f >> 8) & 255, b: f & 255 };
+}
+
+function checkReaction() {
+  if (state.beakerZat.length < 2) return;
+  const ids = state.beakerZat.map(z => z.id);
+  // cari reaksi yang cocok (urutan bebas)
+  for (const reaksi of databaseReaksi) {
+    const [a, b] = reaksi.reaktan;
+    if (ids.includes(a) && ids.includes(b)) {
+      triggerReaction(reaksi);
+      return;
+    }
+  }
+  // tidak ada reaksi
+  state.lastReaction = null;
+  state.hasGas = false;
+  state.hasEndapan = false;
+  if (state.beakerZat.length >= 2) {
+    showToast('💧 Zat tercampur, tidak terjadi reaksi kimia signifikan', 'warn');
+  }
+}
+
+function triggerReaction(reaksi) {
+  state.lastReaction = reaksi;
+  state.hasGas = !!reaksi.gas;
+  state.hasEndapan = !!reaksi.endapan;
+  state.beakerColor = reaksi.warna;
+
+  // Efek suhu
+  if (reaksi.suhuDelta) {
+    state.beakerTemp += reaksi.suhuDelta;
+  }
+
+  // Buat partikel
+  if (reaksi.gas) createGasParticles();
+  if (reaksi.endapan) createEndapanParticles();
+  if (reaksi.api) createApiEffect();
+
+  // Suara
+  SFX.success();
+  if (reaksi.gas) {
+    for (let i = 0; i < 5; i++) setTimeout(() => SFX.bubble(), i * 100);
+  }
+
+  // Tampilkan panel hasil
+  showReactionPanel(reaksi);
+
+  // Tambahkan ke log
+  addToLog(reaksi);
+
+  // Cek misi
+  if (reaksi.misi) completeMisi(reaksi.misi, reaksi);
+
+  // Efek khusus
+  if (reaksi.id === 'logam-air') {
+    showToast('💥 Reaksi hebat! Natrium bereaksi dengan air!', 'warn');
+  }
+}
+
+function showReactionPanel(reaksi) {
+  const panel = document.getElementById('reactionPanel');
+  const content = document.getElementById('reactionContent');
+  content.innerHTML = `
+    <div style="color:var(--gold); font-weight:900; font-size:1rem; margin-bottom:8px;">${reaksi.nama}</div>
+    <div class="eq">${reaksi.persamaan}</div>
+    <div class="row"><span>Jenis</span><span>${reaksi.jenis}</span></div>
+    <div class="row"><span>Perubahan</span><span>${reaksi.perubahan}</span></div>
+    ${reaksi.suhuDelta ? `<div class="row"><span>Suhu</span><span>${reaksi.suhuDelta > 0 ? '+' : ''}${reaksi.suhuDelta}°C (${reaksi.suhuDelta > 0 ? 'eksoterm' : 'endoterm'})</span></div>` : ''}
+    ${reaksi.endapan ? `<div class="row"><span>Endapan</span><span style="color:${reaksi.endapan};">Terbentuk</span></div>` : ''}
+    ${reaksi.gas ? `<div class="row"><span>Gas</span><span>Terbentuk</span></div>` : ''}
+    <div class="explain">${reaksi.penjelasan}</div>
+    <button class="ctrl-btn primary" style="width:100%; margin-top:12px;" onclick="saveReactionToLog()">💾 SIMPAN KE LOG</button>
+  `;
+  panel.classList.add('show');
+}
+
+function closeReactionPanel() {
+  document.getElementById('reactionPanel').classList.remove('show');
+}
+
+function saveReactionToLog() {
+  showToast('💾 Reaksi tersimpan di log', 'ok');
+  closeReactionPanel();
+}
+
+/* ============================================================
+   PARTIKEL
+   ============================================================ */
+function createGasParticles() {
+  for (let i = 0; i < 20; i++) {
+    state.bubbles.push({
+      x: beakerBounds.x + 20 + Math.random() * (beakerBounds.w - 40),
+      y: beakerBounds.y + beakerBounds.h - 10,
+      r: 2 + Math.random() * 4,
+      vy: -0.5 - Math.random() * 1.5,
+      life: 200 + Math.random() * 100
+    });
+  }
+}
+
+function createEndapanParticles() {
+  for (let i = 0; i < 30; i++) {
+    state.particles.push({
+      x: beakerBounds.x + 20 + Math.random() * (beakerBounds.w - 40),
+      y: beakerBounds.y + 30 + Math.random() * (beakerBounds.h - 60),
+      r: 1 + Math.random() * 3,
+      vy: 0.3 + Math.random() * 0.5,
+      color: state.lastReaction.endapan,
+      life: 300
+    });
+  }
+}
+
+function createApiEffect() {
+  for (let i = 0; i < 15; i++) {
+    state.particles.push({
+      x: beakerBounds.x + beakerBounds.w / 2 + (Math.random() - 0.5) * 100,
+      y: beakerBounds.y - Math.random() * 40,
+      r: 3 + Math.random() * 6,
+      vy: -1 - Math.random() * 2,
+      color: Math.random() > 0.5 ? '#ff4757' : '#ffc400',
+      life: 60
+    });
+  }
+}
+
+/* ============================================================
+   DRAW LAB
+   ============================================================ */
+function drawLab() {
+  const w = labCanvas.width, h = labCanvas.height;
+  const isLight = state.theme === 'light';
+
+  // background meja
+  const grad = labCtx.createLinearGradient(0, 0, 0, h);
+  if (isLight) {
+    grad.addColorStop(0, '#d4ecfa');
+    grad.addColorStop(1, '#eaf6fd');
+  } else {
+    grad.addColorStop(0, '#0a1628');
+    grad.addColorStop(1, '#050a12');
+  }
+  labCtx.fillStyle = grad;
+  labCtx.fillRect(0, 0, w, h);
+
+  // grid meja
+  labCtx.strokeStyle = isLight ? 'rgba(15,40,71,0.06)' : 'rgba(0,229,255,0.04)';
+  labCtx.lineWidth = 1;
+  for (let x = 0; x < w; x += 40) {
+    labCtx.beginPath(); labCtx.moveTo(x, 0); labCtx.lineTo(x, h); labCtx.stroke();
+  }
+  for (let y = 0; y < h; y += 40) {
+    labCtx.beginPath(); labCtx.moveTo(0, y); labCtx.lineTo(w, y); labCtx.stroke();
+  }
+
+  // meja
+  const tableY = beakerBounds.y + beakerBounds.h + 30;
+  labCtx.fillStyle = isLight ? 'rgba(90,120,148,0.2)' : 'rgba(0,229,255,0.05)';
+  labCtx.fillRect(0, tableY, w, h - tableY);
+  labCtx.strokeStyle = isLight ? 'rgba(90,120,148,0.4)' : 'rgba(0,229,255,0.2)';
+  labCtx.lineWidth = 2;
+  labCtx.beginPath(); labCtx.moveTo(0, tableY); labCtx.lineTo(w, tableY); labCtx.stroke();
+
+  // beaker (gelas kimia)
+  drawBeaker();
+
+  // bubbles (gas)
+  state.bubbles = state.bubbles.filter(b => b.life > 0);
+  state.bubbles.forEach(b => {
+    labCtx.fillStyle = 'rgba(180, 230, 255, 0.6)';
+    labCtx.beginPath();
+    labCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+    labCtx.fill();
+    labCtx.strokeStyle = 'rgba(255,255,255,0.4)';
+    labCtx.stroke();
+    b.y += b.vy;
+    b.life--;
+  });
+
+  // particles (endapan / api)
+  state.particles = state.particles.filter(p => p.life > 0);
+  state.particles.forEach(p => {
+    labCtx.fillStyle = p.color;
+    labCtx.globalAlpha = Math.min(1, p.life / 60);
+    labCtx.beginPath();
+    labCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    labCtx.fill();
+    labCtx.globalAlpha = 1;
+    p.y += p.vy;
+    p.life--;
+  });
+
+  // thermometer
+  drawThermometer();
+
+  // label
+  labCtx.fillStyle = isLight ? '#0f2847' : '#8fa3bf';
+  labCtx.font = 'bold 12px sans-serif';
+  labCtx.textAlign = 'center';
+  labCtx.fillText('GELAS KIMIA', beakerBounds.x + beakerBounds.w / 2, beakerBounds.y - 10);
+
+  // request animation
+  if (state.bubbles.length > 0 || state.particles.length > 0) {
+    if (!state.animationFrame) {
+      state.animationFrame = requestAnimationFrame(animateLoop);
+    }
+  } else {
+    if (state.animationFrame) {
+      cancelAnimationFrame(state.animationFrame);
+      state.animationFrame = null;
+    }
+  }
+}
+
+function animateLoop() {
+  state.animationFrame = null;
+  drawLab();
+}
+
+function drawBeaker() {
+  const { x, y, w, h } = beakerBounds;
+  const isLight = state.theme === 'light';
+
+  // Shadow
+  labCtx.fillStyle = 'rgba(0,0,0,0.2)';
+  labCtx.beginPath();
+  labCtx.ellipse(x + w/2, y + h + 15, w/2 + 10, 10, 0, 0, Math.PI*2);
+  labCtx.fill();
+
+  // Body beaker (glass)
+  labCtx.fillStyle = isLight ? 'rgba(200,220,240,0.3)' : 'rgba(150,180,220,0.08)';
+  labCtx.beginPath();
+  labCtx.moveTo(x, y);
+  labCtx.lineTo(x, y + h - 20);
+  labCtx.quadraticCurveTo(x, y + h, x + 20, y + h);
+  labCtx.lineTo(x + w - 20, y + h);
+  labCtx.quadraticCurveTo(x + w, y + h, x + w, y + h - 20);
+  labCtx.lineTo(x + w, y);
+  labCtx.closePath();
+  labCtx.fill();
+
+  // Liquid inside
+  if (state.beakerZat.length > 0) {
+    const liquidH = h * 0.6;
+    const liquidY = y + h - liquidH - 5;
+
+    labCtx.save();
+    labCtx.beginPath();
+    labCtx.moveTo(x + 5, liquidY);
+    labCtx.lineTo(x + 5, y + h - 25);
+    labCtx.quadraticCurveTo(x + 5, y + h - 5, x + 25, y + h - 5);
+    labCtx.lineTo(x + w - 25, y + h - 5);
+    labCtx.quadraticCurveTo(x + w - 5, y + h - 5, x + w - 5, y + h - 25);
+    labCtx.lineTo(x + w - 5, liquidY);
+    // gelombang permukaan
+    const t = Date.now() / 500;
+    const wave1 = Math.sin(t) * 3;
+    const wave2 = Math.cos(t * 1.3) * 2;
+    labCtx.quadraticCurveTo(x + w/2, liquidY - 4 + wave1, x + w - 5, liquidY + wave2);
+    labCtx.closePath();
+
+    labCtx.fillStyle = state.beakerColor;
+    labCtx.fill();
+
+    // glow effect
+    labCtx.globalAlpha = 0.3;
+    labCtx.fillStyle = state.beakerColor;
+    labCtx.fill();
+    labCtx.globalAlpha = 1;
+    labCtx.restore();
+
+    // endapan di bawah
+    if (state.hasEndapan && state.lastReaction && state.lastReaction.endapan) {
+      labCtx.fillStyle = state.lastReaction.endapan;
+      labCtx.globalAlpha = 0.8;
+      labCtx.beginPath();
+      labCtx.ellipse(x + w/2, y + h - 15, w/2 - 25, 10, 0, 0, Math.PI*2);
+      labCtx.fill();
+      labCtx.globalAlpha = 1;
+    }
+  }
+
+  // Beaker outline
+  labCtx.strokeStyle = isLight ? 'rgba(90,120,148,0.6)' : 'rgba(0,229,255,0.4)';
+  labCtx.lineWidth = 3;
+  labCtx.beginPath();
+  labCtx.moveTo(x, y);
+  labCtx.lineTo(x, y + h - 20);
+  labCtx.quadraticCurveTo(x, y + h, x + 20, y + h);
+  labCtx.lineTo(x + w - 20, y + h);
+  labCtx.quadraticCurveTo(x + w, y + h, x + w, y + h - 20);
+  labCtx.lineTo(x + w, y);
+  labCtx.stroke();
+
+  // Spout (bibir gelas)
+  labCtx.beginPath();
+  labCtx.moveTo(x + w, y);
+  labCtx.lineTo(x + w + 15, y - 8);
+  labCtx.stroke();
+
+  // Measurement lines
+  labCtx.strokeStyle = isLight ? 'rgba(90,120,148,0.3)' : 'rgba(0,229,255,0.2)';
+  labCtx.lineWidth = 1;
+  for (let i = 1; i <= 4; i++) {
+    const ly = y + (h / 5) * i;
+    labCtx.beginPath();
+    labCtx.moveTo(x + 5, ly);
+    labCtx.lineTo(x + 20, ly);
+    labCtx.stroke();
+  }
+}
+
+function drawThermometer() {
+  const tx = beakerBounds.x + beakerBounds.w + 40;
+  const ty = beakerBounds.y + 20;
+  const tw = 14, th = beakerBounds.h - 30;
+
+  // Tube
+  labCtx.fillStyle = state.theme === 'light' ? 'rgba(200,220,240,0.6)' : 'rgba(150,180,220,0.15)';
+  labCtx.beginPath();
+  labCtx.roundRect(tx, ty, tw, th, 7);
+  labCtx.fill();
+  labCtx.strokeStyle = 'rgba(0,229,255,0.4)';
+  labCtx.lineWidth = 2;
+  labCtx.stroke();
+
+  // Bulb
+  labCtx.beginPath();
+  labCtx.arc(tx + tw/2, ty + th + 8, 12, 0, Math.PI*2);
+  labCtx.fillStyle = '#ff4757';
+  labCtx.fill();
+
+  // Mercury (temp 25-100°C)
+  const tempPct = Math.min(1, Math.max(0, (state.beakerTemp - 20) / 80));
+  const mercuryH = (th - 10) * tempPct;
+  labCtx.fillStyle = '#ff4757';
+  labCtx.beginPath();
+  labCtx.roundRect(tx + 3, ty + th - 5 - mercuryH, tw - 6, mercuryH, 3);
+  labCtx.fill();
+
+  // Label temp
+  labCtx.fillStyle = state.theme === 'light' ? '#0f2847' : '#8fa3bf';
+  labCtx.font = 'bold 11px sans-serif';
+  labCtx.textAlign = 'center';
+  labCtx.fillText(state.beakerTemp + '°C', tx + tw/2, ty + th + 32);
+}
+
+/* ============================================================
+   KONTROL LAB
+   ============================================================ */
+function addWater() {
+  if (state.beakerZat.length === 0) {
+    showToast('⚠️ Tambahkan zat dulu', 'warn');
+    return;
+  }
+  const air = bahanKimia.find(b => b.id === 'H2O');
+  if (air && !state.beakerZat.find(z => z.id === 'H2O')) {
+    addZatToBeaker(air);
+    showToast('💧 Air ditambahkan');
+  } else {
+    showToast('💧 Air sudah ada di gelas', 'warn');
+  }
+}
+
+function heatLiquid() {
+  if (state.beakerZat.length === 0) {
+    showToast('⚠️ Gelas kosong', 'warn');
+    return;
+  }
+  state.beakerTemp += 15;
+  SFX.click();
+  showToast('🔥 Dipanaskan: suhu ' + state.beakerTemp + '°C');
+  drawLab();
+}
+
+function stirLiquid() {
+  if (state.beakerZat.length === 0) {
+    showToast('⚠️ Gelas kosong', 'warn');
+    return;
+  }
+  state.stirred = true;
+  SFX.click();
+  // percepat animasi
+  for (let i = 0; i < 5; i++) setTimeout(() => SFX.bubble(), i * 100);
+  showToast('⚗️ Diaduk — reaksi dipercepat');
+  drawLab();
+}
+
+function clearBeaker() {
+  state.beakerZat = [];
+  state.beakerColor = '#3a5a7a';
+  state.beakerTemp = 25;
+  state.hasGas = false;
+  state.hasEndapan = false;
+  state.lastReaction = null;
+  state.bubbles = [];
+  state.particles = [];
+  closeReactionPanel();
+  updateBeakerStatus();
+  drawLab();
+  SFX.click();
+  showToast('🗑️ Gelas dikosongkan');
+}
+
+function resetLab() {
+  clearBeaker();
+  state.selectedBahan = null;
+  document.getElementById('infoPanel').innerHTML = '<div style="color:var(--dim); font-size:0.85rem;">Pilih zat dari rak untuk melihat informasi detail.</div>';
+  document.getElementById('canvasHint').textContent = '💡 Klik bahan di kiri, lalu klik area lab untuk menaruhnya';
+  document.querySelectorAll('.bahan-item').forEach(el => el.style.borderColor = 'transparent');
+  showToast('↺ Lab direset');
+}
+
+function screenshotLab() {
+  const link = document.createElement('a');
+  link.download = 'lab-maya-' + Date.now() + '.png';
+  link.href = labCanvas.toDataURL();
+  link.click();
+  SFX.click();
+  showToast('📸 Screenshot disimpan', 'ok');
+}
+
+function updateBeakerStatus() {
+  const el = document.getElementById('beakerStatus');
+  if (state.beakerZat.length === 0) {
+    el.innerHTML = '<div style="color:var(--dim);">Gelas kimia kosong</div>';
+    return;
+  }
+  let html = '<div style="display:flex; flex-direction:column; gap:4px;">';
+  state.beakerZat.forEach(z => {
+    html += `<div style="display:flex; align-items:center; gap:6px; font-size:0.82rem;">
+      <div style="width:12px; height:12px; border-radius:50%; background:${z.color};"></div>
+      <span>${z.name}</span>
+    </div>`;
+  });
+  html += `<div style="margin-top:8px; font-size:0.75rem; color:var(--dim);">Suhu: ${state.beakerTemp}°C</div>`;
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+/* ============================================================
+   LOG REAKSI
+   ============================================================ */
+function addToLog(reaksi) {
+  const entry = {
+    time: new Date().toLocaleString('id-ID'),
+    nama: reaksi.nama,
+    persamaan: reaksi.persamaan,
+    jenis: reaksi.jenis,
+    zat: state.beakerZat.map(z => z.formula).join(' + ')
+  };
+  state.reactionLog.push(entry);
+  updateStats();
+  renderLog();
+  // save to localStorage
+  try {
+    localStorage.setItem('labLog', JSON.stringify(state.reactionLog));
+    localStorage.setItem('labBadges', JSON.stringify(state.badges));
+    localStorage.setItem('labMisi', JSON.stringify(state.misiSelesai));
+  } catch(e) {}
+}
+
+function renderLog() {
+  const el = document.getElementById('logContent');
+  if (state.reactionLog.length === 0) {
+    el.innerHTML = `
+      <div class="log-empty">
+        <div class="log-icon">📋</div>
+        <div style="font-weight:700;">Belum ada percobaan</div>
+        <div style="font-size:0.85rem; margin-top:6px;">Lakukan reaksi di Meja Lab untuk mencatat log</div>
+      </div>`;
+    return;
+  }
+  let html = '<table class="log-table"><thead><tr><th>#</th><th>Waktu</th><th>Reaksi</th><th>Persamaan</th><th>Jenis</th></tr></thead><tbody>';
+  state.reactionLog.forEach((log, i) => {
+    html += `<tr><td>${i+1}</td><td>${log.time}</td><td>${log.nama}</td><td class="eq">${log.persamaan}</td><td>${log.jenis}</td></tr>`;
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+function exportLog() {
+  if (state.reactionLog.length === 0) { showToast('⚠️ Log kosong', 'warn'); return; }
+  let csv = 'Waktu,Nama Reaksi,Persamaan Kimia,Jenis,Zat\n';
+  state.reactionLog.forEach(l => {
+    csv += `"${l.time}","${l.nama}","${l.persamaan}","${l.jenis}","${l.zat}"\n`;
+  });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'log-lab-' + Date.now() + '.csv'; a.click();
+  URL.revokeObjectURL(url);
+  SFX.click();
+  showToast('⬇ CSV diunduh', 'ok');
+}
+
+function printLog() {
+  window.print();
+}
+
+function clearLog() {
+  if (!confirm('Hapus semua log percobaan?')) return;
+  state.reactionLog = [];
+  renderLog();
+  updateStats();
+  localStorage.removeItem('labLog');
+  showToast('🗑️ Log dihapus');
+}
+
+/* ============================================================
+   MISI
+   ============================================================ */
+function renderMisi() {
+  const grid = document.getElementById('misiGrid');
+  grid.innerHTML = '';
+  daftarMisi.forEach(m => {
+    const done = state.misiSelesai.includes(m.id);
+    const card = document.createElement('div');
+    card.className = 'misi-card' + (done ? ' selesai' : '');
+    card.innerHTML = `
+      <div class="misi-icon">${m.icon}</div>
+      <div class="misi-title">${m.title}</div>
+      <div class="misi-desc">${m.desc}</div>
+      <div class="misi-target">🎯 ${m.target}</div>
+      <div class="misi-reward">${m.reward}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function completeMisi(misiId, reaksi) {
+  if (state.misiSelesai.includes(misiId)) return;
+  state.misiSelesai.push(misiId);
+  const misi = daftarMisi.find(m => m.id === misiId);
+  if (misi && !state.badges.includes(misi.reward)) {
+    state.badges.push(misi.reward);
+    SFX.success();
+    showToast('🏆 Misi selesai! ' + misi.reward, 'ok');
+    // konfeti kecil
+    launchConfetti();
+  }
+  updateStats();
+  renderMisi();
+  try {
+    localStorage.setItem('labBadges', JSON.stringify(state.badges));
+    localStorage.setItem('labMisi', JSON.stringify(state.misiSelesai));
+  } catch(e) {}
+}
+
+/* ============================================================
+   KONFETI
+   ============================================================ */
+function launchConfetti() {
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed; inset:0; pointer-events:none; z-index:999;';
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  const colors = ['#00e5ff', '#ffc400', '#ff4757', '#2ed573', '#a55eea', '#ff6b9d'];
+  const particles = [];
+  for (let i = 0; i < 80; i++) {
+    particles.push({
+      x: canvas.width / 2, y: canvas.height / 2,
+      vx: (Math.random() - 0.5) * 12,
+      vy: (Math.random() - 0.5) * 12 - 3,
+      size: Math.random() * 6 + 3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rotation: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.3,
+      life: 80 + Math.random() * 40
+    });
+  }
+  let frames = 0;
+  function anim() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      p.vy += 0.15;
+      p.rotation += p.rotSpeed;
+      p.life--;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = Math.min(1, p.life / 40);
+      ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+      ctx.restore();
+    });
+    frames++;
+    if (frames < 120) requestAnimationFrame(anim);
+    else canvas.remove();
+  }
+  anim();
+}
+
+/* ============================================================
+   UPDATE STATS
+   ============================================================ */
+function updateStats() {
+  document.getElementById('reactionCount').textContent = state.reactionLog.length;
+  document.getElementById('badgeCount').textContent = state.badges.length;
+  document.getElementById('statReactions').textContent = state.reactionLog.length;
+  document.getElementById('statBadges').textContent = state.badges.length;
+}
+
+/* ============================================================
+   TAB SWITCH
+   ============================================================ */
+function switchTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  SFX.click();
+  if (tab === 'lab') setTimeout(resizeCanvas, 50);
+  if (tab === 'misi') renderMisi();
+  if (tab === 'hasil') renderLog();
+}
+
+/* ============================================================
+   THEME
+   ============================================================ */
+function toggleTheme() {
+  state.theme = state.theme === 'dark' ? 'light' : 'dark';
+  document.body.classList.toggle('light', state.theme === 'light');
+  document.getElementById('themeBtn').textContent = state.theme === 'dark' ? '🌙' : '☀️';
+  const sw = document.getElementById('themeSwitch');
+  if (sw) sw.classList.toggle('on', state.theme === 'dark');
+  drawLab();
+  SFX.click();
+}
+
+/* ============================================================
+   FULLSCREEN / PRESENTASI
+   ============================================================ */
+function togglePresentation() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+    showToast('⛶ Mode presentasi aktif');
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+  SFX.click();
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+let toastTimer = null;
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ============================================================
+   RESET SEMUA
+   ============================================================ */
+function resetAll() {
+  if (!confirm('Reset SEMUA data (log, badge, misi)?')) return;
+  state.reactionLog = [];
+  state.badges = [];
+  state.misiSelesai = [];
+  localStorage.removeItem('labLog');
+  localStorage.removeItem('labBadges');
+  localStorage.removeItem('labMisi');
+  renderLog();
+  renderMisi();
+  updateStats();
+  showToast('🗑️ Semua data direset');
+}
+
+/* ============================================================
+   LOAD STATE
+   ============================================================ */
+function loadState() {
+  try {
+    const log = localStorage.getItem('labLog');
+    const badges = localStorage.getItem('labBadges');
+    const misi = localStorage.getItem('labMisi');
+    if (log) state.reactionLog = JSON.parse(log);
+    if (badges) state.badges = JSON.parse(badges);
+    if (misi) state.misiSelesai = JSON.parse(misi);
+  } catch(e) {}
+  updateStats();
+}
+
+/* ============================================================
+   INISIALISASI
+   ============================================================ */
+window.addEventListener('DOMContentLoaded', () => {
+  loadState();
+  renderBahanTabs();
+  renderBahanGrid();
+  renderAlat();
+  renderMisi();
+  renderLog();
+  updateStats();
+  updateBeakerStatus();
+  resizeCanvas();
+  window.addEventListener('resize', () => setTimeout(resizeCanvas, 100));
+  // animasi permukaan cairan
+  setInterval(() => { if (state.beakerZat.length > 0) drawLab(); }, 100);
+  showToast('🧪 Selamat datang di Virtual Chemistry Lab!');
+});
+</script>
+</body>
+</html>
