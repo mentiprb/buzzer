@@ -68,7 +68,7 @@ body::before {
 }
 
 /* ============================================================
-   LANDING PAGE — PILIH PESERTA / JURI
+   LANDING PAGE
    ============================================================ */
 .landing {
   position: fixed; inset: 0; z-index: 100;
@@ -97,7 +97,6 @@ body::before {
   color: transparent;
   animation: shine 3s linear infinite;
   margin-bottom: 10px; letter-spacing: 1px;
-  text-shadow: 0 4px 20px rgba(238,82,83,0.1);
 }
 @keyframes shine { to { background-position: 200% 0; } }
 .landing .sub {
@@ -130,34 +129,16 @@ body::before {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 20px 50px rgba(238,82,83,0.3);
 }
-.choice-btn:hover::before { opacity: 0.12; }
-.choice-btn .c-icon {
-  font-size: 3.5rem; margin-bottom: 12px; display: block;
-  position: relative;
-}
-.choice-btn .c-title {
-  font-size: 1.4rem; font-weight: 900; margin-bottom: 6px;
-  position: relative;
-}
-.choice-btn .c-desc {
-  font-size: 0.85rem; color: #6b6b6b; line-height: 1.5;
-  position: relative;
-}
-.choice-btn.peserta {
-  border-color: #ffd93d;
-  background: linear-gradient(160deg, #ffffff 0%, #fff8e7 100%);
-}
+.choice-btn .c-icon { font-size: 3.5rem; margin-bottom: 12px; display: block; }
+.choice-btn .c-title { font-size: 1.4rem; font-weight: 900; margin-bottom: 6px; }
+.choice-btn .c-desc { font-size: 0.85rem; color: #6b6b6b; line-height: 1.5; }
+.choice-btn.peserta { border-color: #ffd93d; background: linear-gradient(160deg, #ffffff 0%, #fff8e7 100%); }
 .choice-btn.peserta .c-title { color: #f6c90e; }
-.choice-btn.peserta .c-icon { filter: drop-shadow(0 4px 10px rgba(246,201,14,0.4)); }
-.choice-btn.juri {
-  border-color: #ff6b6b;
-  background: linear-gradient(160deg, #ffffff 0%, #ffe8e8 100%);
-}
+.choice-btn.juri { border-color: #ff6b6b; background: linear-gradient(160deg, #ffffff 0%, #ffe8e8 100%); }
 .choice-btn.juri .c-title { color: #ee5253; }
-.choice-btn.juri .c-icon { filter: drop-shadow(0 4px 10px rgba(238,82,83,0.4)); }
 
 /* ============================================================
-   MODAL INPUT KODE PESERTA
+   MODAL INPUT KODE
    ============================================================ */
 .code-input-wrap {
   display: flex; gap: 8px; justify-content: center;
@@ -216,8 +197,7 @@ body.dark .header {
 .logo {
   display: flex; align-items: center; gap: 10px;
   font-weight: 900; font-size: 1.15rem;
-  color: #ee5253;
-  letter-spacing: 1px;
+  color: #ee5253; letter-spacing: 1px;
 }
 .logo .icon {
   width: 40px; height: 40px;
@@ -357,7 +337,7 @@ body.dark .buzzer-num { color: var(--text-soft); }
   font-weight: 700; position: relative; z-index: 1;
 }
 
-/* PESERTA MODE STAGE */
+/* PESERTA STAGE */
 .stage-peserta {
   background: linear-gradient(160deg, #ffffff 0%, #fff8e7 100%);
   border: 3px solid #ffd93d;
@@ -419,8 +399,7 @@ body.dark .stage-peserta { background: linear-gradient(160deg, var(--panel) 0%, 
 }
 .peserta-buzz-btn:disabled {
   opacity: 0.35; cursor: not-allowed;
-  box-shadow: none;
-  filter: grayscale(0.4);
+  box-shadow: none; filter: grayscale(0.4);
 }
 .peserta-buzz-btn:not(:disabled):hover {
   transform: scale(1.05);
@@ -432,8 +411,6 @@ body.dark .stage-peserta { background: linear-gradient(160deg, var(--panel) 0%, 
 .peserta-buzz-btn:not(:disabled):active { transform: scale(0.93); }
 .peserta-buzz-btn .b-icon { font-size: clamp(3rem, 8vw, 6rem); filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2)); }
 .peserta-buzz-btn .b-text { font-size: clamp(1rem, 2.5vw, 1.6rem); letter-spacing: 2px; }
-
-/* STATUS VARIANTS */
 .peserta-buzz-btn.locked {
   border-color: #b8b8b8;
   background: radial-gradient(circle at 35% 30%, #e0e0e0 0%, #b8b8b8 80%);
@@ -442,8 +419,7 @@ body.dark .stage-peserta { background: linear-gradient(160deg, var(--panel) 0%, 
 .peserta-buzz-btn.taken {
   border-color: #6b6b6b;
   background: radial-gradient(circle at 35% 30%, #a8a8a8 0%, #6b6b6b 80%);
-  color: #ffffff;
-  animation: shake 0.5s;
+  color: #ffffff; animation: shake 0.5s;
 }
 .peserta-buzz-btn.success {
   border-color: #26de81;
@@ -455,11 +431,8 @@ body.dark .stage-peserta { background: linear-gradient(160deg, var(--panel) 0%, 
   0%,100% { box-shadow: 0 20px 60px rgba(38,222,129,0.5), inset 0 -10px 30px rgba(0,0,0,0.15); }
   50% { box-shadow: 0 30px 80px rgba(38,222,129,0.8), inset 0 -10px 30px rgba(0,0,0,0.15); }
 }
-@keyframes shake {
-  0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)}
-}
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)} }
 
-/* Ripple */
 .ripple {
   position: absolute; border-radius: 50%;
   background: rgba(255,255,255,0.6);
@@ -468,7 +441,7 @@ body.dark .stage-peserta { background: linear-gradient(160deg, var(--panel) 0%, 
 }
 @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
 
-/* CONTROL PANEL (JURI) */
+/* CONTROL PANEL */
 .panel-juri {
   background: linear-gradient(160deg, #ffffff 0%, #fff8e7 100%);
   border: 3px solid #ffd93d;
@@ -494,6 +467,100 @@ body.dark .ctrl-hdr { border-color: var(--border); }
   animation: pulse 1.5s infinite;
 }
 
+/* ============================================================
+   PANEL PENGATURAN JUMLAH KELOMPOK
+   ============================================================ */
+.settings-panel {
+  background: linear-gradient(135deg, #fff8e7 0%, #ffeaa7 100%);
+  border: 2px dashed #f6c90e;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+body.dark .settings-panel {
+  background: linear-gradient(135deg, var(--card) 0%, var(--panel) 100%);
+  border-color: var(--yellow);
+}
+.settings-panel .sp-header {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.settings-panel .sp-title {
+  font-size: 0.78rem; font-weight: 900;
+  color: #ee5253; letter-spacing: 1px;
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 6px;
+}
+.settings-panel .sp-badge {
+  background: #ee5253; color: white;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 0.75rem; font-weight: 900;
+  min-width: 28px; text-align: center;
+}
+/* Stepper control */
+.team-count-stepper {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #ffffff; border-radius: 10px;
+  padding: 6px; border: 2px solid #ffd93d;
+  box-shadow: 0 4px 12px rgba(246,201,14,0.15);
+}
+body.dark .team-count-stepper { background: var(--bg); border-color: var(--border); }
+.team-count-stepper button {
+  width: 40px; height: 40px;
+  border-radius: 8px;
+  border: none; cursor: pointer;
+  font-size: 1.4rem; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  background: #ffeaa7; color: #ee5253;
+  font-family: inherit;
+}
+body.dark .team-count-stepper button { background: var(--card); color: var(--yellow); }
+.team-count-stepper button:hover:not(:disabled) {
+  background: #ffd93d; transform: scale(1.1);
+}
+.team-count-stepper button:disabled {
+  opacity: 0.3; cursor: not-allowed;
+}
+.team-count-stepper .value {
+  flex: 1; text-align: center;
+  font-size: 1.6rem; font-weight: 900;
+  color: #ee5253; font-family: 'Courier New', monospace;
+}
+.team-count-stepper .value small {
+  display: block; font-size: 0.6rem;
+  color: #6b6b6b; font-weight: 700;
+  letter-spacing: 0.5px;
+  font-family: inherit;
+}
+/* Quick select buttons — 8 tombol (2..9) */
+.quick-count-btns {
+  display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px;
+}
+.quick-count-btns button {
+  padding: 6px 0;
+  border-radius: 6px;
+  border: 2px solid #ffeaa7;
+  background: #ffffff;
+  color: #6b6b6b;
+  font-family: inherit;
+  font-weight: 900;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+body.dark .quick-count-btns button { background: var(--card); border-color: var(--border); color: var(--text-soft); }
+.quick-count-btns button:hover { border-color: #ffd93d; transform: translateY(-1px); }
+.quick-count-btns button.active {
+  background: linear-gradient(135deg, #ffd93d, #f6c90e);
+  color: #2d2d2d;
+  border-color: #f6c90e;
+  box-shadow: 0 4px 12px rgba(246,201,14,0.4);
+}
+@media (max-width: 360px) {
+  .quick-count-btns { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Team list */
 .teams-list {
   display: flex; flex-direction: column; gap: 6px;
   max-height: 220px; overflow-y: auto; padding-right: 3px;
@@ -510,6 +577,10 @@ body.dark .team-row { background: var(--card); }
   border-left-color: #ffd93d;
   background: #fff3b0;
   box-shadow: 0 0 0 2px #ffd93d;
+}
+.team-row.inactive {
+  opacity: 0.4;
+  border-left-style: dashed;
 }
 .team-row .num {
   width: 26px; height: 26px;
@@ -549,7 +620,6 @@ body.dark .team-row .name { color: var(--text); }
 .ctrl-btn.wrong { background: linear-gradient(135deg, #ff6b6b, #ee5253); }
 .ctrl-btn.secondary { background: #ffffff; color: #2d2d2d; border-color: #ffd93d; }
 body.dark .ctrl-btn.secondary { background: var(--card); color: var(--text); border-color: var(--border); }
-.ctrl-btn.secondary:hover:not(:disabled) { border-color: #ff6b6b; }
 
 .settings-row {
   display: flex; align-items: center; justify-content: space-between;
@@ -615,6 +685,7 @@ body.dark .leaderboard { background: var(--card); }
   display: flex; align-items: center; gap: 8px;
   padding: 5px 0; font-size: 0.85rem;
 }
+.lb-row.inactive { opacity: 0.4; }
 .lb-row .lb-rank {
   width: 24px; text-align: center;
   font-weight: 900; color: #ee5253;
@@ -628,7 +699,7 @@ body.dark .lb-row .lb-name { color: var(--text); }
   font-family: 'Courier New', monospace;
 }
 
-/* ===== MODAL ===== */
+/* MODAL */
 .modal-overlay {
   position: fixed; inset: 0;
   background: rgba(45, 27, 46, 0.7);
@@ -722,19 +793,16 @@ body.dark .ti input { color: var(--text); }
 .toast.ok { border-color: #26de81; }
 .toast.warn { border-color: #ffd93d; }
 
-/* Responsive */
 @media (max-width: 960px) {
   .app { height: auto; min-height: 100vh; }
-  .panel-juri { max-height: 400px; }
+  .panel-juri { max-height: 500px; }
   .stage-monitor { min-height: 400px; }
 }
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     LANDING PAGE
-     ============================================================ -->
+<!-- LANDING -->
 <div class="landing" id="landing">
   <div class="icon-big">🎯</div>
   <h1>SMART BUZZER</h1>
@@ -753,14 +821,12 @@ body.dark .ti input { color: var(--text); }
   </div>
 </div>
 
-<!-- ============================================================
-     MODAL INPUT KODE PESERTA
-     ============================================================ -->
+<!-- MODAL KODE -->
 <div class="modal-overlay hidden" id="codeModal">
   <div class="modal">
     <h2>🔑 Masukkan Kode Room</h2>
     <p class="sub">Dapatkan kode 6 digit dari juri</p>
-    <div class="code-input-wrap" id="codeInputWrap">
+    <div class="code-input-wrap">
       <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="0">
       <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="1">
       <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="2">
@@ -773,9 +839,7 @@ body.dark .ti input { color: var(--text); }
   </div>
 </div>
 
-<!-- ============================================================
-     MODAL PILIH REGU (setelah kode valid)
-     ============================================================ -->
+<!-- MODAL PILIH REGU -->
 <div class="modal-overlay hidden" id="pesertaModal">
   <div class="modal">
     <h2>🙋 Pilih Regu Anda</h2>
@@ -785,11 +849,8 @@ body.dark .ti input { color: var(--text); }
   </div>
 </div>
 
-<!-- ============================================================
-     APP UTAMA
-     ============================================================ -->
+<!-- APP -->
 <div class="app hidden" id="app">
-  <!-- HEADER -->
   <div class="header">
     <div class="logo"><div class="icon">🎯</div>SMART BUZZER</div>
     <div class="header-actions">
@@ -805,10 +866,8 @@ body.dark .ti input { color: var(--text); }
     </div>
   </div>
 
-  <!-- MAIN -->
   <div class="main">
-
-    <!-- STAGE MONITOR (JURI) -->
+    <!-- STAGE MONITOR -->
     <div class="stage-monitor" id="stageMonitor">
       <div class="stage-top">
         <div class="stage-title">🔴 MONITOR PESERTA</div>
@@ -817,7 +876,6 @@ body.dark .ti input { color: var(--text); }
           <span class="chip" id="roundChip" style="display:none;">Ronde 1</span>
         </div>
       </div>
-
       <div class="big-buzzer">
         <div class="idle-display" id="idleDisplay">
           <div class="idle-icon">⏳</div>
@@ -831,7 +889,6 @@ body.dark .ti input { color: var(--text); }
           <div class="buzzer-time" id="activeTime">--:--</div>
         </div>
       </div>
-
       <div class="leaderboard">
         <h4>🏆 Klasemen</h4>
         <div id="lbContent"></div>
@@ -862,13 +919,31 @@ body.dark .ti input { color: var(--text); }
         <span class="live-badge" id="liveIndicator">STANDBY</span>
       </div>
 
+      <!-- PANEL PENGATURAN JUMLAH KELOMPOK -->
+      <div class="settings-panel">
+        <div class="sp-header">
+          <div class="sp-title">👥 Jumlah Kelompok</div>
+          <div class="sp-badge" id="teamCountBadge">2</div>
+        </div>
+        <div class="team-count-stepper">
+          <button onclick="changeTeamCount(-1)" id="btnMinus" aria-label="Kurangi">−</button>
+          <div class="value" id="teamCountValue">2
+            <small>KELOMPOK TAMPIL</small>
+          </div>
+          <button onclick="changeTeamCount(1)" id="btnPlus" aria-label="Tambah">+</button>
+        </div>
+        <div class="quick-count-btns" id="quickCountBtns">
+          <!-- Diisi JS: tombol 2-9 -->
+        </div>
+      </div>
+
       <div class="teams-list" id="teamsList"></div>
 
       <div class="ctrl-actions">
         <button class="ctrl-btn arm" id="armBtn" onclick="armBuzzer()">🔓 ARM</button>
         <button class="ctrl-btn reset" onclick="resetRound()">🔄 RESET</button>
         <button class="ctrl-btn lock" onclick="lockBuzzer()">🔒 LOCK</button>
-        <button class="ctrl-btn secondary" onclick="openSetup()">⚙️ SETUP</button>
+        <button class="ctrl-btn secondary" onclick="openSetup()">✏️ NAMA</button>
       </div>
 
       <div class="ctrl-actions" id="evalActions" style="display:none;">
@@ -895,21 +970,11 @@ body.dark .ti input { color: var(--text); }
   </div>
 </div>
 
-<!-- MODAL SETUP (JURI) -->
+<!-- MODAL SETUP NAMA -->
 <div class="modal-overlay hidden" id="setupModal">
   <div class="modal">
-    <h2>⚙️ Setup Regu</h2>
-    <p class="sub">Tentukan jumlah dan nama regu yang tampil (3–9 regu)</p>
-    <label>Jumlah Regu</label>
-    <select id="teamCountSel" onchange="renderTeamInputs()">
-      <option value="3">3 Regu</option>
-      <option value="4">4 Regu</option>
-      <option value="5">5 Regu</option>
-      <option value="6">6 Regu</option>
-      <option value="7">7 Regu</option>
-      <option value="8">8 Regu</option>
-      <option value="9" selected>9 Regu</option>
-    </select>
+    <h2>⚙️ Setup Nama Regu</h2>
+    <p class="sub">Ubah nama regu. Jumlah regu diatur lewat panel juri.</p>
     <label>Nama Regu</label>
     <div class="team-inputs" id="teamInputs"></div>
     <button class="btn-start" onclick="saveSetup()">💾 SIMPAN</button>
@@ -924,11 +989,13 @@ body.dark .ti input { color: var(--text); }
    ============================================================ */
 const TEAM_COLORS = ['#ff4757', '#ff9f43', '#26de81', '#45aaf2', '#a55eea', '#fd79a8', '#f6c90e', '#4ecdc4', '#dfe6e9'];
 const TEAM_NAMES = ['Merah', 'Oranye', 'Hijau', 'Biru', 'Ungu', 'Pink', 'Kuning', 'Tosca', 'Putih'];
+const MIN_TEAMS = 2;   // ← minimal 2 regu
+const MAX_TEAMS = 9;   // ← maksimal 9 regu
 
 const state = {
   role: null,
   teams: [],
-  totalReguAktif: 3,
+  totalReguAktif: 2,     // default 2
   buzzerArmed: false,
   soundOn: true,
   activeTeam: null,
@@ -938,7 +1005,7 @@ const state = {
   pesertaTeamId: null,
   buzzerTime: 0,
   roomCode: null,
-  connectedTeams: new Set() // Regu yang sudah "connect" via kode
+  connectedTeams: new Set()
 };
 
 /* ============================================================
@@ -966,7 +1033,6 @@ function initTeams(n) {
 function enterAsPeserta() {
   state.role = 'peserta';
   SFX.click();
-  // Reset input kode
   document.querySelectorAll('.code-digit').forEach(inp => inp.value = '');
   document.getElementById('codeModal').classList.remove('hidden');
   setTimeout(() => document.querySelector('.code-digit').focus(), 100);
@@ -983,18 +1049,18 @@ function enterAsJuri() {
   document.getElementById('stagePeserta').style.display = 'none';
   document.getElementById('panelJuri').style.display = 'flex';
 
-  // Generate kode room baru
   state.roomCode = generateRoomCode();
   document.getElementById('roomCode').textContent = state.roomCode;
 
-  // Setup default 3 regu
   if (state.teams.length === 0) {
-    initTeams(3);
-    state.totalReguAktif = 3;
+    initTeams(MIN_TEAMS);
+    state.totalReguAktif = MIN_TEAMS;
   }
+  renderQuickCountBtns();
   renderTeams();
   renderLeaderboard();
   updateStatusChip();
+  updateTeamCountUI();
   showToast('👨‍⚖️ Anda masuk sebagai JURI. Kode: ' + state.roomCode, 'ok');
 }
 
@@ -1010,7 +1076,7 @@ function backToLanding() {
 }
 
 /* ============================================================
-   INPUT KODE OTOMATIS PINDAH FOKUS
+   INPUT KODE OTOMATIS
    ============================================================ */
 document.querySelectorAll('.code-digit').forEach(inp => {
   inp.addEventListener('input', (e) => {
@@ -1020,7 +1086,6 @@ document.querySelectorAll('.code-digit').forEach(inp => {
       const next = document.querySelector(`.code-digit[data-idx="${parseInt(e.target.dataset.idx) + 1}"]`);
       if (next) next.focus();
     }
-    // Auto submit jika 6 digit terisi
     const allFilled = [...document.querySelectorAll('.code-digit')].every(i => i.value);
     if (allFilled) setTimeout(validateCode, 200);
   });
@@ -1056,19 +1121,18 @@ function validateCode() {
     }, 500);
     return;
   }
-  // Kode valid
   SFX.success();
   document.getElementById('codeModal').classList.add('hidden');
   openPesertaModal();
 }
 
 /* ============================================================
-   MODAL PESERTA — PILIH REGU
+   MODAL PESERTA
    ============================================================ */
 function openPesertaModal() {
   const box = document.getElementById('pesertaTeamChoices');
   box.innerHTML = '';
-  const total = state.totalReguAktif || state.teams.length || 3;
+  const total = state.totalReguAktif || MIN_TEAMS;
   document.getElementById('pesertaModalSub').textContent = `Pilih regu Anda (${total} regu aktif)`;
   for (let i = 0; i < total; i++) {
     const t = state.teams[i] || { name: 'Regu ' + TEAM_NAMES[i], color: TEAM_COLORS[i] };
@@ -1109,8 +1173,8 @@ function selectPesertaTeam(idx) {
   document.getElementById('pesertaDot').style.background = t.color;
   document.getElementById('pesertaName').textContent = t.name;
   document.getElementById('pesertaName').style.color = t.color;
-  document.getElementById('pesertaBtn').style.borderColor = t.color;
   const btn = document.getElementById('pesertaBtn');
+  btn.style.borderColor = t.color;
   btn.style.background = `radial-gradient(circle at 35% 30%, ${t.color}dd 0%, ${t.color} 60%, ${t.color}bb 100%)`;
 
   document.getElementById('roomCode').textContent = state.roomCode;
@@ -1119,11 +1183,77 @@ function selectPesertaTeam(idx) {
 }
 
 /* ============================================================
-   SETUP PANEL JURI
+   ⚙️ PANEL PENGATURAN JUMLAH KELOMPOK
+   ============================================================ */
+function renderQuickCountBtns() {
+  const box = document.getElementById('quickCountBtns');
+  box.innerHTML = '';
+  for (let n = MIN_TEAMS; n <= MAX_TEAMS; n++) {
+    const btn = document.createElement('button');
+    btn.textContent = n;
+    btn.dataset.count = n;
+    btn.onclick = () => setTeamCount(n);
+    box.appendChild(btn);
+  }
+  highlightQuickCountBtn();
+}
+
+function highlightQuickCountBtn() {
+  document.querySelectorAll('.quick-count-btns button').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.count) === state.totalReguAktif);
+  });
+}
+
+function updateTeamCountUI() {
+  document.getElementById('teamCountValue').innerHTML = `${state.totalReguAktif}<small>KELOMPOK TAMPIL</small>`;
+  document.getElementById('teamCountBadge').textContent = state.totalReguAktif;
+  document.getElementById('btnMinus').disabled = state.totalReguAktif <= MIN_TEAMS;
+  document.getElementById('btnPlus').disabled = state.totalReguAktif >= MAX_TEAMS;
+  highlightQuickCountBtn();
+}
+
+function changeTeamCount(delta) {
+  const newCount = state.totalReguAktif + delta;
+  if (newCount < MIN_TEAMS || newCount > MAX_TEAMS) return;
+  setTeamCount(newCount);
+}
+
+function setTeamCount(n) {
+  if (n < MIN_TEAMS || n > MAX_TEAMS) return;
+  state.totalReguAktif = n;
+
+  // Pastikan array teams punya cukup entri
+  while (state.teams.length < n) {
+    const i = state.teams.length;
+    state.teams.push({
+      id: i,
+      name: 'Regu ' + TEAM_NAMES[i],
+      color: TEAM_COLORS[i],
+      score: 0
+    });
+  }
+
+  // Jika ada peserta yang terpilih di luar batas, reset
+  if (state.pesertaTeamId !== null && state.pesertaTeamId >= n) {
+    state.pesertaTeamId = null;
+  }
+
+  // Reset active team jika sudah di luar
+  if (state.activeTeam !== null && state.activeTeam >= n) {
+    state.activeTeam = null;
+  }
+
+  updateTeamCountUI();
+  renderTeams();
+  renderLeaderboard();
+  SFX.click();
+  showToast(`👥 Jumlah kelompok tampil: ${n}`, 'ok');
+}
+
+/* ============================================================
+   SETUP NAMA REGU
    ============================================================ */
 function openSetup() {
-  const sel = document.getElementById('teamCountSel');
-  sel.value = state.teams.length || 3;
   renderTeamInputs();
   setTimeout(() => {
     state.teams.forEach((t, i) => {
@@ -1135,7 +1265,7 @@ function openSetup() {
 }
 
 function renderTeamInputs() {
-  const n = parseInt(document.getElementById('teamCountSel').value);
+  const n = state.totalReguAktif;
   const box = document.getElementById('teamInputs');
   box.innerHTML = '';
   for (let i = 0; i < n; i++) {
@@ -1151,46 +1281,46 @@ function renderTeamInputs() {
 }
 
 function saveSetup() {
-  const n = parseInt(document.getElementById('teamCountSel').value);
-  const oldTeams = state.teams;
-  state.teams = [];
+  const n = state.totalReguAktif;
   for (let i = 0; i < n; i++) {
     const inp = document.getElementById('teamName_' + i);
-    const name = inp ? inp.value.trim() : ('Regu ' + TEAM_NAMES[i]);
-    state.teams.push({
-      id: i,
-      name: name || ('Regu ' + TEAM_NAMES[i]),
-      color: TEAM_COLORS[i],
-      score: oldTeams[i] ? oldTeams[i].score : 0
-    });
+    if (inp && state.teams[i]) {
+      state.teams[i].name = inp.value.trim() || ('Regu ' + TEAM_NAMES[i]);
+    }
   }
-  state.totalReguAktif = n;
   document.getElementById('setupModal').classList.add('hidden');
   renderTeams();
   renderLeaderboard();
   SFX.success();
-  showToast(`✅ Setup tersimpan: ${n} regu aktif`, 'ok');
+  showToast('✅ Nama regu tersimpan', 'ok');
 }
 
 /* ============================================================
-   RENDER
+   RENDER TEAMS
    ============================================================ */
 function renderTeams() {
   const list = document.getElementById('teamsList');
   if (!list) return;
   list.innerHTML = '';
-  state.teams.forEach(t => {
+  state.teams.forEach((t, i) => {
+    const isActive = i < state.totalReguAktif;
     const row = document.createElement('div');
-    row.className = 'team-row' + (state.activeTeam === t.id ? ' active' : '');
+    row.className = 'team-row' +
+      (state.activeTeam === t.id ? ' active' : '') +
+      (!isActive ? ' inactive' : '');
     const connected = state.connectedTeams.has(t.id);
     row.innerHTML = `
       <div class="num" style="background:${t.color}">${t.id + 1}</div>
-      <div class="name">${t.name}</div>
+      <div class="name">${t.name}${!isActive ? ' <em style="font-size:0.65rem; color:#999;">(nonaktif)</em>' : ''}</div>
       <span class="conn-status ${connected ? 'on' : 'off'}">${connected ? '● ON' : '○ OFF'}</span>
       <div class="score">${t.score}</div>
     `;
-    row.onclick = () => pressBuzzer(t.id);
-    row.style.cursor = 'pointer';
+    if (isActive) {
+      row.onclick = () => pressBuzzer(t.id);
+      row.style.cursor = 'pointer';
+    } else {
+      row.style.cursor = 'not-allowed';
+    }
     list.appendChild(row);
   });
   const live = document.getElementById('liveIndicator');
@@ -1207,7 +1337,9 @@ function renderLeaderboard() {
   if (!lb) return;
   lb.innerHTML = '';
   if (state.teams.length === 0) return;
-  const sorted = [...state.teams].sort((a, b) => b.score - a.score);
+  // Hanya tampilkan yang aktif di klasemen
+  const activeTeams = state.teams.slice(0, state.totalReguAktif);
+  const sorted = [...activeTeams].sort((a, b) => b.score - a.score);
   sorted.forEach((t, i) => {
     const row = document.createElement('div');
     row.className = 'lb-row';
@@ -1274,7 +1406,7 @@ function updatePesertaUI() {
 }
 
 /* ============================================================
-   SUARA — LEBIH KERAS & JELAS
+   SUARA — KERAS & JELAS
    ============================================================ */
 const SFX = (() => {
   let ctx = null;
@@ -1283,7 +1415,6 @@ const SFX = (() => {
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
   }
-  // Compressor untuk suara lebih keras & merata
   function getCompressor() {
     const ac = c();
     const comp = ac.createDynamicsCompressor();
@@ -1303,7 +1434,6 @@ const SFX = (() => {
     o.type = type || 'sine';
     o.frequency.value = freq;
     const t = ac.currentTime;
-    // Gain lebih tinggi + ramp cepat
     g.gain.setValueAtTime(0.0001, t);
     g.gain.linearRampToValueAtTime(gainVal || 0.5, t + 0.005);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
@@ -1314,22 +1444,16 @@ const SFX = (() => {
   }
   return {
     click() { beep(800, 0.06, 'sine', 0.3); },
-    // BEL KERAS: multi-layer + gain tinggi
     buzz(teamIndex) {
       const base = 500 + (teamIndex || 0) * 60;
-      // Layer 1: frekuensi dasar tinggi
       beep(base, 0.25, 'square', 0.6, true);
       beep(base * 1.5, 0.3, 'square', 0.5, true);
       beep(base * 2, 0.35, 'sawtooth', 0.4, true);
-      // Gema kedua
       setTimeout(() => {
         beep(base * 1.2, 0.2, 'square', 0.5, true);
         beep(base * 1.8, 0.25, 'triangle', 0.4, true);
       }, 180);
-      setTimeout(() => {
-        beep(base, 0.4, 'square', 0.4, true);
-      }, 380);
-      // Sub-bass untuk "punch"
+      setTimeout(() => beep(base, 0.4, 'square', 0.4, true), 380);
       setTimeout(() => beep(base / 2, 0.3, 'sine', 0.6, true), 50);
     },
     success() {
@@ -1389,7 +1513,7 @@ function toggleSound() {
    ARM / RESET / LOCK
    ============================================================ */
 function armBuzzer() {
-  if (state.teams.length === 0) { showToast('⚠️ Setup regu dulu', 'warn'); return; }
+  if (state.totalReguAktif === 0) { showToast('⚠️ Atur jumlah kelompok dulu', 'warn'); return; }
   state.buzzerArmed = true;
   state.activeTeam = null;
   state.roundNumber++;
@@ -1453,12 +1577,18 @@ function lockBuzzer() {
 }
 
 /* ============================================================
-   PESERTA MENEKAN BEL
+   PRESS BUZZER
    ============================================================ */
 function pressBuzzer(teamId) {
   if (teamId === undefined) {
     teamId = state.pesertaTeamId;
     if (teamId === null || teamId === undefined) return;
+  }
+
+  // Cek apakah regu ini aktif (di dalam totalReguAktif)
+  if (teamId >= state.totalReguAktif) {
+    showToast('⚠️ Regu ini tidak aktif', 'warn');
+    return;
   }
 
   if (!state.buzzerArmed) {
@@ -1494,7 +1624,6 @@ function pressBuzzer(teamId) {
 
   document.getElementById('evalActions').style.display = 'grid';
 
-  // BEL KERAS
   SFX.buzz(teamId);
   setTimeout(() => SFX.applause(), 500);
 
@@ -1615,7 +1744,6 @@ document.addEventListener('DOMContentLoaded', () => {
     pressBuzzer(state.pesertaTeamId);
   });
 
-  // Keyboard shortcut
   document.addEventListener('keydown', e => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
     if (state.role === 'juri') {
@@ -1624,7 +1752,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'l' || e.key === 'L') lockBuzzer();
       if (e.key === 'm' || e.key === 'M') toggleSound();
       const num = parseInt(e.key);
-      if (num >= 1 && num <= 9 && state.teams[num - 1]) {
+      if (num >= 1 && num <= state.totalReguAktif) {
         pressBuzzer(num - 1);
       }
     }
