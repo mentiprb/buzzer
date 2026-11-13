@@ -5,25 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SMART BUZZER — Cerdas Cermat Digital</title>
 <style>
-/* ============================================================
-   TEMA: Pastel Cerah (Kuning + Merah + Putih Cream)
-   ============================================================ */
 * { margin:0; padding:0; box-sizing:border-box; }
 :root {
-  --bg: #fff8e7; --bg2: #ffeaa7; --panel: #fffdf7; --card: #ffffff;
-  --yellow: #ffd93d; --yellow-soft: #fff3b0; --yellow-deep: #f6c90e;
-  --red: #ff6b6b; --red-soft: #ffb3b3; --red-deep: #ee5253;
-  --orange: #ff9f43; --green: #26de81; --green-deep: #20bf6b;
-  --purple: #a55eea; --pink: #fd79a8; --cyan: #45aaf2;
-  --text: #2d2d2d; --text-soft: #6b6b6b; --dim: #999;
-  --border: rgba(255,107,107,0.25);
-  --shadow: 0 8px 30px rgba(255,107,107,0.15);
+  --bg:#fff8e7; --bg2:#ffeaa7; --card:#ffffff; --panel:#fffdf7;
+  --yellow:#ffd93d; --yellow-soft:#fff3b0; --red:#ff6b6b; --red-soft:#ffb3b3;
+  --green:#26de81; --purple:#a55eea; --blue:#45aaf2;
+  --text:#2d2d2d; --text-soft:#6b6b6b; --dim:#999;
 }
 body.dark {
-  --bg: #2d1b2e; --bg2: #3d2438; --panel: #4a2c42; --card: #573348;
-  --text: #fff8e7; --text-soft: #e0c8d8; --dim: #b89aae;
-  --border: rgba(255,217,61,0.3);
-  --shadow: 0 8px 30px rgba(0,0,0,0.4);
+  --bg:#2d1b2e; --bg2:#3d2438; --card:#573348; --panel:#4a2c42;
+  --text:#fff8e7; --text-soft:#e0c8d8; --dim:#b89aae;
 }
 html, body { height:100%; font-family:'Segoe UI',system-ui,sans-serif; color:var(--text); overflow:hidden; }
 body {
@@ -31,14 +22,6 @@ body {
     radial-gradient(ellipse at 20% 0%, var(--yellow-soft) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 100%, var(--red-soft) 0%, transparent 50%),
     linear-gradient(135deg, var(--bg) 0%, var(--bg2) 100%);
-  transition: background 0.4s;
-}
-body::before {
-  content:''; position:fixed; inset:0;
-  background:
-    radial-gradient(circle at 15% 30%, rgba(255,217,61,0.25) 0%, transparent 35%),
-    radial-gradient(circle at 85% 70%, rgba(255,107,107,0.2) 0%, transparent 35%);
-  pointer-events:none; z-index:0;
 }
 
 /* LANDING */
@@ -46,439 +29,250 @@ body::before {
   position:fixed; inset:0; z-index:100;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   padding:20px; overflow-y:auto;
-  background:
-    radial-gradient(ellipse at 20% 10%, #fff3b0 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 90%, #ffb3b3 0%, transparent 60%),
-    linear-gradient(135deg, #fff8e7 0%, #ffeaa7 100%);
-  animation: fadeIn 0.5s;
+  background: linear-gradient(135deg, #fff8e7 0%, #ffeaa7 100%);
 }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-.landing .icon-big {
-  font-size:clamp(4rem,10vw,6rem); margin-bottom:16px;
-  animation: float 3s ease-in-out infinite;
-  filter: drop-shadow(0 10px 20px rgba(255,107,107,0.3));
-}
-@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
 .landing h1 {
   font-size:clamp(2rem,7vw,4rem); font-weight:900; text-align:center;
-  background: linear-gradient(90deg,#ee5253,#f6c90e,#ee5253);
-  background-size:200% 100%;
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-  animation: shine 3s linear infinite; margin-bottom:10px; letter-spacing:1px;
+  background:linear-gradient(90deg,#ee5253,#f6c90e,#ee5253);
+  background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation:shine 3s linear infinite; margin-bottom:10px;
 }
 @keyframes shine { to { background-position:200% 0; } }
-.landing .sub {
-  color:#6b6b6b; font-size:clamp(0.9rem,2vw,1.2rem);
-  margin-bottom:36px; text-align:center; font-weight:600; max-width:520px;
-}
+.landing .sub { color:#6b6b6b; font-size:1.1rem; margin-bottom:36px; text-align:center; max-width:520px; }
 .landing-choices { display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:720px; width:100%; }
 @media (max-width:600px) { .landing-choices { grid-template-columns:1fr; } }
 .choice-btn {
   padding:32px 24px; border-radius:24px; border:3px solid transparent;
-  background:#ffffff; color:#2d2d2d; font-family:inherit; cursor:pointer;
-  transition:all 0.3s; text-align:center;
+  background:#fff; font-family:inherit; cursor:pointer; transition:all 0.3s;
   box-shadow:0 10px 30px rgba(238,82,83,0.15);
-  position:relative; overflow:hidden;
 }
-.choice-btn:hover { transform:translateY(-8px) scale(1.02); box-shadow:0 20px 50px rgba(238,82,83,0.3); }
+.choice-btn:hover { transform:translateY(-8px); box-shadow:0 20px 50px rgba(238,82,83,0.3); }
 .choice-btn .c-icon { font-size:3.5rem; margin-bottom:12px; display:block; }
 .choice-btn .c-title { font-size:1.4rem; font-weight:900; margin-bottom:6px; }
-.choice-btn .c-desc { font-size:0.85rem; color:#6b6b6b; line-height:1.5; }
-.choice-btn.peserta { border-color:#ffd93d; background:linear-gradient(160deg,#ffffff 0%,#fff8e7 100%); }
+.choice-btn .c-desc { font-size:0.85rem; color:#6b6b6b; }
+.choice-btn.peserta { border-color:#ffd93d; }
 .choice-btn.peserta .c-title { color:#f6c90e; }
-.choice-btn.juri { border-color:#ff6b6b; background:linear-gradient(160deg,#ffffff 0%,#ffe8e8 100%); }
+.choice-btn.juri { border-color:#ff6b6b; }
 .choice-btn.juri .c-title { color:#ee5253; }
 
-/* KODE INPUT */
-.code-input-wrap { display:flex; gap:8px; justify-content:center; margin:20px 0; }
-.code-digit {
-  width:52px; height:64px; border-radius:12px;
-  border:3px solid #ffd93d; background:#ffffff;
-  font-family:'Courier New',monospace; font-size:1.8rem; font-weight:900;
-  text-align:center; color:#2d2d2d; outline:none; transition:all 0.2s;
-}
-.code-digit:focus { border-color:#ff6b6b; box-shadow:0 0 0 4px rgba(255,107,107,0.15); transform:translateY(-2px); }
-@media (max-width:500px) { .code-digit { width:44px; height:54px; font-size:1.4rem; } }
-
 /* APP */
-.app { position:relative; z-index:1; height:100vh; display:flex; flex-direction:column; padding:12px; gap:12px; }
+.app { height:100vh; display:flex; flex-direction:column; padding:12px; gap:12px; }
 .app.hidden { display:none; }
-.app.peserta-mode .panel-juri { display:none; }
-.app.peserta-mode .main { grid-template-columns:1fr; }
-.app.peserta-mode .stage-peserta { display:flex; }
-.app.peserta-mode .stage-monitor { display:none; }
-.app.juri-mode .stage-peserta { display:none; }
-
-/* HEADER */
 .header {
   display:flex; justify-content:space-between; align-items:center;
-  padding:12px 22px;
-  background:linear-gradient(135deg,#ffffff 0%,#fff8e7 100%);
-  border:2px solid #ffd93d; border-radius:16px;
-  box-shadow:0 6px 24px rgba(246,201,14,0.2);
-  flex-wrap:wrap; gap:10px;
+  padding:12px 22px; background:#fff; border:2px solid #ffd93d;
+  border-radius:16px; flex-wrap:wrap; gap:10px;
 }
-body.dark .header { background:linear-gradient(135deg,var(--panel) 0%,var(--card) 100%); border-color:var(--border); }
-.logo { display:flex; align-items:center; gap:10px; font-weight:900; font-size:1.15rem; color:#ee5253; letter-spacing:1px; }
-.logo .icon {
-  width:40px; height:40px;
-  background:linear-gradient(135deg,#ffd93d,#ff9f43);
-  border-radius:11px; display:flex; align-items:center; justify-content:center;
-  font-size:1.3rem; box-shadow:0 4px 12px rgba(255,159,67,0.4);
-}
-.header-actions { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-.btn-icon {
-  width:40px; height:40px; border-radius:10px; border:2px solid #ffd93d;
-  background:#ffffff; color:#ee5253; font-size:1.1rem; cursor:pointer;
-  transition:all 0.2s; display:flex; align-items:center; justify-content:center;
-}
-body.dark .btn-icon { background:var(--card); border-color:var(--border); color:var(--yellow); }
-.btn-icon:hover { border-color:#ff6b6b; transform:scale(1.05); }
-.btn-icon.active { background:#ffd93d; color:#2d2d2d; }
+.logo { font-weight:900; color:#ee5253; font-size:1.15rem; }
 .room-badge {
   display:flex; align-items:center; gap:8px;
   background:linear-gradient(135deg,#ffd93d,#f6c90e);
   border:2px solid #f6c90e; padding:8px 16px; border-radius:12px;
-  box-shadow:0 4px 12px rgba(246,201,14,0.3);
 }
-.room-badge .lbl { font-size:0.6rem; color:#6b5a00; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; }
-.room-badge .code { font-family:'Courier New',monospace; font-size:1.1rem; font-weight:900; color:#2d2d2d; letter-spacing:3px; }
+.room-badge .lbl { font-size:0.6rem; font-weight:800; color:#6b5a00; }
+.room-badge .code { font-family:'Courier New',monospace; font-size:1.1rem; font-weight:900; letter-spacing:3px; }
+.btn-icon {
+  width:40px; height:40px; border-radius:10px; border:2px solid #ffd93d;
+  background:#fff; cursor:pointer; font-size:1.1rem;
+}
 
-/* MAIN */
-.main { flex:1; display:grid; grid-template-columns:1fr 340px; gap:12px; min-height:0; }
+.main { flex:1; display:grid; grid-template-columns:1fr 360px; gap:12px; min-height:0; }
 @media (max-width:960px) { .main { grid-template-columns:1fr; overflow-y:auto; } }
 
-/* STAGE MONITOR */
-.stage-monitor {
-  background:linear-gradient(160deg,#ffffff 0%,#fff8e7 100%);
-  border:3px solid #ff6b6b; border-radius:20px;
+.stage {
+  background:#fff; border:3px solid #ff6b6b; border-radius:20px;
   padding:22px; display:flex; flex-direction:column; gap:14px;
   position:relative; overflow:hidden; min-height:0;
-  box-shadow:0 12px 40px rgba(238,82,83,0.15);
 }
-body.dark .stage-monitor { background:linear-gradient(160deg,var(--panel) 0%,var(--card) 100%); }
-.stage-monitor::before {
+.stage::before {
   content:''; position:absolute; inset:0;
-  background: conic-gradient(from 0deg at 50% 50%, transparent, rgba(255,217,61,0.06), transparent, rgba(255,107,107,0.06), transparent);
-  animation: spin 30s linear infinite; pointer-events:none;
+  background:conic-gradient(from 0deg at 50% 50%, transparent, rgba(255,217,61,0.06), transparent, rgba(255,107,107,0.06), transparent);
+  animation:spin 30s linear infinite; pointer-events:none;
 }
 @keyframes spin { to { transform:rotate(360deg); } }
-.stage-top { display:flex; justify-content:space-between; align-items:center; position:relative; z-index:1; flex-wrap:wrap; gap:10px; }
-.stage-title { font-size:0.8rem; color:#ee5253; letter-spacing:3px; font-weight:800; text-transform:uppercase; }
-.stage-status { display:flex; gap:8px; align-items:center; }
-.chip {
-  font-size:0.7rem; font-weight:800; padding:6px 14px; border-radius:20px;
-  letter-spacing:1px; text-transform:uppercase;
-}
+.stage-title { font-size:0.8rem; color:#ee5253; letter-spacing:3px; font-weight:800; position:relative; z-index:1; }
+.chip { font-size:0.7rem; font-weight:800; padding:6px 14px; border-radius:20px; text-transform:uppercase; }
 .chip.stby { background:rgba(107,107,107,0.15); color:#6b6b6b; }
 .chip.siap { background:rgba(38,222,129,0.2); color:#20bf6b; animation:pulse 1s infinite; }
 .chip.hit { background:rgba(238,82,83,0.2); color:#ee5253; }
-.chip.lock { background:rgba(246,201,14,0.3); color:#d4a800; }
 @keyframes pulse { 50% { opacity:0.4; } }
 
-.big-buzzer {
-  position:relative; z-index:1; flex:1;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  text-align:center; min-height:0; padding:10px;
+/* TIMER */
+.timer-box {
+  background:linear-gradient(135deg,#fff8e7,#ffeaa7);
+  border:3px solid #ffd93d; border-radius:16px;
+  padding:16px; position:relative; z-index:1;
 }
-.idle-display .idle-icon {
-  font-size:5rem; margin-bottom:14px;
-  animation:float 3s ease-in-out infinite;
-  filter:drop-shadow(0 8px 16px rgba(255,159,67,0.3));
+.timer-box .tb-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.timer-box .tb-label { font-size:0.72rem; font-weight:900; color:#ee5253; letter-spacing:1.5px; text-transform:uppercase; }
+.timer-box .tb-time {
+  font-family:'Courier New',monospace; font-size:2.6rem; font-weight:900;
+  color:#2d2d2d; text-align:center; line-height:1;
 }
+.timer-box .tb-time.warning { color:#ee5253; animation:pulse 0.5s infinite; }
+.timer-box .tb-time.danger { color:#ff0000; animation:pulse 0.3s infinite; }
+.progress-bar {
+  height:10px; background:#ffeaa7; border-radius:5px;
+  overflow:hidden; margin-top:10px;
+}
+.progress-bar .fill {
+  height:100%; background:linear-gradient(90deg,#26de81,#20bf6b);
+  transition:width 0.3s, background 0.3s;
+}
+.progress-bar .fill.warning { background:linear-gradient(90deg,#ffd93d,#f6c90e); }
+.progress-bar .fill.danger { background:linear-gradient(90deg,#ff6b6b,#ee5253); }
+.timer-controls { display:flex; gap:6px; margin-top:10px; flex-wrap:wrap; }
+.timer-controls button {
+  flex:1; padding:8px; border-radius:8px; border:none;
+  font-family:inherit; font-weight:900; font-size:0.7rem;
+  cursor:pointer; text-transform:uppercase;
+}
+.timer-controls .tc-start { background:linear-gradient(135deg,#26de81,#20bf6b); color:white; }
+.timer-controls .tc-pause { background:#ffd93d; color:#2d2d2d; }
+.timer-controls .tc-reset { background:#ff6b6b; color:white; }
+
+/* BIG BUZZER */
+.big-buzzer { position:relative; z-index:1; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+.idle-display .idle-icon { font-size:5rem; margin-bottom:14px; }
 .idle-display .idle-text {
   font-size:clamp(1.4rem,3.5vw,2.4rem); font-weight:900;
   background:linear-gradient(90deg,#ee5253,#f6c90e,#ee5253);
-  background-size:200% 100%;
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-  animation:shine 3s linear infinite; margin-bottom:8px;
+  background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation:shine 3s linear infinite;
 }
-.idle-display .idle-sub { color:#6b6b6b; font-size:0.95rem; font-weight:600; }
-body.dark .idle-display .idle-sub { color:var(--text-soft); }
-
-.active-display { display:none; flex-direction:column; align-items:center; justify-content:center; position:relative; }
+.idle-display .idle-sub { color:#6b6b6b; font-size:0.95rem; margin-top:8px; }
+.active-display { display:none; flex-direction:column; align-items:center; }
 .active-display.show { display:flex; animation:zoomIn 0.5s; }
 @keyframes zoomIn { from { transform:scale(0.4); opacity:0; } to { transform:scale(1); opacity:1; } }
-.active-display::before {
-  content:''; position:absolute; inset:-40px;
-  background:radial-gradient(circle, currentColor 0%, transparent 65%);
-  opacity:0.2; pointer-events:none; animation:pulse 2s infinite;
-}
 .buzzer-badge {
-  font-size:clamp(1rem,2vw,1.4rem); font-weight:900;
-  padding:12px 34px; border-radius:100px; letter-spacing:2px;
-  margin-bottom:16px; text-transform:uppercase; color:white;
-  box-shadow:0 0 40px currentColor; animation:glowPulse 1.5s infinite;
-  position:relative; z-index:1;
+  font-size:1.2rem; font-weight:900; padding:12px 34px; border-radius:100px;
+  letter-spacing:2px; margin-bottom:16px; text-transform:uppercase; color:white;
+  box-shadow:0 0 40px currentColor;
 }
-@keyframes glowPulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
 .buzzer-name {
   font-size:clamp(2.2rem,7vw,5rem); font-weight:900; line-height:1;
-  margin-bottom:10px; text-shadow:0 4px 30px currentColor; position:relative; z-index:1;
+  text-shadow:0 4px 30px currentColor;
 }
-.buzzer-num { font-size:clamp(1rem,2vw,1.4rem); color:#6b6b6b; font-weight:700; margin-bottom:8px; position:relative; z-index:1; }
-body.dark .buzzer-num { color:var(--text-soft); }
-.buzzer-time { font-family:'Courier New',monospace; font-size:clamp(0.9rem,1.8vw,1.3rem); color:#6b6b6b; font-weight:700; position:relative; z-index:1; }
+
+/* LEADERBOARD */
+.leaderboard {
+  background:#fff8e7; border-radius:14px; padding:12px 14px;
+  border:2px dashed #ffd93d; position:relative; z-index:1;
+}
+.leaderboard h4 { font-size:0.72rem; color:#ee5253; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; }
+.lb-row { display:flex; align-items:center; gap:8px; padding:5px 0; }
+.lb-rank { width:24px; text-align:center; font-weight:900; color:#ee5253; }
+.lb-dot { width:10px; height:10px; border-radius:50%; }
+.lb-name { flex:1; font-weight:800; }
+.lb-score { font-weight:900; color:#ee5253; font-family:'Courier New',monospace; }
+
+/* PANEL JURI */
+.panel {
+  background:#fff; border:3px solid #ffd93d; border-radius:20px;
+  padding:16px; display:flex; flex-direction:column; gap:10px;
+  overflow-y:auto;
+}
+.panel h2 { font-size:0.9rem; color:#ee5253; letter-spacing:2px; text-transform:uppercase; }
+.joined-panel {
+  background:linear-gradient(135deg,#e8fff5,#d4f8e8);
+  border:2px dashed #26de81; border-radius:14px; padding:12px;
+}
+.joined-panel h3 { font-size:0.72rem; color:#20bf6b; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; display:flex; justify-content:space-between; }
+.joined-list { display:flex; flex-direction:column; gap:4px; max-height:160px; overflow-y:auto; }
+.joined-item {
+  display:flex; justify-content:space-between; padding:6px 10px;
+  background:#fff; border-radius:6px; border-left:3px solid #26de81;
+  font-size:0.75rem;
+}
+.joined-item .ji-name { font-weight:900; }
+.joined-item .ji-dev { font-family:'Courier New',monospace; color:#6b6b6b; font-size:0.65rem; }
+
+.settings-panel {
+  background:linear-gradient(135deg,#fff8e7,#ffeaa7);
+  border:2px dashed #f6c90e; border-radius:14px; padding:14px;
+}
+.sp-header { display:flex; justify-content:space-between; margin-bottom:10px; }
+.sp-title { font-size:0.78rem; font-weight:900; color:#ee5253; }
+.sp-badge { background:#ee5253; color:white; padding:3px 10px; border-radius:20px; font-size:0.75rem; font-weight:900; }
+.stepper { display:flex; align-items:center; justify-content:space-between; background:#fff; border-radius:10px; padding:6px; border:2px solid #ffd93d; }
+.stepper button {
+  width:40px; height:40px; border-radius:8px; border:none; cursor:pointer;
+  font-size:1.4rem; font-weight:900; background:#ffeaa7; color:#ee5253;
+}
+.stepper button:disabled { opacity:0.3; cursor:not-allowed; }
+.stepper .value { flex:1; text-align:center; font-size:1.6rem; font-weight:900; color:#ee5253; font-family:'Courier New',monospace; }
+.quick-count { display:grid; grid-template-columns:repeat(8,1fr); gap:4px; margin-top:8px; }
+.quick-count button {
+  padding:6px 0; border-radius:6px; border:2px solid #ffeaa7;
+  background:#fff; font-weight:900; font-size:0.72rem; cursor:pointer;
+}
+.quick-count button.active { background:linear-gradient(135deg,#ffd93d,#f6c90e); border-color:#f6c90e; }
+
+.teams-list { display:flex; flex-direction:column; gap:6px; max-height:220px; overflow-y:auto; }
+.team-row {
+  display:flex; align-items:center; gap:8px; padding:10px 12px;
+  background:#fff8e7; border-radius:10px; border-left:4px solid #b8b8b8;
+}
+.team-row.active { border-left-color:#ffd93d; background:#fff3b0; }
+.team-row .num { width:26px; height:26px; display:flex; align-items:center; justify-content:center; border-radius:7px; font-weight:900; font-size:0.8rem; color:white; }
+.team-row .name { flex:1; font-weight:800; font-size:0.85rem; }
+.team-row .score { font-family:'Courier New',monospace; font-weight:900; color:#ee5253; }
+.team-row .release-btn {
+  background:#fff; border:1.5px solid #ff6b6b; color:#ee5253;
+  border-radius:6px; padding:3px 8px; font-size:0.65rem; font-weight:900; cursor:pointer;
+}
+
+.ctrl-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.ctrl-btn {
+  padding:12px 8px; border-radius:10px; border:none; font-family:inherit;
+  font-weight:900; font-size:0.72rem; cursor:pointer; color:white;
+  text-transform:uppercase; letter-spacing:0.5px;
+}
+.ctrl-btn:disabled { opacity:0.4; cursor:not-allowed; }
+.ctrl-btn.arm { background:linear-gradient(135deg,#26de81,#20bf6b); }
+.ctrl-btn.reset { background:linear-gradient(135deg,#ffd93d,#f6c90e); color:#2d2d2d; }
+.ctrl-btn.lock { background:linear-gradient(135deg,#ff6b6b,#ee5253); }
+.ctrl-btn.correct { background:linear-gradient(135deg,#26de81,#20bf6b); }
+.ctrl-btn.wrong { background:linear-gradient(135deg,#ff6b6b,#ee5253); }
+.ctrl-btn.code-reset { background:linear-gradient(135deg,#a55eea,#8e44ad); }
+.ctrl-btn.secondary { background:#fff; color:#2d2d2d; border:2px solid #ffd93d; }
 
 /* PESERTA */
-.stage-peserta {
-  background:linear-gradient(160deg,#ffffff 0%,#fff8e7 100%);
-  border:3px solid #ffd93d; border-radius:20px;
+.peserta-stage {
+  background:#fff; border:3px solid #ffd93d; border-radius:20px;
   padding:22px; display:flex; flex-direction:column; gap:14px;
   min-height:0; position:relative; overflow:hidden;
-  box-shadow:0 12px 40px rgba(246,201,14,0.2);
 }
-body.dark .stage-peserta { background:linear-gradient(160deg,var(--panel) 0%,var(--card) 100%); }
-.stage-peserta::before {
-  content:''; position:absolute; inset:0;
-  background: conic-gradient(from 0deg at 50% 50%, transparent, rgba(255,217,61,0.08), transparent, rgba(255,107,107,0.08), transparent);
-  animation: spin 30s linear infinite; pointer-events:none;
-}
-.peserta-header { display:flex; justify-content:space-between; align-items:center; position:relative; z-index:1; flex-wrap:wrap; gap:8px; }
+.peserta-header { display:flex; justify-content:space-between; align-items:center; }
 .peserta-team-badge {
-  display:flex; align-items:center; gap:10px; background:#ffffff;
+  display:flex; align-items:center; gap:10px; background:#fff;
   border:2px solid #ff6b6b; padding:8px 16px; border-radius:12px;
-  box-shadow:0 4px 12px rgba(255,107,107,0.15);
 }
 .peserta-team-badge .dot { width:16px; height:16px; border-radius:50%; }
 .peserta-team-badge .name { font-weight:900; font-size:1rem; color:#ee5253; }
 .peserta-status { padding:8px 16px; border-radius:20px; font-size:0.85rem; font-weight:800; }
 
-.peserta-btn-wrap { flex:1; display:flex; align-items:center; justify-content:center; position:relative; z-index:1; padding:20px; }
+.peserta-btn-wrap { flex:1; display:flex; align-items:center; justify-content:center; padding:20px; }
 .peserta-buzz-btn {
   width:min(75vw,75vh,500px); height:min(75vw,75vh,500px);
   border-radius:50%; border:8px solid #ff6b6b;
-  background: radial-gradient(circle at 35% 30%, #ffd93d 0%, #ff9f43 40%, #ff6b6b 80%);
-  color:#ffffff; font-size:clamp(2rem,6vw,4rem); font-weight:900;
+  background:radial-gradient(circle at 35% 30%, #ffd93d 0%, #ff9f43 40%, #ff6b6b 80%);
+  color:#fff; font-size:clamp(2rem,6vw,4rem); font-weight:900;
   cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:8px; transition:all 0.2s;
-  box-shadow: 0 20px 60px rgba(255,107,107,0.5), inset 0 -10px 30px rgba(0,0,0,0.15), inset 0 10px 30px rgba(255,255,255,0.3);
-  font-family:inherit; position:relative; user-select:none;
-  -webkit-tap-highlight-color:transparent;
-  text-shadow:0 2px 8px rgba(0,0,0,0.25);
+  gap:8px; transition:all 0.2s; font-family:inherit; user-select:none;
 }
-.peserta-buzz-btn:disabled { opacity:0.35; cursor:not-allowed; box-shadow:none; filter:grayscale(0.4); }
+.peserta-buzz-btn:disabled { opacity:0.35; cursor:not-allowed; filter:grayscale(0.4); }
 .peserta-buzz-btn:not(:disabled):hover { transform:scale(1.05); }
 .peserta-buzz-btn:not(:disabled):active { transform:scale(0.93); }
-.peserta-buzz-btn .b-icon { font-size:clamp(3rem,8vw,6rem); filter:drop-shadow(0 4px 12px rgba(0,0,0,0.2)); }
+.peserta-buzz-btn .b-icon { font-size:clamp(3rem,8vw,6rem); }
 .peserta-buzz-btn .b-text { font-size:clamp(1rem,2.5vw,1.6rem); letter-spacing:2px; }
-.peserta-buzz-btn.locked {
-  border-color:#b8b8b8;
-  background: radial-gradient(circle at 35% 30%, #e0e0e0 0%, #b8b8b8 80%);
-  color:#6b6b6b;
-}
-.peserta-buzz-btn.taken {
-  border-color:#6b6b6b;
-  background: radial-gradient(circle at 35% 30%, #a8a8a8 0%, #6b6b6b 80%);
-  color:#ffffff; animation:shake 0.5s;
-}
-.peserta-buzz-btn.success {
-  border-color:#26de81;
-  background: radial-gradient(circle at 35% 30%, #a8f0c8 0%, #26de81 80%);
-  color:#ffffff; animation:successPulse 0.8s infinite;
-}
+.peserta-buzz-btn.locked { border-color:#b8b8b8; background:radial-gradient(circle at 35% 30%, #e0e0e0 0%, #b8b8b8 80%); color:#6b6b6b; }
+.peserta-buzz-btn.taken { border-color:#6b6b6b; background:radial-gradient(circle at 35% 30%, #a8a8a8 0%, #6b6b6b 80%); }
+.peserta-buzz-btn.success { border-color:#26de81; background:radial-gradient(circle at 35% 30%, #a8f0c8 0%, #26de81 80%); animation:successPulse 0.8s infinite; }
 @keyframes successPulse {
-  0%,100% { box-shadow:0 20px 60px rgba(38,222,129,0.5), inset 0 -10px 30px rgba(0,0,0,0.15); }
-  50% { box-shadow:0 30px 80px rgba(38,222,129,0.8), inset 0 -10px 30px rgba(0,0,0,0.15); }
+  0%,100% { box-shadow:0 20px 60px rgba(38,222,129,0.5); }
+  50% { box-shadow:0 30px 80px rgba(38,222,129,0.8); }
 }
-@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)} }
-
-.ripple { position:absolute; border-radius:50%; background:rgba(255,255,255,0.6); transform:scale(0); animation:rippleAnim 0.6s ease-out; pointer-events:none; }
-@keyframes rippleAnim { to { transform:scale(4); opacity:0; } }
-
-/* PANEL JURI */
-.panel-juri {
-  background:linear-gradient(160deg,#ffffff 0%,#fff8e7 100%);
-  border:3px solid #ffd93d; border-radius:20px;
-  padding:16px; display:flex; flex-direction:column; gap:10px;
-  overflow-y:auto; position:relative; z-index:1;
-  box-shadow:0 12px 40px rgba(246,201,14,0.2);
-}
-body.dark .panel-juri { background:linear-gradient(160deg,var(--panel) 0%,var(--card) 100%); border-color:var(--border); }
-.ctrl-hdr { display:flex; justify-content:space-between; align-items:center; padding-bottom:10px; border-bottom:2px solid #ffeaa7; }
-body.dark .ctrl-hdr { border-color:var(--border); }
-.ctrl-hdr h2 { font-size:0.9rem; color:#ee5253; letter-spacing:2px; text-transform:uppercase; }
-.live-badge { font-size:0.62rem; font-weight:900; background:#ff6b6b; color:white; padding:4px 10px; border-radius:6px; animation:pulse 1.5s infinite; }
-
-/* PANEL PESERTA MASUK */
-.joined-panel {
-  background:linear-gradient(135deg,#e8fff5 0%,#d4f8e8 100%);
-  border:2px dashed #26de81; border-radius:14px; padding:12px;
-  display:flex; flex-direction:column; gap:8px;
-}
-body.dark .joined-panel { background:linear-gradient(135deg,var(--card) 0%,var(--panel) 100%); }
-.joined-panel .jp-header { display:flex; justify-content:space-between; align-items:center; }
-.joined-panel .jp-title {
-  font-size:0.75rem; font-weight:900; color:#20bf6b; letter-spacing:1px;
-  text-transform:uppercase; display:flex; align-items:center; gap:6px;
-}
-.joined-panel .jp-badge {
-  background:#26de81; color:white; padding:3px 10px; border-radius:20px;
-  font-size:0.72rem; font-weight:900; min-width:28px; text-align:center;
-}
-.joined-list { display:flex; flex-direction:column; gap:5px; max-height:200px; overflow-y:auto; }
-.joined-item {
-  display:flex; align-items:center; gap:8px; padding:7px 10px;
-  background:#ffffff; border-radius:8px; border-left:4px solid #26de81;
-  animation:slideIn 0.4s ease-out;
-}
-body.dark .joined-item { background:var(--bg); }
-@keyframes slideIn { from { transform:translateX(-10px); opacity:0; } to { transform:translateX(0); opacity:1; } }
-.joined-item .ji-dot {
-  width:14px; height:14px; border-radius:50%; flex-shrink:0;
-  box-shadow:0 0 0 3px rgba(38,222,129,0.25);
-}
-.joined-item .ji-info { flex:1; min-width:0; }
-.joined-item .ji-name {
-  font-size:0.82rem; font-weight:900; color:#2d2d2d;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
-body.dark .joined-item .ji-name { color:var(--text); }
-.joined-item .ji-meta { font-size:0.62rem; color:#6b6b6b; font-family:'Courier New',monospace; }
-.joined-empty { font-size:0.7rem; color:var(--dim); text-align:center; padding:10px 6px; font-style:italic; }
-
-/* SETTINGS PANEL */
-.settings-panel {
-  background:linear-gradient(135deg,#fff8e7 0%,#ffeaa7 100%);
-  border:2px dashed #f6c90e; border-radius:14px; padding:14px;
-  display:flex; flex-direction:column; gap:10px;
-}
-body.dark .settings-panel { background:linear-gradient(135deg,var(--card) 0%,var(--panel) 100%); border-color:var(--yellow); }
-.settings-panel .sp-header { display:flex; justify-content:space-between; align-items:center; }
-.settings-panel .sp-title { font-size:0.78rem; font-weight:900; color:#ee5253; letter-spacing:1px; text-transform:uppercase; display:flex; align-items:center; gap:6px; }
-.settings-panel .sp-badge { background:#ee5253; color:white; padding:3px 10px; border-radius:20px; font-size:0.75rem; font-weight:900; min-width:28px; text-align:center; }
-.team-count-stepper {
-  display:flex; align-items:center; justify-content:space-between;
-  background:#ffffff; border-radius:10px; padding:6px;
-  border:2px solid #ffd93d; box-shadow:0 4px 12px rgba(246,201,14,0.15);
-}
-body.dark .team-count-stepper { background:var(--bg); border-color:var(--border); }
-.team-count-stepper button {
-  width:40px; height:40px; border-radius:8px; border:none; cursor:pointer;
-  font-size:1.4rem; font-weight:900; display:flex; align-items:center; justify-content:center;
-  transition:all 0.15s; background:#ffeaa7; color:#ee5253; font-family:inherit;
-}
-body.dark .team-count-stepper button { background:var(--card); color:var(--yellow); }
-.team-count-stepper button:hover:not(:disabled) { background:#ffd93d; transform:scale(1.1); }
-.team-count-stepper button:disabled { opacity:0.3; cursor:not-allowed; }
-.team-count-stepper .value { flex:1; text-align:center; font-size:1.6rem; font-weight:900; color:#ee5253; font-family:'Courier New',monospace; }
-.team-count-stepper .value small { display:block; font-size:0.6rem; color:#6b6b6b; font-weight:700; letter-spacing:0.5px; font-family:inherit; }
-.quick-count-btns { display:grid; grid-template-columns:repeat(8,1fr); gap:4px; }
-.quick-count-btns button {
-  padding:6px 0; border-radius:6px; border:2px solid #ffeaa7;
-  background:#ffffff; color:#6b6b6b; font-family:inherit;
-  font-weight:900; font-size:0.72rem; cursor:pointer; transition:all 0.15s;
-}
-body.dark .quick-count-btns button { background:var(--card); border-color:var(--border); color:var(--text-soft); }
-.quick-count-btns button:hover { border-color:#ffd93d; transform:translateY(-1px); }
-.quick-count-btns button.active {
-  background:linear-gradient(135deg,#ffd93d,#f6c90e); color:#2d2d2d;
-  border-color:#f6c90e; box-shadow:0 4px 12px rgba(246,201,14,0.4);
-}
-@media (max-width:360px) { .quick-count-btns { grid-template-columns:repeat(4,1fr); } }
-
-/* TEAMS LIST */
-.teams-list { display:flex; flex-direction:column; gap:6px; max-height:260px; overflow-y:auto; padding-right:3px; }
-.team-row {
-  display:flex; align-items:center; gap:8px; padding:10px 12px;
-  background:#fff8e7; border-radius:10px; border-left:4px solid #b8b8b8;
-  transition:all 0.3s;
-}
-body.dark .team-row { background:var(--card); }
-.team-row.active { border-left-color:#ffd93d; background:#fff3b0; box-shadow:0 0 0 2px #ffd93d; }
-.team-row.inactive { opacity:0.4; border-left-style:dashed; }
-.team-row.joined-anim { animation:joinedFlash 1.2s ease-out; }
-@keyframes joinedFlash {
-  0% { background:#d4f8e8; box-shadow:0 0 0 3px #26de81; }
-  100% { background:#fff8e7; box-shadow:none; }
-}
-.team-row .num {
-  width:26px; height:26px; display:flex; align-items:center; justify-content:center;
-  border-radius:7px; font-weight:900; font-size:0.8rem; flex-shrink:0; color:white;
-}
-.team-row .name { flex:1; font-weight:800; font-size:0.85rem; color:#2d2d2d; }
-body.dark .team-row .name { color:var(--text); }
-.team-row .score { font-family:'Courier New',monospace; font-weight:900; color:#ee5253; font-size:0.9rem; min-width:32px; text-align:right; }
-.team-row .conn-status {
-  font-size:0.6rem; font-weight:800; padding:2px 6px;
-  border-radius:4px; text-transform:uppercase;
-}
-.conn-status.on { background:rgba(38,222,129,0.2); color:#20bf6b; }
-.conn-status.off { background:rgba(107,107,107,0.15); color:#6b6b6b; }
-.team-row .release-btn {
-  background:#ffffff; border:1.5px solid #ff6b6b; color:#ee5253;
-  border-radius:6px; padding:3px 8px; font-size:0.65rem; font-weight:900;
-  cursor:pointer; transition:all 0.15s; font-family:inherit;
-}
-body.dark .team-row .release-btn { background:var(--bg); }
-.team-row .release-btn:hover { background:#ff6b6b; color:white; }
-
-/* CTRL BUTTONS */
-.ctrl-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.ctrl-btn {
-  padding:12px 8px; border-radius:10px; border:2px solid transparent;
-  font-family:inherit; font-weight:900; font-size:0.72rem; cursor:pointer;
-  transition:all 0.15s; color:white; text-transform:uppercase; letter-spacing:0.5px;
-}
-.ctrl-btn:disabled { opacity:0.4; cursor:not-allowed; }
-.ctrl-btn:hover:not(:disabled) { transform:translateY(-2px); filter:brightness(1.1); }
-.ctrl-btn.arm { background:linear-gradient(135deg,#26de81,#20bf6b); box-shadow:0 4px 14px rgba(38,222,129,0.35); }
-.ctrl-btn.reset { background:linear-gradient(135deg,#ffd93d,#f6c90e); color:#2d2d2d; box-shadow:0 4px 14px rgba(246,201,14,0.35); }
-.ctrl-btn.lock { background:linear-gradient(135deg,#ff6b6b,#ee5253); box-shadow:0 4px 14px rgba(238,82,83,0.35); }
-.ctrl-btn.correct { background:linear-gradient(135deg,#26de81,#20bf6b); }
-.ctrl-btn.wrong { background:linear-gradient(135deg,#ff6b6b,#ee5253); }
-.ctrl-btn.secondary { background:#ffffff; color:#2d2d2d; border-color:#ffd93d; }
-body.dark .ctrl-btn.secondary { background:var(--card); color:var(--text); border-color:var(--border); }
-.ctrl-btn.code-reset { background:linear-gradient(135deg,#a55eea,#8e44ad); box-shadow:0 4px 14px rgba(165,94,234,0.35); }
-
-.settings-row {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:10px 12px; background:#fff8e7; border-radius:10px;
-  font-size:0.82rem; font-weight:700;
-}
-body.dark .settings-row { background:var(--card); }
-.switch {
-  position:relative; width:44px; height:24px; background:#b8b8b8;
-  border-radius:12px; cursor:pointer; transition:all 0.2s;
-}
-.switch::after {
-  content:''; position:absolute; top:2px; left:2px;
-  width:20px; height:20px; background:white; border-radius:50%;
-  transition:all 0.2s; box-shadow:0 2px 4px rgba(0,0,0,0.2);
-}
-.switch.on { background:#26de81; }
-.switch.on::after { left:22px; }
-
-.ctrl-section { border-top:2px solid #ffeaa7; padding-top:10px; margin-top:4px; }
-body.dark .ctrl-section { border-color:var(--border); }
-.ctrl-section h3 { font-size:0.7rem; color:#ee5253; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px; }
-.history-list { display:flex; flex-direction:column; gap:4px; max-height:100px; overflow-y:auto; }
-.history-item {
-  display:flex; justify-content:space-between; font-size:0.75rem;
-  padding:6px 10px; background:#fff8e7; border-radius:8px;
-  border-left:3px solid #ffd93d;
-}
-body.dark .history-item { background:var(--card); }
-.history-item .h-team { font-weight:800; color:#2d2d2d; }
-body.dark .history-item .h-team { color:var(--text); }
-.history-item .h-time { color:#999; font-family:'Courier New',monospace; font-size:0.7rem; }
-
-/* LEADERBOARD */
-.leaderboard {
-  position:relative; z-index:1;
-  background:#fff8e7; border-radius:14px;
-  padding:12px 14px; margin-top:10px;
-  border:2px dashed #ffd93d;
-}
-body.dark .leaderboard { background:var(--card); }
-.leaderboard h4 { font-size:0.72rem; color:#ee5253; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; }
-.lb-row { display:flex; align-items:center; gap:8px; padding:5px 0; font-size:0.85rem; }
-.lb-row.inactive { opacity:0.4; }
-.lb-row .lb-rank { width:24px; text-align:center; font-weight:900; color:#ee5253; font-size:0.85rem; }
-.lb-row .lb-dot { width:10px; height:10px; border-radius:50%; }
-.lb-row .lb-name { flex:1; font-weight:800; color:#2d2d2d; }
-body.dark .lb-row .lb-name { color:var(--text); }
-.lb-row .lb-score { font-weight:900; color:#ee5253; font-family:'Courier New',monospace; }
 
 /* MODAL */
 .modal-overlay {
@@ -488,112 +282,93 @@ body.dark .lb-row .lb-name { color:var(--text); }
 }
 .modal-overlay.hidden { display:none; }
 .modal {
-  background:linear-gradient(160deg,#ffffff 0%,#fff8e7 100%);
-  border:3px solid #ffd93d; border-radius:24px;
-  padding:30px; max-width:560px; width:100%;
-  box-shadow:0 20px 60px rgba(238,82,83,0.3);
-  max-height:90vh; overflow-y:auto;
+  background:#fff; border:3px solid #ffd93d; border-radius:24px;
+  padding:30px; max-width:560px; width:100%; max-height:90vh; overflow-y:auto;
 }
-body.dark .modal { background:linear-gradient(160deg,var(--panel) 0%,var(--card) 100%); border-color:var(--yellow); }
-.modal h2 { font-size:1.5rem; color:#ee5253; margin-bottom:6px; text-align:center; font-weight:900; }
-.modal .sub { text-align:center; color:#6b6b6b; margin-bottom:22px; font-size:0.88rem; line-height:1.5; }
-.modal label { display:block; font-size:0.75rem; color:#6b6b6b; margin-bottom:6px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; }
-.modal input, .modal select {
-  width:100%; padding:12px 14px;
-  background:#ffffff; border:2px solid #ffeaa7; border-radius:10px;
-  color:#2d2d2d; font-size:0.95rem; font-family:inherit;
-  margin-bottom:14px; font-weight:600;
+.modal h2 { font-size:1.5rem; color:#ee5253; margin-bottom:6px; text-align:center; }
+.modal .sub { text-align:center; color:#6b6b6b; margin-bottom:22px; font-size:0.88rem; }
+.modal input {
+  width:100%; padding:12px 14px; background:#fff;
+  border:2px solid #ffeaa7; border-radius:10px; font-size:0.95rem;
+  font-family:inherit; font-weight:600; margin-bottom:14px;
 }
-body.dark .modal input, body.dark .modal select { background:var(--bg); color:var(--text); }
-.modal input:focus, .modal select:focus { outline:none; border-color:#ff6b6b; box-shadow:0 0 0 4px rgba(255,107,107,0.1); }
+.code-input-wrap { display:flex; gap:8px; justify-content:center; margin:20px 0; }
+.code-digit {
+  width:52px; height:64px; border-radius:12px; border:3px solid #ffd93d;
+  background:#fff; font-family:'Courier New',monospace; font-size:1.8rem;
+  font-weight:900; text-align:center; outline:none;
+}
+.code-digit:focus { border-color:#ff6b6b; }
 
-/* TEAM CHOICES */
 .team-choices { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:18px; }
 @media (max-width:500px) { .team-choices { grid-template-columns:repeat(2,1fr); } }
 .team-choice {
-  padding:20px 8px; border-radius:14px; font-family:inherit;
-  font-weight:900; font-size:0.85rem; cursor:pointer;
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  transition:all 0.15s; border:3px solid #ddd; background:#ffffff; color:#999;
-  position:relative;
+  padding:20px 8px; border-radius:14px; font-family:inherit; font-weight:900;
+  font-size:0.85rem; cursor:pointer; display:flex; flex-direction:column;
+  align-items:center; gap:6px; transition:all 0.15s;
+  border:3px solid #ddd; background:#fff; color:#999;
 }
 .team-choice .tc-num { font-size:1.8rem; }
-.team-choice .tc-name { font-size:0.8rem; text-align:center; line-height:1.2; }
-.team-choice .tc-status { font-size:0.6rem; font-weight:800; padding:2px 6px; border-radius:6px; text-transform:uppercase; }
+.team-choice .tc-status { font-size:0.6rem; font-weight:800; padding:2px 6px; border-radius:6px; }
 .team-choice.kosong { border-color:currentColor; color:#2d2d2d; }
 .team-choice.kosong:hover { transform:scale(1.05); }
-.team-choice.terpakai {
-  cursor:not-allowed; opacity:0.55;
-  background:#f0f0f0; border-style:dashed;
-}
+.team-choice.terpakai { cursor:not-allowed; opacity:0.55; background:#f0f0f0; border-style:dashed; }
 .team-choice.mine { animation:minePulse 1.5s infinite; }
 @keyframes minePulse {
   0%,100% { box-shadow:0 0 0 0 rgba(38,222,129,0.5); }
   50% { box-shadow:0 0 0 8px rgba(38,222,129,0); }
 }
 
-.btn-start {
-  width:100%; padding:16px;
-  background:linear-gradient(135deg,#ff6b6b,#ee5253);
-  border:none; border-radius:12px; color:white;
-  font-size:1rem; font-weight:900; cursor:pointer;
-  letter-spacing:1px; text-transform:uppercase;
-  box-shadow:0 8px 24px rgba(238,82,83,0.4); transition:all 0.2s;
+.btn-primary {
+  width:100%; padding:16px; background:linear-gradient(135deg,#ff6b6b,#ee5253);
+  border:none; border-radius:12px; color:white; font-size:1rem;
+  font-weight:900; cursor:pointer; letter-spacing:1px; text-transform:uppercase;
 }
-.btn-start:hover { transform:translateY(-2px); box-shadow:0 12px 30px rgba(238,82,83,0.5); }
-.btn-start.secondary {
-  background:#ffffff; color:#ee5253; border:2px solid #ffd93d; box-shadow:none;
+.btn-secondary {
+  width:100%; padding:16px; background:#fff; color:#ee5253;
+  border:2px solid #ffd93d; border-radius:12px; font-size:1rem;
+  font-weight:900; cursor:pointer; text-transform:uppercase;
 }
-.btn-start.secondary:hover { background:#fff8e7; box-shadow:0 4px 12px rgba(246,201,14,0.3); }
 
 /* TOAST */
 .toast {
-  position:fixed; top:24px; left:50%;
-  transform:translateX(-50%) translateY(-100px);
-  background:#ffffff; border:3px solid #ff6b6b;
-  border-radius:14px; padding:14px 26px;
-  font-weight:800; color:#2d2d2d;
-  box-shadow:0 12px 40px rgba(238,82,83,0.3);
-  transition:transform 0.3s; z-index:300; font-size:0.9rem;
-  max-width:90vw; text-align:center;
+  position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-100px);
+  background:#fff; border:3px solid #ff6b6b; border-radius:14px;
+  padding:14px 26px; font-weight:800; z-index:300; font-size:0.9rem;
+  transition:transform 0.3s; max-width:90vw; text-align:center;
 }
 .toast.show { transform:translateX(-50%) translateY(0); }
 .toast.ok { border-color:#26de81; }
 .toast.warn { border-color:#ffd93d; }
-
-@media (max-width:960px) {
-  .app { height:auto; min-height:100vh; }
-  .panel-juri { max-height:500px; }
-  .stage-monitor { min-height:400px; }
-}
+.toast.error { border-color:#ee5253; }
 </style>
 </head>
 <body>
 
 <!-- LANDING -->
 <div class="landing" id="landing">
-  <div class="icon-big">🎯</div>
+  <div style="font-size:5rem; margin-bottom:16px;">🎯</div>
   <h1>SMART BUZZER</h1>
-  <p class="sub">Cerdas Cermat Digital — Pilih peran Anda</p>
+  <p class="sub">Cerdas Cermat Digital — Server Edition</p>
   <div class="landing-choices">
-    <button class="choice-btn peserta" onclick="enterAsPeserta()">
+    <button class="choice-btn peserta" onclick="showPesertaForm()">
       <span class="c-icon">🙋</span>
       <div class="c-title">MASUK SEBAGAI PESERTA</div>
-      <div class="c-desc">Masukkan kode dari juri.<br>Lalu pilih regu Anda.</div>
+      <div class="c-desc">Masukkan kode room dari juri</div>
     </button>
-    <button class="choice-btn juri" onclick="enterAsJuri()">
+    <button class="choice-btn juri" onclick="showJuriForm()">
       <span class="c-icon">👨‍⚖️</span>
       <div class="c-title">MASUK SEBAGAI JURI</div>
-      <div class="c-desc">Atur regu, beri kode,<br>kontrol ARM / RESET / LOCK.</div>
+      <div class="c-desc">Buat room baru / gabung sebagai juri</div>
     </button>
   </div>
 </div>
 
-<!-- MODAL KODE -->
-<div class="modal-overlay hidden" id="codeModal">
+<!-- MODAL PESERTA -->
+<div class="modal-overlay hidden" id="pesertaJoinModal">
   <div class="modal">
     <h2>🔑 Masukkan Kode Room</h2>
-    <p class="sub">Masukkan kode room dari juri. Siapa pun yang tahu kode boleh masuk, lalu pilih regu.</p>
+    <p class="sub">Kode 6 digit dari juri. Siapa pun yang tahu kode boleh masuk, lalu pilih regu.</p>
     <div class="code-input-wrap">
       <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="0">
       <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="1">
@@ -602,48 +377,85 @@ body.dark .modal input, body.dark .modal select { background:var(--bg); color:va
       <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="4">
       <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="5">
     </div>
-    <button class="btn-start" onclick="validateCode()">MASUK</button>
-    <button class="btn-start secondary" style="margin-top:10px;" onclick="backToLanding()">BATAL</button>
+    <button class="btn-primary" onclick="joinAsPeserta()">MASUK</button>
+    <button class="btn-secondary" style="margin-top:10px;" onclick="closeModals()">BATAL</button>
+  </div>
+</div>
+
+<!-- MODAL JURI -->
+<div class="modal-overlay hidden" id="juriJoinModal">
+  <div class="modal">
+    <h2>👨‍⚖️ Masuk sebagai Juri</h2>
+    <p class="sub">Hanya 1 juri per room. Jika room sudah punya juri, kamu akan ditolak.</p>
+    <label style="font-size:0.75rem; font-weight:800; color:#6b6b6b;">Kode Room (kosongkan untuk buat baru)</label>
+    <input type="text" id="juriRoomCodeInput" placeholder="Contoh: 482913" maxlength="6" inputmode="numeric">
+    <button class="btn-primary" onclick="joinAsJuri()">MASUK / BUAT ROOM</button>
+    <button class="btn-secondary" style="margin-top:10px;" onclick="closeModals()">BATAL</button>
   </div>
 </div>
 
 <!-- MODAL PILIH REGU -->
-<div class="modal-overlay hidden" id="pesertaModal">
+<div class="modal-overlay hidden" id="teamChoiceModal">
   <div class="modal">
-    <h2>🙋 Pilih Regu Anda</h2>
-    <p class="sub" id="pesertaModalSub">Regu yang sudah terpakai ditandai dan tidak bisa dipilih.</p>
-    <div class="team-choices" id="pesertaTeamChoices"></div>
-    <button class="btn-start secondary" onclick="backToLanding()">BATAL</button>
+    <h2>🙋 Pilih Regu</h2>
+    <p class="sub" id="teamChoiceSub">Regu yang sudah terpakai ditandai dan tidak bisa dipilih.</p>
+    <div class="team-choices" id="teamChoicesBox"></div>
+    <button class="btn-secondary" onclick="closeModals()">BATAL</button>
   </div>
 </div>
 
 <!-- APP -->
 <div class="app hidden" id="app">
   <div class="header">
-    <div class="logo"><div class="icon">🎯</div>SMART BUZZER</div>
-    <div class="header-actions">
+    <div class="logo">🎯 SMART BUZZER</div>
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
       <div class="room-badge">
         <div>
-          <div class="lbl">Kode Room</div>
-          <div class="code" id="roomCode">------</div>
+          <div class="lbl">KODE ROOM</div>
+          <div class="code" id="roomCodeDisplay">------</div>
         </div>
       </div>
-      <button class="btn-icon" id="themeBtn" title="Mode Terang/Gelap" onclick="toggleTheme()">🌙</button>
-      <button class="btn-icon" id="soundBtn" title="Suara ON/OFF" onclick="toggleSound()">🔊</button>
-      <button class="btn-icon" title="Ganti Peran" onclick="backToLanding()">🚪</button>
+      <button class="btn-icon" title="Ganti Peran" onclick="location.reload()">🚪</button>
     </div>
   </div>
 
   <div class="main">
-    <!-- STAGE MONITOR -->
-    <div class="stage-monitor" id="stageMonitor">
-      <div class="stage-top">
+    <!-- STAGE -->
+    <div class="stage" id="stage">
+      <div style="display:flex; justify-content:space-between; align-items:center; position:relative; z-index:1; flex-wrap:wrap; gap:10px;">
         <div class="stage-title">🔴 MONITOR PESERTA</div>
-        <div class="stage-status">
+        <div style="display:flex; gap:8px; align-items:center;">
           <span class="chip stby" id="statusChip">STANDBY</span>
           <span class="chip" id="roundChip" style="display:none;">Ronde 1</span>
         </div>
       </div>
+
+      <!-- TIMER RONDE -->
+      <div class="timer-box" id="roundTimerBox">
+        <div class="tb-header">
+          <div class="tb-label">⏱ TIMER RONDE</div>
+          <div style="font-size:0.7rem; color:#6b6b6b;" id="roundTimerInfo">30s</div>
+        </div>
+        <div class="tb-time" id="roundTimerDisplay">--:--</div>
+        <div class="progress-bar"><div class="fill" id="roundTimerFill" style="width:0%"></div></div>
+        <div class="timer-controls" id="roundTimerControls" style="display:none;">
+          <button class="tc-start" onclick="wsSend({type:'START_ROUND_TIMER'})">▶ Start</button>
+          <button class="tc-pause" onclick="wsSend({type:'PAUSE_TIMER'})">⏸ Pause</button>
+          <button class="tc-reset" onclick="wsSend({type:'RESET_TIMER', which:'round'})">🔄 Reset</button>
+        </div>
+      </div>
+
+      <!-- TIMER JAWAB -->
+      <div class="timer-box" id="answerTimerBox" style="display:none;">
+        <div class="tb-header">
+          <div class="tb-label">⏱ TIMER JAWAB</div>
+          <div style="font-size:0.7rem; color:#6b6b6b;" id="answerTimerInfo">15s</div>
+        </div>
+        <div class="tb-time" id="answerTimerDisplay">--:--</div>
+        <div class="progress-bar"><div class="fill" id="answerTimerFill" style="width:0%"></div></div>
+      </div>
+
+      <!-- BUZZER DISPLAY -->
       <div class="big-buzzer">
         <div class="idle-display" id="idleDisplay">
           <div class="idle-icon">⏳</div>
@@ -653,18 +465,60 @@ body.dark .modal input, body.dark .modal select { background:var(--bg); color:va
         <div class="active-display" id="activeDisplay">
           <div class="buzzer-badge" id="activeBadge">🔔 BEL DITEKAN</div>
           <div class="buzzer-name" id="activeName">TIM</div>
-          <div class="buzzer-num" id="activeNum">Regu #1</div>
-          <div class="buzzer-time" id="activeTime">--:--</div>
         </div>
       </div>
+
       <div class="leaderboard">
         <h4>🏆 Klasemen</h4>
         <div id="lbContent"></div>
       </div>
     </div>
 
-    <!-- STAGE PESERTA -->
-    <div class="stage-peserta" id="stagePeserta" style="display:none;">
+    <!-- PANEL JURI -->
+    <div class="panel" id="juriPanel" style="display:none;">
+      <h2>👨‍⚖️ Panel Juri</h2>
+
+      <div class="joined-panel">
+        <h3>🟢 Peserta Masuk <span id="joinedCount" style="background:#26de81; color:white; padding:2px 8px; border-radius:10px; font-size:0.65rem;">0</span></h3>
+        <div class="joined-list" id="joinedList">
+          <div style="text-align:center; color:#999; font-size:0.72rem; padding:8px;">Belum ada peserta</div>
+        </div>
+      </div>
+
+      <div class="settings-panel">
+        <div class="sp-header">
+          <div class="sp-title">👥 Jumlah Kelompok</div>
+          <div class="sp-badge" id="teamCountBadge">2</div>
+        </div>
+        <div class="stepper">
+          <button onclick="changeTeamCount(-1)" id="btnMinus">−</button>
+          <div class="value" id="teamCountValue">2</div>
+          <button onclick="changeTeamCount(1)" id="btnPlus">+</button>
+        </div>
+        <div class="quick-count" id="quickCountBox"></div>
+      </div>
+
+      <div class="teams-list" id="teamsList"></div>
+
+      <div class="ctrl-actions">
+        <button class="ctrl-btn code-reset" onclick="resetRoomCode()">🔑 RESET KODE</button>
+        <button class="ctrl-btn secondary" onclick="kickAll()">🚫 KELUARKAN SEMUA</button>
+      </div>
+
+      <div class="ctrl-actions">
+        <button class="ctrl-btn arm" id="armBtn" onclick="armBuzzer()">🔓 ARM</button>
+        <button class="ctrl-btn reset" onclick="wsSend({type:'RESET_ROUND'})">🔄 RESET</button>
+        <button class="ctrl-btn lock" onclick="wsSend({type:'LOCK'})">🔒 LOCK</button>
+      </div>
+
+      <div class="ctrl-actions" id="evalActions" style="display:none;">
+        <button class="ctrl-btn correct" onclick="evaluate(true)">✅ BENAR (+10)</button>
+        <button class="ctrl-btn wrong" onclick="evaluate(false)">❌ SALAH (-5)</button>
+      </div>
+    </div>
+
+    <!-- PANEL PESERTA -->
+    <div class="peserta-stage" id="pesertaPanel" style="display:none;">
       <div class="peserta-header">
         <div class="peserta-team-badge">
           <span class="dot" id="pesertaDot"></span>
@@ -673,93 +527,12 @@ body.dark .modal input, body.dark .modal select { background:var(--bg); color:va
         <span class="peserta-status chip stby" id="pesertaStatus">MENUNGGU JURI</span>
       </div>
       <div class="peserta-btn-wrap">
-        <button class="peserta-buzz-btn" id="pesertaBtn" disabled>
+        <button class="peserta-buzz-btn" id="pesertaBuzzBtn" disabled>
           <span class="b-icon">🔔</span>
           <span class="b-text" id="pesertaBtnText">TUNGGU</span>
         </button>
       </div>
     </div>
-
-    <!-- PANEL JURI -->
-    <div class="panel-juri" id="panelJuri">
-      <div class="ctrl-hdr">
-        <h2>👨‍⚖️ Panel Juri</h2>
-        <span class="live-badge" id="liveIndicator">STANDBY</span>
-      </div>
-
-      <!-- PESERTA MASUK -->
-      <div class="joined-panel">
-        <div class="jp-header">
-          <div class="jp-title">🟢 Peserta Masuk</div>
-          <div class="jp-badge" id="joinedCount">0</div>
-        </div>
-        <div class="joined-list" id="joinedList">
-          <div class="joined-empty">Belum ada peserta masuk</div>
-        </div>
-      </div>
-
-      <!-- JUMLAH KELOMPOK -->
-      <div class="settings-panel">
-        <div class="sp-header">
-          <div class="sp-title">👥 Jumlah Kelompok</div>
-          <div class="sp-badge" id="teamCountBadge">2</div>
-        </div>
-        <div class="team-count-stepper">
-          <button onclick="changeTeamCount(-1)" id="btnMinus" aria-label="Kurangi">−</button>
-          <div class="value" id="teamCountValue">2
-            <small>KELOMPOK TAMPIL</small>
-          </div>
-          <button onclick="changeTeamCount(1)" id="btnPlus" aria-label="Tambah">+</button>
-        </div>
-        <div class="quick-count-btns" id="quickCountBtns"></div>
-      </div>
-
-      <div class="teams-list" id="teamsList"></div>
-
-      <div class="ctrl-actions">
-        <button class="ctrl-btn code-reset" onclick="resetRoomCode()">🔑 RESET KODE</button>
-        <button class="ctrl-btn secondary" onclick="kickAllDevices()">🚫 KELUARKAN SEMUA</button>
-      </div>
-
-      <div class="ctrl-actions">
-        <button class="ctrl-btn arm" id="armBtn" onclick="armBuzzer()">🔓 ARM</button>
-        <button class="ctrl-btn reset" onclick="resetRound()">🔄 RESET</button>
-        <button class="ctrl-btn lock" onclick="lockBuzzer()">🔒 LOCK</button>
-        <button class="ctrl-btn secondary" onclick="openSetup()">✏️ NAMA</button>
-      </div>
-
-      <div class="ctrl-actions" id="evalActions" style="display:none;">
-        <button class="ctrl-btn correct" onclick="evaluateAnswer(true)">✅ BENAR (+10)</button>
-        <button class="ctrl-btn wrong" onclick="evaluateAnswer(false)">❌ SALAH (-5)</button>
-      </div>
-
-      <div class="settings-row">
-        <span>🔊 Suara Sistem</span>
-        <div class="switch on" id="soundSwitch" onclick="toggleSound()"></div>
-      </div>
-
-      <div class="ctrl-section">
-        <h3>📜 Riwayat Bel</h3>
-        <div class="history-list" id="historyList">
-          <div style="font-size:0.72rem; color:var(--dim); text-align:center; padding:6px;">Belum ada bel ditekan</div>
-        </div>
-      </div>
-
-      <div class="ctrl-actions" style="grid-template-columns:1fr;">
-        <button class="ctrl-btn secondary" onclick="resetScores()">🔢 RESET SEMUA SKOR</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL SETUP NAMA -->
-<div class="modal-overlay hidden" id="setupModal">
-  <div class="modal">
-    <h2>⚙️ Setup Nama Regu</h2>
-    <p class="sub">Ubah nama regu. Jumlah regu diatur lewat panel juri.</p>
-    <label>Nama Regu</label>
-    <div id="teamInputs" style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:18px;"></div>
-    <button class="btn-start" onclick="saveSetup()">💾 SIMPAN</button>
   </div>
 </div>
 
@@ -767,710 +540,208 @@ body.dark .modal input, body.dark .modal select { background:var(--bg); color:va
 
 <script>
 /* ============================================================
-   STATE GLOBAL
+   STATE KLIEN
    ============================================================ */
-const TEAM_COLORS = ['#ff4757','#ff9f43','#26de81','#45aaf2','#a55eea','#fd79a8','#f6c90e','#4ecdc4','#dfe6e9'];
-const TEAM_NAMES  = ['Merah','Oranye','Hijau','Biru','Ungu','Pink','Kuning','Tosca','Putih'];
-const MIN_TEAMS = 2;
-const MAX_TEAMS = 9;
-const CLAIM_TIMEOUT = 1500; // ms — fallback jika tidak ada juri yang merespons
-
 const state = {
+  ws: null,
   role: null,
+  roomCode: null,
+  deviceId: localStorage.getItem('sb_device_id') || (() => {
+    const id = 'DEV-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+    localStorage.setItem('sb_device_id', id);
+    return id;
+  })(),
   teams: [],
+  devices: [],
   totalReguAktif: 2,
   buzzerArmed: false,
-  soundOn: true,
   activeTeam: null,
   roundNumber: 0,
-  history: [],
-  theme: 'light',
+  roundTimer: null,
+  answerTimer: null,
   pesertaTeamId: null,
-  buzzerTime: 0,
-  roomCode: null,
-  devices: {},       // deviceId -> { deviceId, teamId, teamName, joinedAt }
-  bc: null,
-  pendingClaim: null // untuk peserta: { teamId, timer }
+  settings: { roundDuration: 30, answerDuration: 15 },
+  timerInterval: null
 };
 
 /* ============================================================
-   DEVICE ID
+   WEBSOCKET
    ============================================================ */
-function getDeviceId() {
-  let id = localStorage.getItem('smartbuzzer_device_id');
-  if (!id) {
-    id = 'DEV-' + Math.random().toString(36).slice(2, 8).toUpperCase();
-    localStorage.setItem('smartbuzzer_device_id', id);
-  }
-  return id;
-}
+const WS_URL = (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host;
 
-/* ============================================================
-   PERSISTENSI ROOM (agar peserta di tab lain bisa validasi kode)
-   ============================================================ */
-function persistRoom() {
-  try {
-    localStorage.setItem('smartbuzzer_room', JSON.stringify({
-      roomCode: state.roomCode,
-      totalReguAktif: state.totalReguAktif,
-      teams: state.teams.map(t => ({ id: t.id, name: t.name, color: t.color })),
-      devices: state.devices
-    }));
-  } catch (_) {}
-}
-
-function loadRoom() {
-  try {
-    const raw = localStorage.getItem('smartbuzzer_room');
-    if (!raw) return false;
-    const data = JSON.parse(raw);
-    if (!data.teams || !data.teams.length) return false;
-    state.roomCode = data.roomCode;
-    state.totalReguAktif = data.totalReguAktif || MIN_TEAMS;
-    state.teams = data.teams.map(t => ({ ...t, score: 0 }));
-    state.devices = data.devices || {};
-    return true;
-  } catch (_) { return false; }
-}
-
-/* ============================================================
-   REALTIME BUS
-   ============================================================ */
-const BUS_NAME = 'smartbuzzer_bus';
-
-function initBus() {
-  if ('BroadcastChannel' in window) {
-    try {
-      state.bc = new BroadcastChannel(BUS_NAME);
-      state.bc.onmessage = (ev) => handleBusMessage(ev.data);
-    } catch (e) { console.warn('BC gagal', e); }
-  }
-  window.addEventListener('storage', (e) => {
-    if (e.key === 'smartbuzzer_bus_msg' && e.newValue) {
-      try { handleBusMessage(JSON.parse(e.newValue)); } catch (_) {}
-    }
-  });
-}
-
-function busSend(msg) {
-  if (state.bc) { try { state.bc.postMessage(msg); } catch (_) {} }
-  try { localStorage.setItem('smartbuzzer_bus_msg', JSON.stringify({ ...msg, _ts: Date.now() })); } catch (_) {}
-}
-
-function handleBusMessage(msg) {
-  if (!msg || !msg.type) return;
-
-  /* ---------- EVENT UNTUK JURI ---------- */
-  if (state.role === 'juri') {
-    if (msg.type === 'CLAIM') {
-      // Validasi klaim regu
-      if (msg.roomCode !== state.roomCode) {
-        busSend({ type:'CLAIM_REJECT', deviceId:msg.deviceId, teamId:msg.teamId, reason:'Kode room tidak cocok' });
-        return;
-      }
-      // Cek apakah regu sudah dipakai perangkat lain
-      const occupant = Object.values(state.devices).find(d => d.teamId === msg.teamId && d.deviceId !== msg.deviceId);
-      if (occupant) {
-        busSend({ type:'CLAIM_REJECT', deviceId:msg.deviceId, teamId:msg.teamId, reason:'Regu sudah dipakai ' + occupant.deviceId });
-        return;
-      }
-      // ACCEPT
-      state.devices[msg.deviceId] = {
-        deviceId: msg.deviceId,
-        teamId: msg.teamId,
-        teamName: msg.teamName,
-        joinedAt: Date.now()
-      };
-      persistRoom();
-      renderJoined();
-      renderTeams();
-      highlightTeamRow(msg.teamId);
-      SFX.success();
-      showToast(`🟢 ${msg.teamName} masuk dari ${msg.deviceId}`, 'ok');
-      busSend({ type:'CLAIM_ACCEPT', deviceId:msg.deviceId, teamId:msg.teamId });
-    } else if (msg.type === 'LEAVE') {
-      if (state.devices[msg.deviceId]) {
-        delete state.devices[msg.deviceId];
-        persistRoom();
-        renderJoined();
-        renderTeams();
-        showToast(`🔴 ${msg.teamName || 'Peserta'} keluar`, 'warn');
-      }
-    }
-  }
-
-  /* ---------- EVENT UNTUK PESERTA ---------- */
-  if (state.role === 'peserta') {
-    if (msg.type === 'CLAIM_ACCEPT' && msg.deviceId === getDeviceId()) {
-      if (state.pendingClaim && state.pendingClaim.timer) clearTimeout(state.pendingClaim.timer);
-      state.pendingClaim = null;
-      enterTeamDirectly(msg.teamId);
-    } else if (msg.type === 'CLAIM_REJECT' && msg.deviceId === getDeviceId()) {
-      if (state.pendingClaim && state.pendingClaim.timer) clearTimeout(state.pendingClaim.timer);
-      state.pendingClaim = null;
-      showToast('❌ ' + (msg.reason || 'Regu sudah diambil'), 'warn');
-      SFX.fail();
-      refreshTeamChoices();
-    } else if (msg.type === 'REASSIGN' && msg.mapping) {
-      const myId = getDeviceId();
-      if (msg.mapping[myId] !== undefined) {
-        const newTeamId = msg.mapping[myId];
-        if (newTeamId === null) {
-          // Dikeluarkan
-          showToast('⚠️ Kamu dikeluarkan karena regu dihapus', 'warn');
-          setTimeout(() => backToLanding(), 1200);
-        } else if (newTeamId !== state.pesertaTeamId) {
-          state.pesertaTeamId = newTeamId;
-          applyTeamToPesertaUI(newTeamId);
-          showToast(`🔄 Kamu dipindah ke ${state.teams[newTeamId].name}`, 'ok');
+function connectWS() {
+  return new Promise((resolve, reject) => {
+    state.ws = new WebSocket(WS_URL);
+    state.ws.onopen = () => resolve();
+    state.ws.onerror = (e) => reject(e);
+    state.ws.onclose = () => {
+      showToast('⚠️ Koneksi ke server terputus', 'warn');
+      setTimeout(() => {
+        if (state.role) {
+          connectWS().then(() => {
+            if (state.role === 'juri') wsSend({ type: 'JOIN_AS_JURI', roomCode: state.roomCode });
+            else wsSend({ type: 'JOIN_AS_PESERTA', roomCode: state.roomCode, deviceId: state.deviceId });
+          }).catch(() => {});
         }
-      }
-    } else if (msg.type === 'RESET_CODE') {
-      showToast('⚠️ Kode room direset juri. Masuk ulang dengan kode baru.', 'warn');
-      setTimeout(() => backToLanding(), 1200);
-    } else if (msg.type === 'KICK_ALL') {
-      showToast('🚫 Juri mengeluarkan semua peserta', 'warn');
-      setTimeout(() => backToLanding(), 1200);
-    } else if (msg.type === 'KICK_TEAM' && msg.teamId === state.pesertaTeamId) {
-      showToast('🚫 Regu kamu dilepas oleh juri', 'warn');
-      setTimeout(() => backToLanding(), 1200);
-    }
-  }
-
-  /* ---------- NOTIFIKASI ROOM UPDATE ---------- */
-  if (msg.type === 'ROOM_UPDATE') {
-    if (state.role === 'peserta') {
-      // Update daftar regu (jika modal terbuka)
-      const modal = document.getElementById('pesertaModal');
-      if (modal && !modal.classList.contains('hidden')) refreshTeamChoices();
-    }
-  }
-}
-
-/* ============================================================
-   BANTUAN
-   ============================================================ */
-function generateRoomCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
-
-function initTeams(n) {
-  state.teams = [];
-  for (let i = 0; i < n; i++) {
-    state.teams.push({ id:i, name:'Regu '+TEAM_NAMES[i], color:TEAM_COLORS[i], score:0 });
-  }
-}
-
-/* ============================================================
-   LANDING & MASUK
-   ============================================================ */
-function enterAsPeserta() {
-  state.role = 'peserta';
-  SFX.click();
-  // Muat info room terkini (agar kode bisa divalidasi walau beda tab)
-  loadRoom();
-  if (state.roomCode) document.getElementById('roomCode').textContent = state.roomCode;
-  document.querySelectorAll('.code-digit').forEach(i => i.value = '');
-  document.getElementById('codeModal').classList.remove('hidden');
-  setTimeout(() => document.querySelector('.code-digit').focus(), 100);
-}
-
-function enterAsJuri() {
-  state.role = 'juri';
-  SFX.click();
-  document.getElementById('landing').style.display = 'none';
-  document.getElementById('app').classList.remove('hidden');
-  document.getElementById('app').classList.remove('peserta-mode');
-  document.getElementById('app').classList.add('juri-mode');
-  document.getElementById('stageMonitor').style.display = 'flex';
-  document.getElementById('stagePeserta').style.display = 'none';
-  document.getElementById('panelJuri').style.display = 'flex';
-
-  // Coba lanjutkan room yang sudah ada (tab sama), atau buat baru
-  if (!loadRoom()) {
-    state.roomCode = generateRoomCode();
-    if (state.teams.length === 0) { initTeams(MIN_TEAMS); state.totalReguAktif = MIN_TEAMS; }
-    persistRoom();
-  }
-  document.getElementById('roomCode').textContent = state.roomCode;
-
-  renderQuickCountBtns();
-  renderTeams();
-  renderLeaderboard();
-  renderJoined();
-  updateStatusChip();
-  updateTeamCountUI();
-  showToast('👨‍⚖️ JURI. Kode: ' + state.roomCode, 'ok');
-}
-
-function backToLanding() {
-  if (state.role === 'peserta' && state.pesertaTeamId !== null) {
-    const t = state.teams[state.pesertaTeamId];
-    busSend({ type:'LEAVE', deviceId:getDeviceId(), teamId:state.pesertaTeamId, teamName:t?t.name:'Peserta' });
-  }
-  SFX.click();
-  document.getElementById('landing').style.display = 'flex';
-  document.getElementById('app').classList.add('hidden');
-  document.getElementById('codeModal').classList.add('hidden');
-  document.getElementById('pesertaModal').classList.add('hidden');
-  document.getElementById('setupModal').classList.add('hidden');
-  state.role = null;
-  state.pesertaTeamId = null;
-  state.pendingClaim = null;
-}
-
-/* ============================================================
-   INPUT KODE OTOMATIS
-   ============================================================ */
-document.querySelectorAll('.code-digit').forEach(inp => {
-  inp.addEventListener('input', (e) => {
-    const val = e.target.value.replace(/\D/g, '');
-    e.target.value = val.slice(-1);
-    if (val && parseInt(e.target.dataset.idx) < 5) {
-      const next = document.querySelector(`.code-digit[data-idx="${parseInt(e.target.dataset.idx)+1}"]`);
-      if (next) next.focus();
-    }
-    if ([...document.querySelectorAll('.code-digit')].every(i => i.value)) {
-      setTimeout(validateCode, 200);
-    }
-  });
-  inp.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace' && !e.target.value) {
-      const prev = document.querySelector(`.code-digit[data-idx="${parseInt(e.target.dataset.idx)-1}"]`);
-      if (prev) prev.focus();
-    }
-  });
-});
-
-/* ============================================================
-   VALIDASI KODE — siapa pun yang tahu kode boleh masuk
-   ============================================================ */
-function validateCode() {
-  const code = [...document.querySelectorAll('.code-digit')].map(i => i.value).join('').trim();
-  if (code.length !== 6) { showToast('⚠️ Kode harus 6 digit', 'warn'); SFX.fail(); return; }
-
-  // Muat ulang info room agar sinkron (jika beda tab)
-  loadRoom();
-
-  if (!state.roomCode) {
-    showToast('❌ Belum ada room aktif. Tunggu juri.', 'warn'); SFX.fail(); return;
-  }
-  if (code !== state.roomCode) {
-    showToast('❌ Kode salah. Minta kode yang benar ke juri.', 'warn');
-    SFX.fail();
-    document.querySelectorAll('.code-digit').forEach(i => {
-      i.style.borderColor = '#ee5253'; i.style.animation = 'shake 0.4s';
-    });
-    setTimeout(() => {
-      document.querySelectorAll('.code-digit').forEach(i => {
-        i.style.borderColor = ''; i.style.animation = ''; i.value = '';
-      });
-      document.querySelector('.code-digit').focus();
-    }, 500);
-    return;
-  }
-
-  // Kode benar → buka modal pilih regu
-  SFX.success();
-  document.getElementById('codeModal').classList.add('hidden');
-  openPesertaModal();
-}
-
-/* ============================================================
-   MODAL PILIH REGU — anti-salah-pin
-   ============================================================ */
-function openPesertaModal() {
-  loadRoom(); // pastikan data devices & tim sinkron
-  refreshTeamChoices();
-  document.getElementById('pesertaModal').classList.remove('hidden');
-}
-
-function refreshTeamChoices() {
-  const box = document.getElementById('pesertaTeamChoices');
-  if (!box) return;
-  box.innerHTML = '';
-  const myId = getDeviceId();
-  const total = state.totalReguAktif || MIN_TEAMS;
-
-  document.getElementById('pesertaModalSub').textContent =
-    `Pilih regu Anda (${total} regu). Regu yang sudah terpakai ditandai dan tidak bisa dipilih. Perangkat: ${myId}`;
-
-  for (let i = 0; i < total; i++) {
-    const t = state.teams[i] || { name:'Regu '+TEAM_NAMES[i], color:TEAM_COLORS[i] };
-    const occupant = Object.values(state.devices).find(d => d.teamId === i);
-    const isMine = occupant && occupant.deviceId === myId;
-    const isTaken = occupant && occupant.deviceId !== myId;
-
-    const btn = document.createElement('button');
-    btn.className = 'team-choice ' + (isMine ? 'mine' : (isTaken ? 'terpakai' : 'kosong'));
-    if (!isTaken) {
-      btn.style.color = t.color;
-      btn.style.borderColor = t.color;
-      if (isMine) {
-        btn.style.background = t.color;
-        btn.style.color = 'white';
-      }
-    }
-
-    let statusHtml = '';
-    if (isMine) statusHtml = '<span class="tc-status" style="background:rgba(255,255,255,0.3); color:white;">REGUMU</span>';
-    else if (isTaken) statusHtml = `<span class="tc-status" style="background:rgba(107,107,107,0.2); color:#6b6b6b;">TERPAKAI ${occupant.deviceId.slice(-4)}</span>`;
-    else statusHtml = '<span class="tc-status" style="background:rgba(38,222,129,0.2); color:#20bf6b;">KOSONG</span>';
-
-    btn.innerHTML = `
-      <span class="tc-num">${i+1}</span>
-      <span class="tc-name">${t.name}</span>
-      ${statusHtml}
-    `;
-    btn.onclick = () => {
-      if (isTaken) { showToast('⚠️ Regu sudah terpakai perangkat lain', 'warn'); SFX.fail(); return; }
-      claimTeam(i);
+      }, 2000);
     };
-    box.appendChild(btn);
-  }
-}
-
-/* ============================================================
-   KLAIM REGU (dengan validasi juri + fallback timeout)
-   ============================================================ */
-function claimTeam(teamId) {
-  const myId = getDeviceId();
-  const t = state.teams[teamId];
-  SFX.click();
-
-  // Cek cepat lokal
-  const occupant = Object.values(state.devices).find(d => d.teamId === teamId && d.deviceId !== myId);
-  if (occupant) {
-    showToast('⚠️ Regu sudah terpakai ' + occupant.deviceId, 'warn');
-    SFX.fail();
-    refreshTeamChoices();
-    return;
-  }
-
-  // Kirim CLAIM ke juri
-  state.pendingClaim = { teamId, timer: null };
-  busSend({
-    type: 'CLAIM',
-    roomCode: state.roomCode,
-    deviceId: myId,
-    teamId: teamId,
-    teamName: t.name
-  });
-
-  // Fallback: jika tidak ada juri yang merespons (mis. tab juri tidak terbuka),
-  // anggap ACCEPT setelah timeout — agar single-device tetap bisa dipakai.
-  state.pendingClaim.timer = setTimeout(() => {
-    if (state.pendingClaim && state.pendingClaim.teamId === teamId) {
-      state.pendingClaim = null;
-      // Anggap sukses
-      state.devices[myId] = { deviceId:myId, teamId, teamName:t.name, joinedAt:Date.now() };
-      enterTeamDirectly(teamId);
-    }
-  }, CLAIM_TIMEOUT);
-}
-
-function enterTeamDirectly(teamIdx) {
-  const myId = getDeviceId();
-  const t = state.teams[teamIdx];
-  state.pesertaTeamId = teamIdx;
-
-  document.getElementById('pesertaModal').classList.add('hidden');
-  document.getElementById('landing').style.display = 'none';
-  document.getElementById('app').classList.remove('hidden');
-  document.getElementById('app').classList.remove('juri-mode');
-  document.getElementById('app').classList.add('peserta-mode');
-  document.getElementById('stageMonitor').style.display = 'none';
-  document.getElementById('stagePeserta').style.display = 'flex';
-  document.getElementById('panelJuri').style.display = 'none';
-
-  applyTeamToPesertaUI(teamIdx);
-  updatePesertaUI();
-  showToast(`🙋 Kamu masuk sebagai ${t.name} (${myId})`, 'ok');
-}
-
-function applyTeamToPesertaUI(teamIdx) {
-  const t = state.teams[teamIdx];
-  if (!t) return;
-  document.getElementById('pesertaDot').style.background = t.color;
-  document.getElementById('pesertaName').textContent = t.name;
-  document.getElementById('pesertaName').style.color = t.color;
-  const btn = document.getElementById('pesertaBtn');
-  btn.style.borderColor = t.color;
-  btn.style.background = `radial-gradient(circle at 35% 30%, ${t.color}dd 0%, ${t.color} 60%, ${t.color}bb 100%)`;
-  document.getElementById('roomCode').textContent = state.roomCode;
-}
-
-/* ============================================================
-   RESET KODE & KICK ALL
-   ============================================================ */
-function resetRoomCode() {
-  if (!confirm('Reset kode room? Semua perangkat akan dikeluarkan dan harus masuk ulang dengan kode baru.')) return;
-  state.roomCode = generateRoomCode();
-  document.getElementById('roomCode').textContent = state.roomCode;
-  state.devices = {};
-  persistRoom();
-  busSend({ type:'RESET_CODE', roomCode: state.roomCode });
-  renderJoined();
-  renderTeams();
-  SFX.success();
-  showToast('🔑 Kode baru: ' + state.roomCode, 'ok');
-}
-
-function kickAllDevices() {
-  if (!confirm('Keluarkan semua perangkat peserta?')) return;
-  state.devices = {};
-  persistRoom();
-  busSend({ type:'KICK_ALL' });
-  renderJoined();
-  renderTeams();
-  SFX.click();
-  showToast('🚫 Semua perangkat dikeluarkan', 'warn');
-}
-
-/* ============================================================
-   JUMLAH KELOMPOK + AUTO-REASSIGN
-   ============================================================ */
-function renderQuickCountBtns() {
-  const box = document.getElementById('quickCountBtns');
-  box.innerHTML = '';
-  for (let n = MIN_TEAMS; n <= MAX_TEAMS; n++) {
-    const btn = document.createElement('button');
-    btn.textContent = n;
-    btn.dataset.count = n;
-    btn.onclick = () => setTeamCount(n);
-    box.appendChild(btn);
-  }
-  highlightQuickCountBtn();
-}
-
-function highlightQuickCountBtn() {
-  document.querySelectorAll('.quick-count-btns button').forEach(b => {
-    b.classList.toggle('active', parseInt(b.dataset.count) === state.totalReguAktif);
+    state.ws.onmessage = (ev) => {
+      try { handleServerMessage(JSON.parse(ev.data)); } catch (e) { console.error(e); }
+    };
   });
 }
 
-function updateTeamCountUI() {
-  document.getElementById('teamCountValue').innerHTML = `${state.totalReguAktif}<small>KELOMPOK TAMPIL</small>`;
-  document.getElementById('teamCountBadge').textContent = state.totalReguAktif;
-  document.getElementById('btnMinus').disabled = state.totalReguAktif <= MIN_TEAMS;
-  document.getElementById('btnPlus').disabled  = state.totalReguAktif >= MAX_TEAMS;
-  highlightQuickCountBtn();
-}
-
-function changeTeamCount(delta) {
-  const n = state.totalReguAktif + delta;
-  if (n < MIN_TEAMS || n > MAX_TEAMS) return;
-  setTeamCount(n);
-}
-
-function setTeamCount(n) {
-  if (n < MIN_TEAMS || n > MAX_TEAMS) return;
-  const old = state.totalReguAktif;
-  state.totalReguAktif = n;
-
-  // Tambah regu baru bila perlu
-  while (state.teams.length < n) {
-    const i = state.teams.length;
-    state.teams.push({ id:i, name:'Regu '+TEAM_NAMES[i], color:TEAM_COLORS[i], score:0 });
-  }
-
-  if (n < old) {
-    // Ada regu yang dihapus → pindahkan perangkatnya
-    reassignDevices(old, n);
-  }
-
-  updateTeamCountUI();
-  renderTeams();
-  renderLeaderboard();
-  renderJoined();
-  persistRoom();
-  busSend({ type:'ROOM_UPDATE' });
-  SFX.click();
-  showToast(`👥 Jumlah kelompok: ${n}`, 'ok');
-}
-
-/* ============================================================
-   AUTO-REASSIGN saat regu berkurang
-   ============================================================ */
-function reassignDevices(oldCount, newCount) {
-  const mapping = {};
-  const activeDevices = Object.values(state.devices);
-
-  // 1) Perangkat di regu yang dihapus
-  const toMove = activeDevices.filter(d => d.teamId >= newCount);
-
-  // 2) Cari regu kosong (di rentang 0..newCount-1) yang belum ditempati
-  function findEmptySlot() {
-    for (let i = 0; i < newCount; i++) {
-      if (!Object.values(state.devices).some(d => d.teamId === i)) return i;
-    }
-    return -1;
-  }
-
-  toMove.forEach(d => {
-    const slot = findEmptySlot();
-    if (slot === -1) {
-      // Tidak ada slot → keluarkan
-      delete state.devices[d.deviceId];
-      mapping[d.deviceId] = null;
-    } else {
-      state.devices[d.deviceId].teamId = slot;
-      state.devices[d.deviceId].teamName = state.teams[slot].name;
-      mapping[d.deviceId] = slot;
-    }
-  });
-
-  // Kirim mapping ke peserta
-  if (Object.keys(mapping).length) {
-    busSend({ type:'REASSIGN', mapping });
+function wsSend(msg) {
+  if (state.ws && state.ws.readyState === 1) {
+    state.ws.send(JSON.stringify(msg));
   }
 }
 
 /* ============================================================
-   RELEASE TEAM (lepas perangkat dari regu)
+   HANDLE PESAN SERVER
    ============================================================ */
-function releaseTeam(teamIdx) {
-  const t = state.teams[teamIdx];
-  const occupant = Object.values(state.devices).find(d => d.teamId === teamIdx);
-  if (!occupant) { showToast('Regu ini belum terpakai', 'warn'); return; }
-  if (!confirm(`Lepas ${t.name} dari ${occupant.deviceId}?`)) return;
-  delete state.devices[occupant.deviceId];
-  persistRoom();
-  busSend({ type:'KICK_TEAM', teamId: teamIdx });
-  renderJoined();
-  renderTeams();
-  SFX.click();
-  showToast(`🔓 ${t.name} dilepas`, 'ok');
+function handleServerMessage(msg) {
+  switch (msg.type) {
+    case 'HELLO': break;
+    case 'ROOM_CREATED':
+      state.roomCode = msg.roomCode;
+      state.role = 'juri';
+      enterApp();
+      break;
+    case 'JOINED_JURI':
+      state.roomCode = msg.roomCode;
+      state.role = 'juri';
+      enterApp();
+      break;
+    case 'JOINED_PESERTA':
+      state.roomCode = msg.roomCode;
+      state.role = 'peserta';
+      closeModals();
+      openTeamChoice();
+      break;
+    case 'STATE':
+      applyState(msg);
+      break;
+    case 'ERROR':
+      showToast('❌ ' + msg.message, 'error');
+      SFX.fail();
+      break;
+    case 'FULL':
+      showToast('❌ ' + msg.message, 'error');
+      SFX.fail();
+      setTimeout(() => location.reload(), 2000);
+      break;
+    case 'CLAIM_ACCEPTED':
+      state.pesertaTeamId = msg.teamId;
+      closeModals();
+      enterApp();
+      showToast('✅ Kamu masuk sebagai ' + msg.teamName, 'ok');
+      break;
+    case 'CLAIM_REJECTED':
+      showToast('❌ ' + msg.reason, 'error');
+      SFX.fail();
+      openTeamChoice();
+      break;
+    case 'REASSIGNED':
+      state.pesertaTeamId = msg.teamId;
+      showToast('🔄 Dipindah ke ' + msg.teamName, 'ok');
+      break;
+    case 'KICKED':
+      showToast('🚫 ' + msg.reason, 'warn');
+      setTimeout(() => location.reload(), 1500);
+      break;
+    case 'JURI_OFFLINE':
+      showToast('⚠️ Juri terputus. Tunggu juri kembali.', 'warn');
+      break;
+    case 'BUZZ_WINNER':
+      if (msg.codeChanged) {
+        state.roomCode = msg.newCode;
+        document.getElementById('roomCodeDisplay').textContent = msg.newCode;
+        showToast('🔑 Kode room berganti: ' + msg.newCode, 'ok');
+      }
+      SFX.buzz(msg.teamId);
+      break;
+    case 'ROUND_TIMEOUT':
+      showToast('⏰ Waktu ronde habis! Bel terkunci.', 'warn');
+      SFX.fail();
+      break;
+    case 'ANSWER_TIMEOUT':
+      showToast('⏰ Waktu jawab habis!', 'warn');
+      SFX.wrong();
+      break;
+    case 'ROOM_CODE_RESET':
+      state.roomCode = msg.roomCode;
+      document.getElementById('roomCodeDisplay').textContent = msg.roomCode;
+      showToast('🔑 Kode baru: ' + msg.roomCode, 'ok');
+      break;
+  }
+}
+
+function applyState(s) {
+  state.teams = s.teams;
+  state.devices = s.devices;
+  state.totalReguAktif = s.totalReguAktif;
+  state.buzzerArmed = s.buzzerArmed;
+  state.activeTeam = s.activeTeam;
+  state.roundNumber = s.roundNumber;
+  state.roundTimer = s.roundTimer;
+  state.answerTimer = s.answerTimer;
+  state.settings = s.settings;
+
+  if (s.roomCode !== state.roomCode) {
+    state.roomCode = s.roomCode;
+  }
+  document.getElementById('roomCodeDisplay').textContent = state.roomCode;
+
+  if (state.role === 'juri') renderJuriPanel();
+  else if (state.role === 'peserta') renderPesertaPanel();
+  renderStage();
+  startTimerLoop();
 }
 
 /* ============================================================
-   SETUP NAMA
+   RENDER — STAGE (sama untuk juri & peserta)
    ============================================================ */
-function openSetup() {
-  const box = document.getElementById('teamInputs');
-  box.innerHTML = '';
-  for (let i = 0; i < state.totalReguAktif; i++) {
-    const t = state.teams[i];
-    const div = document.createElement('div');
-    div.style.cssText = 'display:flex; align-items:center; gap:6px; background:#fff8e7; border-radius:10px; padding:6px;';
-    div.innerHTML = `
-      <div style="width:24px; height:24px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:900; color:white; flex-shrink:0; background:${t.color}">${i+1}</div>
-      <input type="text" id="teamName_${i}" value="${t.name}" maxlength="15"
-        style="margin:0; padding:6px 8px; border:none; background:transparent; font-size:0.85rem; color:#2d2d2d; font-weight:700; width:100%; outline:none;">
-    `;
-    box.appendChild(div);
+function renderStage() {
+  // Status chip
+  const chip = document.getElementById('statusChip');
+  chip.className = 'chip';
+  if (state.buzzerArmed) { chip.classList.add('siap'); chip.textContent = '🟢 SIAP'; }
+  else if (state.activeTeam !== null) { chip.classList.add('hit'); chip.textContent = '🔴 DITEKAN'; }
+  else { chip.classList.add('stby'); chip.textContent = 'STANDBY'; }
+
+  // Round chip
+  const rc = document.getElementById('roundChip');
+  if (state.roundNumber > 0) { rc.style.display = 'inline-block'; rc.textContent = 'Ronde ' + state.roundNumber; }
+  else rc.style.display = 'none';
+
+  // Buzzer display
+  if (state.activeTeam !== null) {
+    const t = state.teams[state.activeTeam];
+    document.getElementById('idleDisplay').style.display = 'none';
+    const active = document.getElementById('activeDisplay');
+    active.classList.add('show');
+    active.style.color = t.color;
+    document.getElementById('activeBadge').textContent = '🔔 BEL DITEKAN';
+    document.getElementById('activeBadge').style.background = t.color;
+    document.getElementById('activeName').textContent = t.name;
+    document.getElementById('activeName').style.color = t.color;
+  } else {
+    document.getElementById('idleDisplay').style.display = 'flex';
+    document.getElementById('activeDisplay').classList.remove('show');
+    document.getElementById('idleText').textContent = state.buzzerArmed ? 'BEL TERBUKA!' : 'MENUNGGU JURI';
+    document.getElementById('idleSub').textContent = state.buzzerArmed ? 'Tekan tombol bel secepat mungkin!' : 'Bel akan dibuka ketika juri menekan ARM';
   }
-  document.getElementById('setupModal').classList.remove('hidden');
-}
 
-function saveSetup() {
-  for (let i = 0; i < state.totalReguAktif; i++) {
-    const inp = document.getElementById('teamName_' + i);
-    if (inp && state.teams[i]) {
-      state.teams[i].name = inp.value.trim() || ('Regu '+TEAM_NAMES[i]);
-    }
-  }
-  document.getElementById('setupModal').classList.add('hidden');
-  persistRoom();
-  busSend({ type:'ROOM_UPDATE' });
-  renderTeams();
-  renderLeaderboard();
-  renderJoined();
-  SFX.success();
-  showToast('✅ Nama regu tersimpan', 'ok');
-}
-
-/* ============================================================
-   RENDER TEAMS
-   ============================================================ */
-function renderTeams() {
-  const list = document.getElementById('teamsList');
-  if (!list) return;
-  list.innerHTML = '';
-  state.teams.forEach((t, i) => {
-    const isActive = i < state.totalReguAktif;
-    const occupant = Object.values(state.devices).find(d => d.teamId === i);
-    const connected = !!occupant;
-
-    const row = document.createElement('div');
-    row.className = 'team-row' + (state.activeTeam === t.id ? ' active' : '') + (!isActive ? ' inactive' : '');
-    row.dataset.teamId = i;
-
-    row.innerHTML = `
-      <div class="num" style="background:${t.color}">${t.id+1}</div>
-      <div class="name">${t.name}${!isActive ? ' <em style="font-size:0.65rem; color:#999;">(nonaktif)</em>' : ''}</div>
-      <span class="conn-status ${connected ? 'on' : 'off'}" title="${occupant ? occupant.deviceId : 'Belum terhubung'}">${connected ? '● ON' : '○ OFF'}</span>
-      ${connected ? `<button class="release-btn" onclick="event.stopPropagation(); releaseTeam(${i});">Lepas</button>` : ''}
-      <div class="score">${t.score}</div>
-    `;
-    if (isActive) {
-      row.onclick = () => pressBuzzer(t.id);
-      row.style.cursor = 'pointer';
-    } else {
-      row.style.cursor = 'not-allowed';
-    }
-    list.appendChild(row);
-  });
-
-  const live = document.getElementById('liveIndicator');
-  if (live) {
-    if (state.buzzerArmed) live.textContent = '🟢 SIAP';
-    else if (state.activeTeam !== null) live.textContent = '🔴 DITEKAN';
-    else live.textContent = 'STANDBY';
-  }
-  updatePesertaUI();
-}
-
-function highlightTeamRow(teamId) {
-  const row = document.querySelector(`.team-row[data-team-id="${teamId}"]`);
-  if (!row) return;
-  row.classList.add('joined-anim');
-  setTimeout(() => row.classList.remove('joined-anim'), 1300);
-}
-
-/* ============================================================
-   PANEL PESERTA MASUK
-   ============================================================ */
-function renderJoined() {
-  const list = document.getElementById('joinedList');
-  const badge = document.getElementById('joinedCount');
-  if (!list || !badge) return;
-  const entries = Object.values(state.devices).sort((a,b) => a.joinedAt - b.joinedAt);
-  badge.textContent = entries.length;
-
-  if (entries.length === 0) {
-    list.innerHTML = '<div class="joined-empty">Belum ada peserta masuk</div>';
-    return;
-  }
-  list.innerHTML = '';
-  entries.forEach(d => {
-    const t = state.teams[d.teamId];
-    const time = new Date(d.joinedAt).toLocaleTimeString('id-ID');
-    const item = document.createElement('div');
-    item.className = 'joined-item';
-    item.innerHTML = `
-      <span class="ji-dot" style="background:${t ? t.color : '#26de81'}"></span>
-      <div class="ji-info">
-        <div class="ji-name">${t ? t.name : d.teamName}</div>
-        <div class="ji-meta">${d.deviceId} • ${time}</div>
-      </div>
-    `;
-    list.appendChild(item);
-  });
-}
-
-/* ============================================================
-   LEADERBOARD
-   ============================================================ */
-function renderLeaderboard() {
+  // Leaderboard
   const lb = document.getElementById('lbContent');
-  if (!lb) return;
   lb.innerHTML = '';
-  if (state.teams.length === 0) return;
   const active = state.teams.slice(0, state.totalReguAktif);
-  const sorted = [...active].sort((a,b) => b.score - a.score);
+  const sorted = [...active].sort((a, b) => b.score - a.score);
   sorted.forEach((t, i) => {
     const row = document.createElement('div');
     row.className = 'lb-row';
-    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i+1);
+    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
     row.innerHTML = `
       <span class="lb-rank">${medal}</span>
       <span class="lb-dot" style="background:${t.color}"></span>
@@ -1481,36 +752,107 @@ function renderLeaderboard() {
   });
 }
 
-function updateStatusChip() {
-  const chip = document.getElementById('statusChip');
-  if (!chip) return;
-  chip.className = 'chip';
-  if (state.buzzerArmed) { chip.classList.add('siap'); chip.textContent = '🟢 SIAP'; }
-  else if (state.activeTeam !== null) { chip.classList.add('hit'); chip.textContent = '🔴 DITEKAN'; }
-  else { chip.classList.add('stby'); chip.textContent = 'STANDBY'; }
-  const rc = document.getElementById('roundChip');
-  if (rc) {
-    if (state.roundNumber > 0) { rc.style.display = 'inline-block'; rc.textContent = 'Ronde ' + state.roundNumber; }
-    else rc.style.display = 'none';
+/* ============================================================
+   RENDER — PANEL JURI
+   ============================================================ */
+function renderJuriPanel() {
+  // Peserta masuk
+  const jl = document.getElementById('joinedList');
+  const jc = document.getElementById('joinedCount');
+  jc.textContent = state.devices.filter(d => d.teamId !== null).length;
+  jl.innerHTML = '';
+  const joined = state.devices.filter(d => d.teamId !== null);
+  if (joined.length === 0) {
+    jl.innerHTML = '<div style="text-align:center; color:#999; font-size:0.72rem; padding:8px;">Belum ada peserta</div>';
+  } else {
+    joined.forEach(d => {
+      const t = state.teams[d.teamId];
+      const item = document.createElement('div');
+      item.className = 'joined-item';
+      item.innerHTML = `
+        <span class="ji-name" style="color:${t ? t.color : '#999'}">${t ? t.name : '?'}</span>
+        <span class="ji-dev">${d.deviceId}</span>
+      `;
+      jl.appendChild(item);
+    });
   }
+
+  // Jumlah kelompok
+  document.getElementById('teamCountBadge').textContent = state.totalReguAktif;
+  document.getElementById('teamCountValue').textContent = state.totalReguAktif;
+  document.getElementById('btnMinus').disabled = state.totalReguAktif <= 2;
+  document.getElementById('btnPlus').disabled = state.totalReguAktif >= 9;
+  const qc = document.getElementById('quickCountBox');
+  qc.innerHTML = '';
+  for (let n = 2; n <= 9; n++) {
+    const b = document.createElement('button');
+    b.textContent = n;
+    if (n === state.totalReguAktif) b.classList.add('active');
+    b.onclick = () => wsSend({ type: 'CHANGE_TEAM_COUNT', count: n });
+    qc.appendChild(b);
+  }
+
+  // Teams list
+  const tl = document.getElementById('teamsList');
+  tl.innerHTML = '';
+  state.teams.forEach((t, i) => {
+    const active = i < state.totalReguAktif;
+    const occupant = state.devices.find(d => d.teamId === i);
+    const row = document.createElement('div');
+    row.className = 'team-row' + (active ? '' : ' inactive');
+    row.innerHTML = `
+      <div class="num" style="background:${t.color}">${i + 1}</div>
+      <div class="name">${t.name}${!active ? ' (nonaktif)' : ''}</div>
+      <span style="font-size:0.65rem; font-weight:800; color:${occupant ? '#20bf6b' : '#999'}">${occupant ? '● ON' : '○ OFF'}</span>
+      ${occupant ? `<button class="release-btn" onclick="releaseTeam(${i})">Lepas</button>` : ''}
+      <div class="score">${t.score}</div>
+    `;
+    tl.appendChild(row);
+  });
+
+  // Arm btn
+  document.getElementById('armBtn').disabled = state.buzzerArmed;
+
+  // Eval actions
+  document.getElementById('evalActions').style.display = state.activeTeam !== null ? 'grid' : 'none';
+
+  // Timer controls
+  document.getElementById('roundTimerControls').style.display = 'flex';
 }
 
-function updatePesertaUI() {
-  if (state.role !== 'peserta') return;
-  const btn = document.getElementById('pesertaBtn');
+/* ============================================================
+   RENDER — PESERTA
+   ============================================================ */
+function renderPesertaPanel() {
+  if (state.pesertaTeamId === null) return;
+  const t = state.teams[state.pesertaTeamId];
+  if (!t) return;
+
+  document.getElementById('pesertaDot').style.background = t.color;
+  document.getElementById('pesertaName').textContent = t.name;
+  document.getElementById('pesertaName').style.color = t.color;
+
+  const btn = document.getElementById('pesertaBuzzBtn');
   const btnText = document.getElementById('pesertaBtnText');
   const statusEl = document.getElementById('pesertaStatus');
-  if (!btn) return;
+  const myDevice = state.devices.find(d => d.deviceId === state.deviceId);
+  const iAmActive = myDevice && myDevice.teamId === state.pesertaTeamId;
 
   btn.classList.remove('locked', 'taken', 'success');
-  if (state.activeTeam !== null) {
+  if (!iAmActive) {
+    btn.disabled = true;
+    btn.classList.add('locked');
+    btnText.textContent = 'KAMU BELUM PIN';
+  } else if (state.activeTeam !== null) {
     if (state.activeTeam === state.pesertaTeamId) {
-      btn.disabled = true; btn.classList.add('success');
+      btn.disabled = true;
+      btn.classList.add('success');
       btnText.textContent = 'KAMU! 🎉';
       statusEl.className = 'peserta-status chip siap';
       statusEl.textContent = '✅ KAMU YANG DULUAN!';
     } else {
-      btn.disabled = true; btn.classList.add('taken');
+      btn.disabled = true;
+      btn.classList.add('taken');
       btnText.textContent = 'SUDAH';
       statusEl.className = 'peserta-status chip hit';
       statusEl.textContent = '🔔 ' + state.teams[state.activeTeam].name + ' DULUAN';
@@ -1521,7 +863,8 @@ function updatePesertaUI() {
     statusEl.className = 'peserta-status chip siap';
     statusEl.textContent = '🔔 TEKAN SEKARANG!';
   } else {
-    btn.disabled = true; btn.classList.add('locked');
+    btn.disabled = true;
+    btn.classList.add('locked');
     btnText.textContent = 'TUNGGU';
     statusEl.className = 'peserta-status chip stby';
     statusEl.textContent = '⏳ MENUNGGU JURI';
@@ -1529,7 +872,200 @@ function updatePesertaUI() {
 }
 
 /* ============================================================
-   SUARA
+   TIMER LOOP
+   ============================================================ */
+function startTimerLoop() {
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  state.timerInterval = setInterval(tickTimers, 100);
+  tickTimers();
+}
+
+function tickTimers() {
+  // Timer ronde
+  if (state.roundTimer) {
+    const remaining = Math.max(0, Math.ceil((state.roundTimer.endsAt - Date.now()) / 1000));
+    const pct = Math.max(0, (state.roundTimer.endsAt - Date.now()) / (state.roundTimer.duration * 1000)) * 100;
+    const disp = document.getElementById('roundTimerDisplay');
+    const fill = document.getElementById('roundTimerFill');
+    disp.textContent = formatTime(remaining);
+    disp.classList.toggle('warning', remaining <= 10 && remaining > 5);
+    disp.classList.toggle('danger', remaining <= 5);
+    fill.style.width = pct + '%';
+    fill.classList.toggle('warning', remaining <= 10 && remaining > 5);
+    fill.classList.toggle('danger', remaining <= 5);
+    // Tick sound
+    if (remaining <= 10 && remaining > 0 && state._lastTick !== remaining) {
+      state._lastTick = remaining;
+      if (state.soundOn !== false) SFX.click();
+    }
+  } else {
+    document.getElementById('roundTimerDisplay').textContent = '--:--';
+    document.getElementById('roundTimerFill').style.width = '0%';
+  }
+  document.getElementById('roundTimerInfo').textContent = state.settings.roundDuration + 's';
+
+  // Timer jawab
+  if (state.answerTimer) {
+    document.getElementById('answerTimerBox').style.display = 'block';
+    const remaining = Math.max(0, Math.ceil((state.answerTimer.endsAt - Date.now()) / 1000));
+    const pct = Math.max(0, (state.answerTimer.endsAt - Date.now()) / (state.answerTimer.duration * 1000)) * 100;
+    const disp = document.getElementById('answerTimerDisplay');
+    const fill = document.getElementById('answerTimerFill');
+    disp.textContent = formatTime(remaining);
+    disp.classList.toggle('warning', remaining <= 5);
+    disp.classList.toggle('danger', remaining <= 3);
+    fill.style.width = pct + '%';
+    fill.classList.toggle('warning', remaining <= 5);
+    fill.classList.toggle('danger', remaining <= 3);
+    document.getElementById('answerTimerInfo').textContent = state.settings.answerDuration + 's';
+  } else {
+    document.getElementById('answerTimerBox').style.display = 'none';
+  }
+}
+
+function formatTime(sec) {
+  if (sec < 0) sec = 0;
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+
+/* ============================================================
+   AKSI JURI
+   ============================================================ */
+function armBuzzer() { wsSend({ type: 'ARM' }); }
+function evaluate(correct) { wsSend({ type: 'EVALUATE', correct }); }
+function changeTeamCount(delta) {
+  const n = state.totalReguAktif + delta;
+  if (n < 2 || n > 9) return;
+  wsSend({ type: 'CHANGE_TEAM_COUNT', count: n });
+}
+function resetRoomCode() {
+  if (confirm('Reset kode room? Semua peserta akan dikeluarkan.')) {
+    wsSend({ type: 'RESET_ROOM_CODE' });
+  }
+}
+function kickAll() {
+  if (confirm('Keluarkan semua peserta?')) wsSend({ type: 'KICK_ALL' });
+}
+function releaseTeam(teamId) {
+  if (confirm('Lepas regu ini dari perangkatnya?')) {
+    wsSend({ type: 'RELEASE_TEAM', teamId });
+  }
+}
+
+/* ============================================================
+   AKSI PESERTA
+   ============================================================ */
+function buzz() {
+  if (state.pesertaTeamId === null) return;
+  wsSend({ type: 'BUZZ' });
+  if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+}
+
+/* ============================================================
+   UI HELPERS
+   ============================================================ */
+function showPesertaForm() {
+  closeModals();
+  document.getElementById('pesertaJoinModal').classList.remove('hidden');
+  setTimeout(() => document.querySelector('.code-digit').focus(), 100);
+}
+function showJuriForm() {
+  closeModals();
+  document.getElementById('juriJoinModal').classList.remove('hidden');
+  setTimeout(() => document.getElementById('juriRoomCodeInput').focus(), 100);
+}
+function closeModals() {
+  document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
+}
+
+function enterApp() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('app').classList.remove('hidden');
+  document.getElementById('juriPanel').style.display = state.role === 'juri' ? 'flex' : 'none';
+  document.getElementById('pesertaPanel').style.display = state.role === 'peserta' ? 'flex' : 'none';
+  document.getElementById('roomCodeDisplay').textContent = state.roomCode;
+}
+
+/* ============================================================
+   KODE INPUT OTOMATIS
+   ============================================================ */
+document.querySelectorAll('.code-digit').forEach(inp => {
+  inp.addEventListener('input', (e) => {
+    const val = e.target.value.replace(/\D/g, '');
+    e.target.value = val.slice(-1);
+    if (val && parseInt(e.target.dataset.idx) < 5) {
+      const next = document.querySelector(`.code-digit[data-idx="${parseInt(e.target.dataset.idx)+1}"]`);
+      if (next) next.focus();
+    }
+    if ([...document.querySelectorAll('.code-digit')].every(i => i.value)) {
+      setTimeout(joinAsPeserta, 200);
+    }
+  });
+  inp.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !e.target.value) {
+      const prev = document.querySelector(`.code-digit[data-idx="${parseInt(e.target.dataset.idx)-1}"]`);
+      if (prev) prev.focus();
+    }
+  });
+});
+
+async function joinAsPeserta() {
+  const code = [...document.querySelectorAll('.code-digit')].map(i => i.value).join('');
+  if (code.length !== 6) { showToast('⚠️ Kode harus 6 digit', 'warn'); return; }
+  if (!state.ws || state.ws.readyState !== 1) {
+    try { await connectWS(); } catch (e) { showToast('❌ Tidak bisa konek ke server', 'error'); return; }
+  }
+  wsSend({ type: 'JOIN_AS_PESERTA', roomCode: code, deviceId: state.deviceId });
+}
+
+async function joinAsJuri() {
+  const code = document.getElementById('juriRoomCodeInput').value.trim();
+  if (!state.ws || state.ws.readyState !== 1) {
+    try { await connectWS(); } catch (e) { showToast('❌ Tidak bisa konek ke server', 'error'); return; }
+  }
+  if (code) {
+    wsSend({ type: 'JOIN_AS_JURI', roomCode: code });
+  } else {
+    wsSend({ type: 'CREATE_ROOM' });
+  }
+}
+
+/* ============================================================
+   MODAL PILIH REGU
+   ============================================================ */
+function openTeamChoice() {
+  const box = document.getElementById('teamChoicesBox');
+  box.innerHTML = '';
+  document.getElementById('teamChoiceSub').textContent =
+    `Pilih regu Anda (${state.totalReguAktif} regu). Regu terpakai ditandai. Perangkat: ${state.deviceId}`;
+  for (let i = 0; i < state.totalReguAktif; i++) {
+    const t = state.teams[i];
+    if (!t) continue;
+    const occupant = state.devices.find(d => d.teamId === i);
+    const isMine = occupant && occupant.deviceId === state.deviceId;
+    const isTaken = occupant && occupant.deviceId !== state.deviceId;
+    const btn = document.createElement('button');
+    btn.className = 'team-choice ' + (isMine ? 'mine' : (isTaken ? 'terpakai' : 'kosong'));
+    if (!isTaken) { btn.style.color = t.color; btn.style.borderColor = t.color; }
+    if (isMine) { btn.style.background = t.color; btn.style.color = 'white'; }
+    let status = '';
+    if (isMine) status = '<span class="tc-status" style="background:rgba(255,255,255,0.3); color:white;">REGUMU</span>';
+    else if (isTaken) status = `<span class="tc-status" style="background:rgba(107,107,107,0.2); color:#6b6b6b;">TERPAKAI</span>`;
+    else status = '<span class="tc-status" style="background:rgba(38,222,129,0.2); color:#20bf6b;">KOSONG</span>';
+    btn.innerHTML = `<span class="tc-num">${i+1}</span><span>${t.name}</span>${status}`;
+    btn.onclick = () => {
+      if (isTaken) { showToast('⚠️ Regu sudah terpakai', 'warn'); return; }
+      wsSend({ type: 'CLAIM_TEAM', teamId: i });
+    };
+    box.appendChild(btn);
+  }
+  document.getElementById('teamChoiceModal').classList.remove('hidden');
+}
+
+/* ============================================================
+   SFX
    ============================================================ */
 const SFX = (() => {
   let ctx = null;
@@ -1538,218 +1074,32 @@ const SFX = (() => {
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
   }
-  function getCompressor() {
-    const ac = c();
-    const comp = ac.createDynamicsCompressor();
-    comp.threshold.value = -20; comp.knee.value = 10; comp.ratio.value = 6;
-    comp.attack.value = 0.005; comp.release.value = 0.2;
-    comp.connect(ac.destination);
-    return comp;
-  }
-  function beep(freq, dur, type, gainVal, useComp) {
-    if (!state.soundOn) return;
+  function beep(freq, dur, type, gainVal) {
     const ac = c();
     const o = ac.createOscillator();
     const g = ac.createGain();
-    o.type = type || 'sine'; o.frequency.value = freq;
+    o.type = type || 'sine';
+    o.frequency.value = freq;
     const t = ac.currentTime;
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.linearRampToValueAtTime(gainVal || 0.5, t + 0.005);
+    g.gain.linearRampToValueAtTime(gainVal || 0.4, t + 0.005);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    o.connect(g);
-    if (useComp) g.connect(getCompressor()); else g.connect(ac.destination);
+    o.connect(g); g.connect(ac.destination);
     o.start(t); o.stop(t + dur);
   }
   return {
-    click() { beep(800, 0.06, 'sine', 0.3); },
-    buzz(teamIndex) {
-      const base = 500 + (teamIndex || 0) * 60;
-      beep(base, 0.25, 'square', 0.6, true);
-      beep(base*1.5, 0.3, 'square', 0.5, true);
-      beep(base*2, 0.35, 'sawtooth', 0.4, true);
-      setTimeout(() => { beep(base*1.2, 0.2, 'square', 0.5, true); beep(base*1.8, 0.25, 'triangle', 0.4, true); }, 180);
-      setTimeout(() => beep(base, 0.4, 'square', 0.4, true), 380);
-      setTimeout(() => beep(base/2, 0.3, 'sine', 0.6, true), 50);
+    click() { beep(800, 0.05, 'sine', 0.2); },
+    buzz(i) {
+      const b = 500 + (i || 0) * 60;
+      beep(b, 0.25, 'square', 0.5);
+      beep(b * 1.5, 0.3, 'square', 0.4);
+      beep(b * 2, 0.35, 'sawtooth', 0.3);
     },
-    success() { [523,659,784,1047].forEach((f,i) => setTimeout(() => beep(f, 0.18, 'sine', 0.5, true), i*80)); },
-    fail() { beep(300, 0.15, 'sawtooth', 0.5, true); setTimeout(() => beep(200, 0.25, 'sawtooth', 0.5, true), 150); },
-    correct() { [523,659,784,1047,1319].forEach((f,i) => setTimeout(() => beep(f, 0.22, 'sine', 0.5, true), i*90)); },
-    wrong() { beep(250, 0.2, 'sawtooth', 0.5, true); setTimeout(() => beep(180, 0.3, 'sawtooth', 0.5, true), 200); setTimeout(() => beep(140, 0.4, 'sawtooth', 0.45, true), 400); },
-    applause() {
-      const ac = c(); if (!state.soundOn) return;
-      const bufferSize = ac.sampleRate * 2;
-      const buffer = ac.createBuffer(1, bufferSize, ac.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random()*2-1) * Math.pow(1-i/bufferSize, 1.5) * 0.6;
-      const src = ac.createBufferSource(); src.buffer = buffer;
-      const filter = ac.createBiquadFilter();
-      filter.type = 'bandpass'; filter.frequency.value = 2200; filter.Q.value = 0.7;
-      const gain = ac.createGain(); gain.gain.value = 0.6;
-      src.connect(filter); filter.connect(gain); gain.connect(getCompressor()); src.start();
-    }
+    fail() { beep(300, 0.15, 'sawtooth', 0.4); setTimeout(() => beep(200, 0.25, 'sawtooth', 0.4), 150); },
+    correct() { [523,659,784,1047].forEach((f,i) => setTimeout(() => beep(f, 0.18, 'sine', 0.4), i*80)); },
+    wrong() { beep(250, 0.2, 'sawtooth', 0.4); setTimeout(() => beep(180, 0.3, 'sawtooth', 0.4), 200); }
   };
 })();
-
-function toggleSound() {
-  state.soundOn = !state.soundOn;
-  const sw = document.getElementById('soundSwitch');
-  if (sw) sw.classList.toggle('on', state.soundOn);
-  const btn = document.getElementById('soundBtn');
-  if (btn) { btn.textContent = state.soundOn ? '🔊' : '🔇'; btn.classList.toggle('active', state.soundOn); }
-  if (state.soundOn) SFX.click();
-  showToast(state.soundOn ? '🔊 Suara aktif' : '🔇 Suara nonaktif');
-}
-
-/* ============================================================
-   ARM / RESET / LOCK
-   ============================================================ */
-function armBuzzer() {
-  if (state.totalReguAktif === 0) { showToast('⚠️ Atur jumlah kelompok', 'warn'); return; }
-  state.buzzerArmed = true;
-  state.activeTeam = null;
-  state.roundNumber++;
-  state.buzzerTime = 0;
-
-  document.getElementById('armBtn').disabled = true;
-  document.getElementById('evalActions').style.display = 'none';
-  document.getElementById('idleDisplay').style.display = 'flex';
-  document.getElementById('activeDisplay').classList.remove('show');
-  document.getElementById('idleText').textContent = 'BEL TERBUKA!';
-  document.getElementById('idleSub').textContent = 'Tekan tombol bel secepat mungkin!';
-
-  updateStatusChip();
-  renderTeams();
-  updatePesertaUI();
-  busSend({ type:'ARM', round: state.roundNumber });
-  SFX.click();
-  showToast('🔓 RONDE ' + state.roundNumber + ' — BEL DIBUKA!', 'ok');
-}
-
-function resetRound() {
-  state.buzzerArmed = false;
-  state.activeTeam = null;
-  state.buzzerTime = 0;
-  const armBtn = document.getElementById('armBtn');
-  if (armBtn) armBtn.disabled = false;
-  document.getElementById('evalActions').style.display = 'none';
-  document.getElementById('activeDisplay').classList.remove('show');
-  document.getElementById('idleDisplay').style.display = 'flex';
-  document.getElementById('idleText').textContent = 'SIAP RONDE BARU';
-  document.getElementById('idleSub').textContent = 'Tekan ARM untuk membuka bel';
-  updateStatusChip(); renderTeams(); updatePesertaUI();
-  busSend({ type:'RESET' });
-  SFX.click();
-  showToast('🔄 Ronde direset');
-}
-
-function lockBuzzer() {
-  state.buzzerArmed = false;
-  state.activeTeam = null;
-  const armBtn = document.getElementById('armBtn');
-  if (armBtn) armBtn.disabled = false;
-  document.getElementById('evalActions').style.display = 'none';
-  document.getElementById('activeDisplay').classList.remove('show');
-  document.getElementById('idleDisplay').style.display = 'flex';
-  document.getElementById('idleText').textContent = '🔒 TERKUNCI';
-  document.getElementById('idleSub').textContent = 'Bel dikunci oleh juri';
-  updateStatusChip(); renderTeams(); updatePesertaUI();
-  busSend({ type:'LOCK' });
-  SFX.click();
-  showToast('🔒 Bel dikunci');
-}
-
-/* ============================================================
-   PRESS BUZZER
-   ============================================================ */
-function pressBuzzer(teamId) {
-  if (teamId === undefined) {
-    teamId = state.pesertaTeamId;
-    if (teamId === null || teamId === undefined) return;
-  }
-  if (teamId >= state.totalReguAktif) { showToast('⚠️ Regu tidak aktif', 'warn'); return; }
-  if (!state.buzzerArmed) { showToast('🔒 Bel belum dibuka!', 'warn'); SFX.fail(); return; }
-  if (state.activeTeam !== null) { showToast('⚠️ Sudah ada yang lebih dulu!', 'warn'); return; }
-
-  state.activeTeam = teamId;
-  state.buzzerArmed = false;
-  state.buzzerTime = Date.now();
-  const team = state.teams[teamId];
-
-  const armBtn = document.getElementById('armBtn');
-  if (armBtn) armBtn.disabled = false;
-  document.getElementById('idleDisplay').style.display = 'none';
-  const active = document.getElementById('activeDisplay');
-  if (active) {
-    active.classList.add('show');
-    active.style.color = team.color;
-    document.getElementById('activeBadge').textContent = '🔔 BEL DITEKAN';
-    document.getElementById('activeBadge').style.background = team.color;
-    document.getElementById('activeName').textContent = team.name;
-    document.getElementById('activeName').style.color = team.color;
-    document.getElementById('activeNum').textContent = 'Regu #' + (teamId+1);
-    document.getElementById('activeTime').textContent = new Date().toLocaleTimeString('id-ID');
-  }
-  document.getElementById('evalActions').style.display = 'grid';
-  SFX.buzz(teamId);
-  setTimeout(() => SFX.applause(), 500);
-
-  state.history.push({ time:new Date().toLocaleString('id-ID'), teamId, teamName:team.name });
-  renderHistory();
-  updatePesertaUI(); renderTeams(); updateStatusChip();
-  if (navigator.vibrate) navigator.vibrate([200,100,200]);
-  showToast('🔔 ' + team.name + ' menekan bel!', 'ok');
-}
-
-function renderHistory() {
-  const hl = document.getElementById('historyList');
-  if (!hl) return;
-  hl.innerHTML = '';
-  if (state.history.length === 0) {
-    hl.innerHTML = '<div style="font-size:0.72rem; color:#999; text-align:center; padding:6px;">Belum ada bel ditekan</div>';
-    return;
-  }
-  [...state.history].reverse().slice(0, 10).forEach(h => {
-    const item = document.createElement('div');
-    item.className = 'history-item';
-    item.innerHTML = `<span class="h-team">${h.teamName}</span><span class="h-time">${h.time.split(' ')[1] || ''}</span>`;
-    hl.appendChild(item);
-  });
-}
-
-/* ============================================================
-   EVALUASI
-   ============================================================ */
-function evaluateAnswer(isCorrect) {
-  if (state.activeTeam === null) return;
-  const team = state.teams[state.activeTeam];
-  if (isCorrect) { team.score += 10; SFX.correct(); SFX.applause(); showToast('✅ ' + team.name + ' BENAR! +10', 'ok'); }
-  else { team.score = Math.max(0, team.score - 5); SFX.wrong(); showToast('❌ ' + team.name + ' SALAH! -5', 'warn'); }
-  renderTeams(); renderLeaderboard();
-  document.getElementById('evalActions').style.display = 'none';
-  document.getElementById('activeDisplay').classList.remove('show');
-  document.getElementById('idleDisplay').style.display = 'flex';
-  document.getElementById('idleText').textContent = isCorrect ? '✅ JAWABAN BENAR' : '❌ JAWABAN SALAH';
-  document.getElementById('idleSub').textContent = 'Tekan ARM untuk ronde berikutnya';
-  state.activeTeam = null;
-  updateStatusChip(); updatePesertaUI();
-}
-
-function resetScores() {
-  if (!confirm('Reset semua skor ke 0?')) return;
-  state.teams.forEach(t => t.score = 0);
-  renderTeams(); renderLeaderboard();
-  SFX.click(); showToast('🔢 Semua skor direset');
-}
-
-/* ============================================================
-   THEME & TOAST
-   ============================================================ */
-function toggleTheme() {
-  state.theme = state.theme === 'light' ? 'dark' : 'light';
-  document.body.classList.toggle('dark', state.theme === 'dark');
-  document.getElementById('themeBtn').textContent = state.theme === 'dark' ? '☀️' : '🌙';
-  SFX.click();
-}
 
 let toastTimer = null;
 function showToast(msg, type) {
@@ -1757,53 +1107,28 @@ function showToast(msg, type) {
   t.textContent = msg;
   t.className = 'toast show' + (type ? ' ' + type : '');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
 /* ============================================================
    INIT
    ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
-  initBus();
+document.getElementById('pesertaBuzzBtn').addEventListener('click', buzz);
 
-  const pBtn = document.getElementById('pesertaBtn');
-  pBtn.addEventListener('click', (e) => {
-    const rect = pBtn.getBoundingClientRect();
-    const ripple = document.createElement('span');
-    ripple.className = 'ripple';
-    const size = Math.max(rect.width, rect.height);
-    ripple.style.width = ripple.style.height = size + 'px';
-    ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
-    ripple.style.top  = (e.clientY - rect.top  - size/2) + 'px';
-    pBtn.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
-    if (navigator.vibrate) navigator.vibrate([200,100,200]);
-    pressBuzzer(state.pesertaTeamId);
-  });
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (state.role === 'juri') {
+    if (e.key === 'a' || e.key === 'A') armBuzzer();
+    if (e.key === 'r' || e.key === 'R') wsSend({ type: 'RESET_ROUND' });
+    if (e.key === 'l' || e.key === 'L') wsSend({ type: 'LOCK' });
+  } else if (state.role === 'peserta' && (e.key === ' ' || e.key === 'Enter')) {
+    e.preventDefault();
+    buzz();
+  }
+});
 
-  document.addEventListener('keydown', e => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
-    if (state.role === 'juri') {
-      if (e.key === 'a' || e.key === 'A') armBuzzer();
-      if (e.key === 'r' || e.key === 'R') resetRound();
-      if (e.key === 'l' || e.key === 'L') lockBuzzer();
-      if (e.key === 'm' || e.key === 'M') toggleSound();
-      if (e.key === 'k' || e.key === 'K') resetRoomCode();
-      const num = parseInt(e.key);
-      if (num >= 1 && num <= state.totalReguAktif) pressBuzzer(num - 1);
-    }
-    if (state.role === 'peserta' && (e.key === ' ' || e.key === 'Enter')) {
-      e.preventDefault();
-      if (state.buzzerArmed && !state.activeTeam) pressBuzzer(state.pesertaTeamId);
-    }
-  });
-
-  window.addEventListener('beforeunload', () => {
-    if (state.role === 'peserta' && state.pesertaTeamId !== null) {
-      const t = state.teams[state.pesertaTeamId];
-      busSend({ type:'LEAVE', deviceId:getDeviceId(), teamId:state.pesertaTeamId, teamName:t?t.name:'Peserta' });
-    }
-  });
+window.addEventListener('beforeunload', () => {
+  if (state.ws) state.ws.close();
 });
 </script>
 </body>
