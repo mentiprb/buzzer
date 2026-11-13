@@ -3,454 +3,981 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab Maya Kimia — Virtual Chemistry Lab</title>
+<title>SMART BUZZER — Cerdas Cermat Digital</title>
 <style>
 /* ============================================================
-   TEMA LAB KIMIA — Navy, Cyan, Gold, Futuristik
+   TEMA: Pastel Cerah (Kuning + Merah + Putih Cream)
    ============================================================ */
 * { margin:0; padding:0; box-sizing:border-box; }
 :root {
-  --bg: #0a1628;
-  --bg2: #0d1a2e;
-  --panel: #12213a;
-  --card: #1a2d4a;
-  --cyan: #00e5ff;
-  --gold: #ffc400;
-  --green: #2ed573;
-  --red: #ff4757;
-  --purple: #a55eea;
-  --pink: #ff6b9d;
+  --bg: #fff8e7;
+  --bg2: #ffeaa7;
+  --panel: #fffdf7;
+  --card: #ffffff;
+  --yellow: #ffd93d;
+  --yellow-soft: #fff3b0;
+  --yellow-deep: #f6c90e;
+  --red: #ff6b6b;
+  --red-soft: #ffb3b3;
+  --red-deep: #ee5253;
   --orange: #ff9f43;
-  --text: #e8f0fe;
-  --dim: #8fa3bf;
-  --border: rgba(0,229,255,0.25);
+  --green: #26de81;
+  --green-deep: #20bf6b;
+  --purple: #a55eea;
+  --pink: #fd79a8;
+  --cyan: #45aaf2;
+  --text: #2d2d2d;
+  --text-soft: #6b6b6b;
+  --dim: #999;
+  --border: rgba(255,107,107,0.25);
+  --border-yellow: rgba(246,201,14,0.4);
+  --shadow: 0 8px 30px rgba(255,107,107,0.15);
+  --shadow-strong: 0 15px 40px rgba(238,82,83,0.25);
+}
+body.dark {
+  --bg: #2d1b2e;
+  --bg2: #3d2438;
+  --panel: #4a2c42;
+  --card: #573348;
+  --text: #fff8e7;
+  --text-soft: #e0c8d8;
+  --dim: #b89aae;
+  --border: rgba(255,217,61,0.3);
   --shadow: 0 8px 30px rgba(0,0,0,0.4);
 }
-body.light {
-  --bg: #eaf6fd; --bg2: #f7fbfe; --panel: #fff; --card: #f0f6fc;
-  --text: #0f2847; --dim: #5a7894; --border: rgba(15,40,71,0.15);
-  --shadow: 0 8px 30px rgba(15,40,71,0.12);
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: var(--text);
+  overflow: hidden;
 }
-html, body { height: 100%; font-family: 'Segoe UI', system-ui, sans-serif; color: var(--text); overflow-x: hidden; }
 body {
-  background: radial-gradient(ellipse at top, var(--panel) 0%, var(--bg) 70%);
-  transition: background 0.4s; min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 20% 0%, var(--yellow-soft) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, var(--red-soft) 0%, transparent 50%),
+    linear-gradient(135deg, var(--bg) 0%, var(--bg2) 100%);
+  transition: background 0.4s;
 }
 body::before {
-  content: ''; position: fixed; inset: 0;
+  content: '';
+  position: fixed; inset: 0;
   background:
-    radial-gradient(circle at 20% 30%, rgba(0,229,255,0.05) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(255,196,0,0.04) 0%, transparent 40%);
+    radial-gradient(circle at 15% 30%, rgba(255,217,61,0.25) 0%, transparent 35%),
+    radial-gradient(circle at 85% 70%, rgba(255,107,107,0.2) 0%, transparent 35%);
   pointer-events: none; z-index: 0;
 }
-.app { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 12px; min-height: 100vh; display: flex; flex-direction: column; gap: 12px; }
 
-/* ===== HEADER ===== */
+/* ============================================================
+   LANDING PAGE
+   ============================================================ */
+.landing {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 20px; overflow-y: auto;
+  background:
+    radial-gradient(ellipse at 20% 10%, #fff3b0 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 90%, #ffb3b3 0%, transparent 60%),
+    linear-gradient(135deg, #fff8e7 0%, #ffeaa7 100%);
+  animation: fadeIn 0.5s;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.landing .icon-big {
+  font-size: clamp(4rem, 10vw, 6rem);
+  margin-bottom: 16px;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 10px 20px rgba(255,107,107,0.3));
+}
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+.landing h1 {
+  font-size: clamp(2rem, 7vw, 4rem);
+  font-weight: 900; text-align: center;
+  background: linear-gradient(90deg, #ee5253, #f6c90e, #ee5253);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  animation: shine 3s linear infinite;
+  margin-bottom: 10px; letter-spacing: 1px;
+}
+@keyframes shine { to { background-position: 200% 0; } }
+.landing .sub {
+  color: #6b6b6b;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  margin-bottom: 36px; text-align: center; font-weight: 600;
+  max-width: 500px;
+}
+.landing-choices {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  max-width: 720px; width: 100%;
+}
+@media (max-width: 600px) { .landing-choices { grid-template-columns: 1fr; } }
+.choice-btn {
+  padding: 32px 24px; border-radius: 24px;
+  border: 3px solid transparent;
+  background: #ffffff;
+  color: #2d2d2d;
+  font-family: inherit; cursor: pointer;
+  transition: all 0.3s; text-align: center;
+  box-shadow: 0 10px 30px rgba(238,82,83,0.15);
+  position: relative; overflow: hidden;
+}
+.choice-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 0%, currentColor 0%, transparent 60%);
+  opacity: 0.05; transition: opacity 0.3s;
+}
+.choice-btn:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(238,82,83,0.3);
+}
+.choice-btn .c-icon { font-size: 3.5rem; margin-bottom: 12px; display: block; }
+.choice-btn .c-title { font-size: 1.4rem; font-weight: 900; margin-bottom: 6px; }
+.choice-btn .c-desc { font-size: 0.85rem; color: #6b6b6b; line-height: 1.5; }
+.choice-btn.peserta { border-color: #ffd93d; background: linear-gradient(160deg, #ffffff 0%, #fff8e7 100%); }
+.choice-btn.peserta .c-title { color: #f6c90e; }
+.choice-btn.juri { border-color: #ff6b6b; background: linear-gradient(160deg, #ffffff 0%, #ffe8e8 100%); }
+.choice-btn.juri .c-title { color: #ee5253; }
+
+/* ============================================================
+   MODAL INPUT KODE
+   ============================================================ */
+.code-input-wrap {
+  display: flex; gap: 8px; justify-content: center;
+  margin: 20px 0;
+}
+.code-digit {
+  width: 52px; height: 64px;
+  border-radius: 12px;
+  border: 3px solid #ffd93d;
+  background: #ffffff;
+  font-family: 'Courier New', monospace;
+  font-size: 1.8rem; font-weight: 900;
+  text-align: center;
+  color: #2d2d2d;
+  outline: none;
+  transition: all 0.2s;
+}
+.code-digit:focus {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 4px rgba(255,107,107,0.15);
+  transform: translateY(-2px);
+}
+@media (max-width: 500px) {
+  .code-digit { width: 44px; height: 54px; font-size: 1.4rem; }
+}
+
+/* ============================================================
+   APP UTAMA
+   ============================================================ */
+.app {
+  position: relative; z-index: 1;
+  height: 100vh; display: flex; flex-direction: column;
+  padding: 12px; gap: 12px;
+}
+.app.hidden { display: none; }
+.app.peserta-mode .panel-juri { display: none; }
+.app.peserta-mode .main { grid-template-columns: 1fr; }
+.app.peserta-mode .stage-peserta { display: flex; }
+.app.peserta-mode .stage-monitor { display: none; }
+.app.juri-mode .stage-peserta { display: none; }
+
+/* HEADER */
 .header {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 22px; background: linear-gradient(135deg, var(--panel), var(--bg2));
-  border: 1px solid var(--border); border-radius: 16px;
-  box-shadow: var(--shadow); flex-wrap: wrap; gap: 12px;
+  padding: 12px 22px;
+  background: linear-gradient(135deg, #ffffff 0%, #fff8e7 100%);
+  border: 2px solid #ffd93d;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(246,201,14,0.2);
+  flex-wrap: wrap; gap: 10px;
 }
-.logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.2rem;
-  background: linear-gradient(90deg, var(--cyan), var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: 0.5px; }
-.logo .icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--cyan), var(--gold)); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; -webkit-text-fill-color: white; }
+body.dark .header {
+  background: linear-gradient(135deg, var(--panel) 0%, var(--card) 100%);
+  border-color: var(--border);
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 900; font-size: 1.15rem;
+  color: #ee5253; letter-spacing: 1px;
+}
+.logo .icon {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, #ffd93d, #ff9f43);
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  box-shadow: 0 4px 12px rgba(255,159,67,0.4);
+}
 .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.btn-icon { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 1.1rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
-.btn-icon:hover { border-color: var(--cyan); background: rgba(0,229,255,0.1); }
-.stat-badge { display: flex; align-items: center; gap: 6px; background: rgba(255,196,0,0.15); border: 1px solid var(--gold); padding: 6px 14px; border-radius: 10px; font-weight: 800; font-size: 0.85rem; color: var(--gold); }
-
-/* ===== NAV TABS ===== */
-.nav-tabs {
-  display: flex; gap: 6px; padding: 8px; background: linear-gradient(135deg, var(--panel), var(--bg2));
-  border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow);
-  flex-wrap: wrap; position: sticky; top: 8px; z-index: 50;
+.btn-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  border: 2px solid #ffd93d;
+  background: #ffffff;
+  color: #ee5253;
+  font-size: 1.1rem; cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
 }
-.nav-tabs button {
-  flex: 1; min-width: 100px; padding: 12px 16px; border-radius: 10px; border: 2px solid transparent;
-  background: transparent; color: var(--dim); font-family: inherit;
-  font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+body.dark .btn-icon { background: var(--card); border-color: var(--border); color: var(--yellow); }
+.btn-icon:hover { border-color: #ff6b6b; transform: scale(1.05); }
+.btn-icon.active { background: #ffd93d; color: #2d2d2d; }
+.room-badge {
+  display: flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, #ffd93d, #f6c90e);
+  border: 2px solid #f6c90e;
+  padding: 8px 16px; border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(246,201,14,0.3);
+}
+.room-badge .lbl {
+  font-size: 0.6rem; color: #6b5a00; font-weight: 800;
   text-transform: uppercase; letter-spacing: 0.5px;
 }
-.nav-tabs button:hover { color: var(--cyan); background: rgba(0,229,255,0.08); }
-.nav-tabs button.active {
-  color: var(--bg); background: linear-gradient(135deg, var(--cyan), #00a8cc);
-  border-color: var(--cyan); box-shadow: 0 6px 20px rgba(0,229,255,0.4);
+.room-badge .code {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem; font-weight: 900;
+  color: #2d2d2d; letter-spacing: 3px;
 }
 
-/* ===== TAB CONTENT ===== */
-.tab-content { display: none; animation: fadeIn 0.4s; flex: 1; }
-.tab-content.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+/* MAIN GRID */
+.main { flex: 1; display: grid; grid-template-columns: 1fr 340px; gap: 12px; min-height: 0; }
+@media (max-width: 960px) { .main { grid-template-columns: 1fr; overflow-y: auto; } }
 
-/* ===== LAB LAYOUT ===== */
-.lab-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr 320px;
-  gap: 12px;
-  min-height: 620px;
+/* STAGE MONITOR */
+.stage-monitor {
+  background: linear-gradient(160deg, #ffffff 0%, #fff8e7 100%);
+  border: 3px solid #ff6b6b;
+  border-radius: 20px;
+  padding: 22px; display: flex; flex-direction: column; gap: 14px;
+  position: relative; overflow: hidden; min-height: 0;
+  box-shadow: 0 12px 40px rgba(238,82,83,0.15);
 }
-@media (max-width: 1100px) { .lab-layout { grid-template-columns: 1fr; } }
+body.dark .stage-monitor { background: linear-gradient(160deg, var(--panel) 0%, var(--card) 100%); }
+.stage-monitor::before {
+  content: ''; position: absolute; inset: 0;
+  background: conic-gradient(from 0deg at 50% 50%, transparent, rgba(255,217,61,0.06), transparent, rgba(255,107,107,0.06), transparent);
+  animation: spin 30s linear infinite; pointer-events: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-.lab-panel {
-  background: linear-gradient(160deg, var(--panel), var(--bg2));
-  border: 1px solid var(--border); border-radius: 16px;
-  padding: 16px; box-shadow: var(--shadow); overflow-y: auto;
-  max-height: 700px;
+.stage-top {
+  display: flex; justify-content: space-between; align-items: center;
+  position: relative; z-index: 1; flex-wrap: wrap; gap: 10px;
 }
-.lab-panel h3 {
-  font-size: 0.85rem; color: var(--gold); letter-spacing: 2px;
-  text-transform: uppercase; margin-bottom: 10px; padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255,196,0,0.2);
+.stage-title {
+  font-size: 0.8rem; color: #ee5253; letter-spacing: 3px;
+  font-weight: 800; text-transform: uppercase;
+}
+.stage-status { display: flex; gap: 8px; align-items: center; }
+.chip {
+  font-size: 0.7rem; font-weight: 800;
+  padding: 6px 14px; border-radius: 20px;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.chip.stby { background: rgba(107,107,107,0.15); color: #6b6b6b; }
+.chip.siap { background: rgba(38,222,129,0.2); color: #20bf6b; animation: pulse 1s infinite; }
+.chip.hit { background: rgba(238,82,83,0.2); color: #ee5253; }
+.chip.lock { background: rgba(246,201,14,0.3); color: #d4a800; }
+@keyframes pulse { 50% { opacity: 0.4; } }
+
+/* BIG DISPLAY */
+.big-buzzer {
+  position: relative; z-index: 1; flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; min-height: 0; padding: 10px;
+}
+.idle-display .idle-icon {
+  font-size: 5rem; margin-bottom: 14px;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(255,159,67,0.3));
+}
+.idle-display .idle-text {
+  font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+  font-weight: 900;
+  background: linear-gradient(90deg, #ee5253, #f6c90e, #ee5253);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; animation: shine 3s linear infinite;
+  margin-bottom: 8px;
+}
+.idle-display .idle-sub { color: #6b6b6b; font-size: 0.95rem; font-weight: 600; }
+body.dark .idle-display .idle-sub { color: var(--text-soft); }
+
+.active-display { display: none; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+.active-display.show { display: flex; animation: zoomIn 0.5s; }
+@keyframes zoomIn { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.active-display::before {
+  content: ''; position: absolute; inset: -40px;
+  background: radial-gradient(circle, currentColor 0%, transparent 65%);
+  opacity: 0.2; pointer-events: none;
+  animation: pulse 2s infinite;
+}
+.buzzer-badge {
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 900; padding: 12px 34px; border-radius: 100px;
+  letter-spacing: 2px; margin-bottom: 16px; text-transform: uppercase;
+  color: white;
+  box-shadow: 0 0 40px currentColor;
+  animation: glowPulse 1.5s infinite;
+  position: relative; z-index: 1;
+}
+@keyframes glowPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+.buzzer-name {
+  font-size: clamp(2.2rem, 7vw, 5rem);
+  font-weight: 900; line-height: 1; margin-bottom: 10px;
+  text-shadow: 0 4px 30px currentColor;
+  position: relative; z-index: 1;
+}
+.buzzer-num {
+  font-size: clamp(1rem, 2vw, 1.4rem); color: #6b6b6b;
+  font-weight: 700; margin-bottom: 8px; position: relative; z-index: 1;
+}
+body.dark .buzzer-num { color: var(--text-soft); }
+.buzzer-time {
+  font-family: 'Courier New', monospace;
+  font-size: clamp(0.9rem, 1.8vw, 1.3rem); color: #6b6b6b;
+  font-weight: 700; position: relative; z-index: 1;
 }
 
-/* ===== RAK BAHAN ===== */
-.bahan-tabs { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
-.bahan-tab {
-  padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border);
-  background: var(--card); color: var(--dim); font-family: inherit;
-  font-size: 0.68rem; font-weight: 700; cursor: pointer; transition: all 0.15s;
+/* PESERTA STAGE */
+.stage-peserta {
+  background: linear-gradient(160deg, #ffffff 0%, #fff8e7 100%);
+  border: 3px solid #ffd93d;
+  border-radius: 20px;
+  padding: 22px; display: flex; flex-direction: column; gap: 14px;
+  min-height: 0; position: relative; overflow: hidden;
+  box-shadow: 0 12px 40px rgba(246,201,14,0.2);
 }
-.bahan-tab.active { background: var(--cyan); color: var(--bg); border-color: var(--cyan); }
-.bahan-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
-.bahan-item {
-  display: flex; align-items: center; gap: 6px; padding: 8px 10px;
-  background: var(--card); border-radius: 8px; border: 2px solid transparent;
-  cursor: grab; transition: all 0.15s; user-select: none;
+body.dark .stage-peserta { background: linear-gradient(160deg, var(--panel) 0%, var(--card) 100%); }
+.stage-peserta::before {
+  content: ''; position: absolute; inset: 0;
+  background: conic-gradient(from 0deg at 50% 50%, transparent, rgba(255,217,61,0.08), transparent, rgba(255,107,107,0.08), transparent);
+  animation: spin 30s linear infinite; pointer-events: none;
 }
-.bahan-item:hover { border-color: var(--cyan); transform: translateX(2px); }
-.bahan-item.dragging { opacity: 0.5; cursor: grabbing; }
-.bahan-item .bahan-icon {
-  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
-  border: 2px solid rgba(255,255,255,0.25); box-shadow: inset -2px -2px 4px rgba(0,0,0,0.3);
+.peserta-header {
+  display: flex; justify-content: space-between; align-items: center;
+  position: relative; z-index: 1; flex-wrap: wrap; gap: 8px;
 }
-.bahan-item .bahan-info { flex: 1; min-width: 0; }
-.bahan-item .bahan-name { font-size: 0.72rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.bahan-item .bahan-formula { font-size: 0.65rem; color: var(--dim); font-family: 'Courier New', monospace; }
+.peserta-team-badge {
+  display: flex; align-items: center; gap: 10px;
+  background: #ffffff; border: 2px solid #ff6b6b;
+  padding: 8px 16px; border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255,107,107,0.15);
+}
+.peserta-team-badge .dot { width: 16px; height: 16px; border-radius: 50%; }
+.peserta-team-badge .name { font-weight: 900; font-size: 1rem; color: #ee5253; }
+.peserta-status {
+  padding: 8px 16px; border-radius: 20px;
+  font-size: 0.85rem; font-weight: 800;
+}
 
-/* ===== ALAT-ALAT ===== */
-.alat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-.alat-item {
-  padding: 10px 6px; text-align: center; background: var(--card);
-  border-radius: 8px; border: 2px solid transparent; cursor: pointer;
+/* Peserta buzz button */
+.peserta-btn-wrap {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 1; padding: 20px;
+}
+.peserta-buzz-btn {
+  width: min(75vw, 75vh, 500px);
+  height: min(75vw, 75vh, 500px);
+  border-radius: 50%;
+  border: 8px solid #ff6b6b;
+  background: radial-gradient(circle at 35% 30%, #ffd93d 0%, #ff9f43 40%, #ff6b6b 80%);
+  color: #ffffff;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 900;
+  cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  box-shadow:
+    0 20px 60px rgba(255,107,107,0.5),
+    inset 0 -10px 30px rgba(0,0,0,0.15),
+    inset 0 10px 30px rgba(255,255,255,0.3);
+  font-family: inherit;
+  position: relative;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+.peserta-buzz-btn:disabled {
+  opacity: 0.35; cursor: not-allowed;
+  box-shadow: none; filter: grayscale(0.4);
+}
+.peserta-buzz-btn:not(:disabled):hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 30px 80px rgba(255,107,107,0.7),
+    inset 0 -10px 30px rgba(0,0,0,0.15),
+    inset 0 10px 30px rgba(255,255,255,0.4);
+}
+.peserta-buzz-btn:not(:disabled):active { transform: scale(0.93); }
+.peserta-buzz-btn .b-icon { font-size: clamp(3rem, 8vw, 6rem); filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2)); }
+.peserta-buzz-btn .b-text { font-size: clamp(1rem, 2.5vw, 1.6rem); letter-spacing: 2px; }
+.peserta-buzz-btn.locked {
+  border-color: #b8b8b8;
+  background: radial-gradient(circle at 35% 30%, #e0e0e0 0%, #b8b8b8 80%);
+  color: #6b6b6b;
+}
+.peserta-buzz-btn.taken {
+  border-color: #6b6b6b;
+  background: radial-gradient(circle at 35% 30%, #a8a8a8 0%, #6b6b6b 80%);
+  color: #ffffff; animation: shake 0.5s;
+}
+.peserta-buzz-btn.success {
+  border-color: #26de81;
+  background: radial-gradient(circle at 35% 30%, #a8f0c8 0%, #26de81 80%);
+  color: #ffffff;
+  animation: successPulse 0.8s infinite;
+}
+@keyframes successPulse {
+  0%,100% { box-shadow: 0 20px 60px rgba(38,222,129,0.5), inset 0 -10px 30px rgba(0,0,0,0.15); }
+  50% { box-shadow: 0 30px 80px rgba(38,222,129,0.8), inset 0 -10px 30px rgba(0,0,0,0.15); }
+}
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)} }
+
+.ripple {
+  position: absolute; border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  transform: scale(0); animation: rippleAnim 0.6s ease-out;
+  pointer-events: none;
+}
+@keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+
+/* CONTROL PANEL */
+.panel-juri {
+  background: linear-gradient(160deg, #ffffff 0%, #fff8e7 100%);
+  border: 3px solid #ffd93d;
+  border-radius: 20px;
+  padding: 16px; display: flex; flex-direction: column; gap: 10px;
+  overflow-y: auto; position: relative; z-index: 1;
+  box-shadow: 0 12px 40px rgba(246,201,14,0.2);
+}
+body.dark .panel-juri { background: linear-gradient(160deg, var(--panel) 0%, var(--card) 100%); border-color: var(--border); }
+.ctrl-hdr {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 10px; border-bottom: 2px solid #ffeaa7;
+}
+body.dark .ctrl-hdr { border-color: var(--border); }
+.ctrl-hdr h2 {
+  font-size: 0.9rem; color: #ee5253;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+.live-badge {
+  font-size: 0.62rem; font-weight: 900;
+  background: #ff6b6b; color: white;
+  padding: 4px 10px; border-radius: 6px;
+  animation: pulse 1.5s infinite;
+}
+
+/* ============================================================
+   PANEL PENGATURAN JUMLAH KELOMPOK
+   ============================================================ */
+.settings-panel {
+  background: linear-gradient(135deg, #fff8e7 0%, #ffeaa7 100%);
+  border: 2px dashed #f6c90e;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+body.dark .settings-panel {
+  background: linear-gradient(135deg, var(--card) 0%, var(--panel) 100%);
+  border-color: var(--yellow);
+}
+.settings-panel .sp-header {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.settings-panel .sp-title {
+  font-size: 0.78rem; font-weight: 900;
+  color: #ee5253; letter-spacing: 1px;
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 6px;
+}
+.settings-panel .sp-badge {
+  background: #ee5253; color: white;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 0.75rem; font-weight: 900;
+  min-width: 28px; text-align: center;
+}
+/* Stepper control */
+.team-count-stepper {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #ffffff; border-radius: 10px;
+  padding: 6px; border: 2px solid #ffd93d;
+  box-shadow: 0 4px 12px rgba(246,201,14,0.15);
+}
+body.dark .team-count-stepper { background: var(--bg); border-color: var(--border); }
+.team-count-stepper button {
+  width: 40px; height: 40px;
+  border-radius: 8px;
+  border: none; cursor: pointer;
+  font-size: 1.4rem; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  background: #ffeaa7; color: #ee5253;
+  font-family: inherit;
+}
+body.dark .team-count-stepper button { background: var(--card); color: var(--yellow); }
+.team-count-stepper button:hover:not(:disabled) {
+  background: #ffd93d; transform: scale(1.1);
+}
+.team-count-stepper button:disabled {
+  opacity: 0.3; cursor: not-allowed;
+}
+.team-count-stepper .value {
+  flex: 1; text-align: center;
+  font-size: 1.6rem; font-weight: 900;
+  color: #ee5253; font-family: 'Courier New', monospace;
+}
+.team-count-stepper .value small {
+  display: block; font-size: 0.6rem;
+  color: #6b6b6b; font-weight: 700;
+  letter-spacing: 0.5px;
+  font-family: inherit;
+}
+/* Quick select buttons — 8 tombol (2..9) */
+.quick-count-btns {
+  display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px;
+}
+.quick-count-btns button {
+  padding: 6px 0;
+  border-radius: 6px;
+  border: 2px solid #ffeaa7;
+  background: #ffffff;
+  color: #6b6b6b;
+  font-family: inherit;
+  font-weight: 900;
+  font-size: 0.72rem;
+  cursor: pointer;
   transition: all 0.15s;
 }
-.alat-item:hover { border-color: var(--gold); background: rgba(255,196,0,0.08); }
-.alat-item.active { border-color: var(--gold); background: rgba(255,196,0,0.15); }
-.alat-item .alat-icon { font-size: 1.6rem; margin-bottom: 2px; }
-.alat-item .alat-name { font-size: 0.65rem; font-weight: 700; color: var(--dim); }
-.alat-item.active .alat-name { color: var(--gold); }
+body.dark .quick-count-btns button { background: var(--card); border-color: var(--border); color: var(--text-soft); }
+.quick-count-btns button:hover { border-color: #ffd93d; transform: translateY(-1px); }
+.quick-count-btns button.active {
+  background: linear-gradient(135deg, #ffd93d, #f6c90e);
+  color: #2d2d2d;
+  border-color: #f6c90e;
+  box-shadow: 0 4px 12px rgba(246,201,14,0.4);
+}
+@media (max-width: 360px) {
+  .quick-count-btns { grid-template-columns: repeat(4, 1fr); }
+}
 
-/* ===== CANVAS AREA ===== */
-.canvas-wrap {
-  background: linear-gradient(180deg, #050a12 0%, #0a1628 100%);
-  border: 1px solid var(--border); border-radius: 16px;
-  overflow: hidden; position: relative; box-shadow: var(--shadow);
-  min-height: 620px;
-  display: flex; flex-direction: column;
+/* Team list */
+.teams-list {
+  display: flex; flex-direction: column; gap: 6px;
+  max-height: 220px; overflow-y: auto; padding-right: 3px;
 }
-body.light .canvas-wrap { background: linear-gradient(180deg, #d4ecfa 0%, #eaf6fd 100%); }
-#labCanvas { display: block; width: 100%; flex: 1; cursor: pointer; touch-action: none; }
-.canvas-hint {
-  position: absolute; top: 12px; left: 12px;
-  background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
-  padding: 8px 14px; border-radius: 10px; font-size: 0.75rem;
-  font-weight: 700; color: var(--cyan); border: 1px solid var(--cyan);
-  pointer-events: none; z-index: 5;
+.team-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px; background: #fff8e7;
+  border-radius: 10px;
+  border-left: 4px solid #b8b8b8;
+  transition: all 0.3s;
 }
-.canvas-controls {
-  display: flex; gap: 6px; padding: 10px; flex-wrap: wrap;
-  background: rgba(0,0,0,0.3); border-top: 1px solid var(--border);
+body.dark .team-row { background: var(--card); }
+.team-row.active {
+  border-left-color: #ffd93d;
+  background: #fff3b0;
+  box-shadow: 0 0 0 2px #ffd93d;
 }
+.team-row.inactive {
+  opacity: 0.4;
+  border-left-style: dashed;
+}
+.team-row .num {
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 7px; font-weight: 900; font-size: 0.8rem;
+  flex-shrink: 0; color: white;
+}
+.team-row .name { flex: 1; font-weight: 800; font-size: 0.85rem; color: #2d2d2d; }
+body.dark .team-row .name { color: var(--text); }
+.team-row .score {
+  font-family: 'Courier New', monospace;
+  font-weight: 900; color: #ee5253;
+  font-size: 0.9rem; min-width: 32px; text-align: right;
+}
+.team-row .conn-status {
+  font-size: 0.6rem; font-weight: 800; padding: 2px 6px;
+  border-radius: 4px; text-transform: uppercase;
+}
+.conn-status.on { background: rgba(38,222,129,0.2); color: #20bf6b; }
+.conn-status.off { background: rgba(107,107,107,0.15); color: #6b6b6b; }
+
+.ctrl-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .ctrl-btn {
-  padding: 8px 12px; border-radius: 8px; border: 2px solid transparent;
-  font-family: inherit; font-weight: 800; font-size: 0.72rem;
-  cursor: pointer; transition: all 0.15s; color: white;
-  text-transform: uppercase; letter-spacing: 0.3px;
+  padding: 12px 8px; border-radius: 10px;
+  border: 2px solid transparent;
+  font-family: inherit; font-weight: 900;
+  font-size: 0.72rem; cursor: pointer;
+  transition: all 0.15s; color: white;
+  text-transform: uppercase; letter-spacing: 0.5px;
 }
-.ctrl-btn:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.15); }
 .ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.ctrl-btn.primary { background: linear-gradient(135deg, #00e5ff, #00a8cc); color: var(--bg); }
-.ctrl-btn.gold { background: linear-gradient(135deg, #ffc400, #cc9c00); color: var(--bg); }
-.ctrl-btn.green { background: linear-gradient(135deg, #2ed573, #1e9e54); }
-.ctrl-btn.red { background: linear-gradient(135deg, #ff4757, #cc3946); }
-.ctrl-btn.secondary { background: var(--card); color: var(--text); border-color: var(--border); }
+.ctrl-btn:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.1); }
+.ctrl-btn.arm { background: linear-gradient(135deg, #26de81, #20bf6b); box-shadow: 0 4px 14px rgba(38,222,129,0.35); }
+.ctrl-btn.reset { background: linear-gradient(135deg, #ffd93d, #f6c90e); color: #2d2d2d; box-shadow: 0 4px 14px rgba(246,201,14,0.35); }
+.ctrl-btn.lock { background: linear-gradient(135deg, #ff6b6b, #ee5253); box-shadow: 0 4px 14px rgba(238,82,83,0.35); }
+.ctrl-btn.correct { background: linear-gradient(135deg, #26de81, #20bf6b); }
+.ctrl-btn.wrong { background: linear-gradient(135deg, #ff6b6b, #ee5253); }
+.ctrl-btn.secondary { background: #ffffff; color: #2d2d2d; border-color: #ffd93d; }
+body.dark .ctrl-btn.secondary { background: var(--card); color: var(--text); border-color: var(--border); }
 
-/* ===== PANEL HASIL REAKSI ===== */
-.reaction-panel {
-  position: absolute; top: 12px; right: 12px; width: 300px;
-  max-height: calc(100% - 80px); overflow-y: auto;
-  background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
-  border: 2px solid var(--gold); border-radius: 14px;
-  padding: 16px; box-shadow: 0 0 30px rgba(255,196,0,0.4);
-  z-index: 10; display: none; animation: slideIn 0.3s;
+.settings-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; background: #fff8e7;
+  border-radius: 10px; font-size: 0.82rem; font-weight: 700;
 }
-@keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-.reaction-panel.show { display: block; }
-.reaction-panel h4 { color: var(--gold); font-size: 0.95rem; margin-bottom: 10px; display: flex; justify-content: space-between; }
-.reaction-panel .close-rp { cursor: pointer; color: var(--dim); }
-.reaction-panel .row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 0.78rem; border-bottom: 1px dashed rgba(255,255,255,0.1); }
-.reaction-panel .row:last-of-type { border-bottom: none; }
-.reaction-panel .row span:first-child { color: var(--dim); font-weight: 600; }
-.reaction-panel .row span:last-child { font-weight: 800; text-align: right; max-width: 60%; }
-.reaction-panel .eq {
-  background: rgba(0,229,255,0.1); border-left: 3px solid var(--cyan);
-  padding: 10px; border-radius: 8px; margin: 10px 0; font-family: 'Courier New', monospace;
-  font-size: 0.82rem; line-height: 1.5; color: var(--cyan);
+body.dark .settings-row { background: var(--card); }
+.switch {
+  position: relative; width: 44px; height: 24px;
+  background: #b8b8b8; border-radius: 12px;
+  cursor: pointer; transition: all 0.2s;
 }
-.reaction-panel .explain { font-size: 0.75rem; line-height: 1.55; color: var(--text); margin-top: 8px; }
+.switch::after {
+  content: ''; position: absolute;
+  top: 2px; left: 2px;
+  width: 20px; height: 20px;
+  background: white; border-radius: 50%;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.switch.on { background: #26de81; }
+.switch.on::after { left: 22px; }
 
-/* ===== PANDUAN TAB ===== */
-.content-card {
-  background: linear-gradient(160deg, var(--panel), var(--bg2));
-  border: 1px solid var(--border); border-radius: 16px;
-  padding: 28px; box-shadow: var(--shadow);
+.ctrl-section {
+  border-top: 2px solid #ffeaa7;
+  padding-top: 10px; margin-top: 4px;
 }
-.content-card h2 { color: var(--cyan); margin-bottom: 12px; font-size: 1.5rem; }
-.content-card h3 { color: var(--gold); margin: 20px 0 8px; font-size: 1.1rem; }
-.content-card p, .content-card li { color: var(--text); line-height: 1.75; margin-bottom: 8px; font-size: 0.95rem; }
-.content-card ul, .content-card ol { padding-left: 24px; }
-.content-card strong { color: var(--cyan); }
-.step-list { display: grid; gap: 12px; margin-top: 12px; }
-.step {
-  display: flex; gap: 12px; padding: 14px; background: var(--card);
-  border-radius: 12px; border-left: 4px solid var(--cyan);
+body.dark .ctrl-section { border-color: var(--border); }
+.ctrl-section h3 {
+  font-size: 0.7rem; color: #ee5253;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  margin-bottom: 8px;
 }
-.step .step-num {
-  width: 32px; height: 32px; border-radius: 50%; background: var(--cyan);
-  color: var(--bg); display: flex; align-items: center; justify-content: center;
-  font-weight: 900; font-size: 0.9rem; flex-shrink: 0;
+.history-list {
+  display: flex; flex-direction: column; gap: 4px;
+  max-height: 100px; overflow-y: auto;
 }
-.step .step-body { flex: 1; }
-.step .step-title { font-weight: 800; color: var(--text); margin-bottom: 4px; }
-.step .step-desc { font-size: 0.85rem; color: var(--dim); line-height: 1.5; }
+.history-item {
+  display: flex; justify-content: space-between;
+  font-size: 0.75rem; padding: 6px 10px;
+  background: #fff8e7; border-radius: 8px;
+  border-left: 3px solid #ffd93d;
+}
+body.dark .history-item { background: var(--card); }
+.history-item .h-team { font-weight: 800; color: #2d2d2d; }
+body.dark .history-item .h-team { color: var(--text); }
+.history-item .h-time { color: #999; font-family: 'Courier New', monospace; font-size: 0.7rem; }
 
-/* ===== MISI TAB ===== */
-.misi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
-.misi-card {
-  background: var(--card); border: 2px solid var(--border); border-radius: 14px;
-  padding: 18px; transition: all 0.3s; position: relative; overflow: hidden;
+/* LEADERBOARD */
+.leaderboard {
+  position: relative; z-index: 1;
+  background: #fff8e7; border-radius: 14px;
+  padding: 12px 14px; margin-top: 10px;
+  border: 2px dashed #ffd93d;
 }
-.misi-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(255,196,0,0.15); }
-.misi-card.selesai { border-color: var(--green); background: rgba(46,213,115,0.1); }
-.misi-card.selesai::before {
-  content: '✅ SELESAI'; position: absolute; top: 10px; right: -30px;
-  background: var(--green); color: white; padding: 4px 40px;
-  font-size: 0.65rem; font-weight: 900; transform: rotate(35deg);
+body.dark .leaderboard { background: var(--card); }
+.leaderboard h4 {
+  font-size: 0.72rem; color: #ee5253;
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 8px;
 }
-.misi-card .misi-icon { font-size: 2.4rem; margin-bottom: 8px; }
-.misi-card .misi-title { font-size: 1rem; font-weight: 900; color: var(--cyan); margin-bottom: 6px; }
-.misi-card .misi-desc { font-size: 0.82rem; color: var(--dim); line-height: 1.5; margin-bottom: 12px; }
-.misi-card .misi-target { font-size: 0.78rem; color: var(--gold); font-weight: 700; padding: 8px; background: rgba(255,196,0,0.1); border-radius: 8px; margin-bottom: 8px; }
-.misi-card .misi-reward { font-size: 0.72rem; color: var(--dim); font-style: italic; }
+.lb-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 0; font-size: 0.85rem;
+}
+.lb-row.inactive { opacity: 0.4; }
+.lb-row .lb-rank {
+  width: 24px; text-align: center;
+  font-weight: 900; color: #ee5253;
+  font-size: 0.85rem;
+}
+.lb-row .lb-dot { width: 10px; height: 10px; border-radius: 50%; }
+.lb-row .lb-name { flex: 1; font-weight: 800; color: #2d2d2d; }
+body.dark .lb-row .lb-name { color: var(--text); }
+.lb-row .lb-score {
+  font-weight: 900; color: #ee5253;
+  font-family: 'Courier New', monospace;
+}
 
-/* ===== HASIL TAB ===== */
-.log-empty { text-align: center; padding: 40px; color: var(--dim); }
-.log-empty .log-icon { font-size: 4rem; margin-bottom: 12px; opacity: 0.5; }
-.log-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-.log-table th, .log-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
-.log-table th { color: var(--gold); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; }
-.log-table tr:hover td { background: rgba(0,229,255,0.05); }
-.log-table td.eq { font-family: 'Courier New', monospace; font-size: 0.75rem; color: var(--cyan); }
-.log-actions { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(45, 27, 46, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200; padding: 16px; overflow-y: auto;
+}
+.modal-overlay.hidden { display: none; }
+.modal {
+  background: linear-gradient(160deg, #ffffff 0%, #fff8e7 100%);
+  border: 3px solid #ffd93d;
+  border-radius: 24px;
+  padding: 30px; max-width: 520px; width: 100%;
+  box-shadow: 0 20px 60px rgba(238,82,83,0.3);
+  max-height: 90vh; overflow-y: auto;
+}
+body.dark .modal { background: linear-gradient(160deg, var(--panel) 0%, var(--card) 100%); border-color: var(--yellow); }
+.modal h2 {
+  font-size: 1.5rem; color: #ee5253;
+  margin-bottom: 6px; text-align: center;
+  font-weight: 900;
+}
+.modal .sub {
+  text-align: center; color: #6b6b6b;
+  margin-bottom: 22px; font-size: 0.88rem;
+}
+.modal label {
+  display: block; font-size: 0.75rem; color: #6b6b6b;
+  margin-bottom: 6px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.modal input, .modal select {
+  width: 100%; padding: 12px 14px;
+  background: #ffffff; border: 2px solid #ffeaa7;
+  border-radius: 10px; color: #2d2d2d;
+  font-size: 0.95rem; font-family: inherit;
+  margin-bottom: 14px; font-weight: 600;
+}
+body.dark .modal input, body.dark .modal select { background: var(--bg); color: var(--text); }
+.modal input:focus, .modal select:focus {
+  outline: none; border-color: #ff6b6b;
+  box-shadow: 0 0 0 4px rgba(255,107,107,0.1);
+}
+.team-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 18px; }
+.ti {
+  display: flex; align-items: center; gap: 6px;
+  background: #fff8e7; border-radius: 10px; padding: 6px;
+}
+body.dark .ti { background: var(--card); }
+.ti .n {
+  width: 24px; height: 24px; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 900; color: white; flex-shrink: 0;
+}
+.ti input {
+  margin: 0; padding: 6px 8px; border: none;
+  background: transparent; font-size: 0.85rem;
+  color: #2d2d2d; font-weight: 700;
+}
+body.dark .ti input { color: var(--text); }
+.btn-start {
+  width: 100%; padding: 16px;
+  background: linear-gradient(135deg, #ff6b6b, #ee5253);
+  border: none; border-radius: 12px;
+  color: white; font-size: 1rem; font-weight: 900;
+  cursor: pointer; letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 8px 24px rgba(238,82,83,0.4);
+  transition: all 0.2s;
+}
+.btn-start:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(238,82,83,0.5); }
+.btn-start.secondary {
+  background: #ffffff; color: #ee5253;
+  border: 2px solid #ffd93d;
+  box-shadow: none;
+}
+.btn-start.secondary:hover { background: #fff8e7; box-shadow: 0 4px 12px rgba(246,201,14,0.3); }
 
-/* ===== PENGATURAN ===== */
-.setting-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--card); border-radius: 10px; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; }
-.switch { position: relative; width: 48px; height: 26px; background: var(--dim); border-radius: 13px; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
-.switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; background: white; border-radius: 50%; transition: all 0.2s; }
-.switch.on { background: var(--green); }
-.switch.on::after { left: 24px; }
-.setting-select { padding: 8px 14px; background: var(--bg); border: 2px solid var(--border); border-radius: 8px; color: var(--text); font-family: inherit; font-weight: 700; cursor: pointer; }
-
-/* ===== TOAST ===== */
-.toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--panel); border: 2px solid var(--cyan); border-radius: 12px; padding: 14px 24px; font-weight: 800; color: var(--text); box-shadow: var(--shadow); transition: transform 0.3s; z-index: 300; font-size: 0.9rem; max-width: 90%; text-align: center; }
+/* Toast */
+.toast {
+  position: fixed; top: 24px; left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background: #ffffff; border: 3px solid #ff6b6b;
+  border-radius: 14px; padding: 14px 26px;
+  font-weight: 800; color: #2d2d2d;
+  box-shadow: 0 12px 40px rgba(238,82,83,0.3);
+  transition: transform 0.3s; z-index: 300;
+  font-size: 0.9rem;
+}
 .toast.show { transform: translateX(-50%) translateY(0); }
-.toast.warn { border-color: var(--gold); color: var(--gold); }
-.toast.err { border-color: var(--red); color: var(--red); }
-.toast.ok { border-color: var(--green); color: var(--green); }
+.toast.ok { border-color: #26de81; }
+.toast.warn { border-color: #ffd93d; }
 
-/* ===== RESPONSIF ===== */
-@media (max-width: 1100px) {
-  .lab-layout { grid-template-columns: 1fr; }
-  .lab-panel { max-height: 300px; }
-  .canvas-wrap { min-height: 500px; }
-  .reaction-panel { position: relative; top: auto; right: auto; width: 100%; max-height: none; margin: 8px; }
-}
-@media (max-width: 600px) {
-  .header { padding: 8px 12px; }
-  .logo { font-size: 0.95rem; }
-  .nav-tabs button { min-width: 80px; font-size: 0.72rem; padding: 10px 8px; }
-  .content-card { padding: 18px; }
-  .stat-badge { font-size: 0.72rem; padding: 4px 10px; }
+@media (max-width: 960px) {
+  .app { height: auto; min-height: 100vh; }
+  .panel-juri { max-height: 500px; }
+  .stage-monitor { min-height: 400px; }
 }
 </style>
 </head>
 <body>
 
-<div class="app">
-  <!-- HEADER -->
+<!-- LANDING -->
+<div class="landing" id="landing">
+  <div class="icon-big">🎯</div>
+  <h1>SMART BUZZER</h1>
+  <p class="sub">Cerdas Cermat Digital — Pilih peran Anda</p>
+  <div class="landing-choices">
+    <button class="choice-btn peserta" onclick="enterAsPeserta()">
+      <span class="c-icon">🙋</span>
+      <div class="c-title">MASUK SEBAGAI PESERTA</div>
+      <div class="c-desc">Masukkan kode dari juri.<br>Tombol bel raksasa untuk menjawab.</div>
+    </button>
+    <button class="choice-btn juri" onclick="enterAsJuri()">
+      <span class="c-icon">👨‍⚖️</span>
+      <div class="c-title">MASUK SEBAGAI JURI</div>
+      <div class="c-desc">Atur regu, beri kode,<br>kontrol ARM / RESET / LOCK.</div>
+    </button>
+  </div>
+</div>
+
+<!-- MODAL KODE -->
+<div class="modal-overlay hidden" id="codeModal">
+  <div class="modal">
+    <h2>🔑 Masukkan Kode Room</h2>
+    <p class="sub">Dapatkan kode 6 digit dari juri</p>
+    <div class="code-input-wrap">
+      <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="0">
+      <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="1">
+      <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="2">
+      <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="3">
+      <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="4">
+      <input class="code-digit" maxlength="1" inputmode="numeric" data-idx="5">
+    </div>
+    <button class="btn-start" onclick="validateCode()">MASUK</button>
+    <button class="btn-start secondary" style="margin-top:10px;" onclick="backToLanding()">BATAL</button>
+  </div>
+</div>
+
+<!-- MODAL PILIH REGU -->
+<div class="modal-overlay hidden" id="pesertaModal">
+  <div class="modal">
+    <h2>🙋 Pilih Regu Anda</h2>
+    <p class="sub" id="pesertaModalSub">Pilih nomor regu sesuai tim Anda</p>
+    <div id="pesertaTeamChoices" style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:18px;"></div>
+    <button class="btn-start secondary" onclick="backToLanding()">BATAL</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app hidden" id="app">
   <div class="header">
-    <div class="logo">
-      <div class="icon">🧪</div>
-      <span>VIRTUAL CHEMISTRY LAB</span>
-    </div>
+    <div class="logo"><div class="icon">🎯</div>SMART BUZZER</div>
     <div class="header-actions">
-      <div class="stat-badge"><span>🏆</span><span id="badgeCount">0</span> Badge</div>
-      <div class="stat-badge"><span>🧪</span><span id="reactionCount">0</span> Reaksi</div>
-      <button class="btn-icon" id="themeBtn" onclick="toggleTheme()" title="Mode Gelap/Terang">🌙</button>
-      <button class="btn-icon" id="soundBtn" onclick="toggleSound()" title="Suara">🔊</button>
-      <button class="btn-icon" onclick="togglePresentation()" title="Mode Presentasi">⛶</button>
-    </div>
-  </div>
-
-  <!-- NAV TABS -->
-  <div class="nav-tabs">
-    <button class="active" onclick="switchTab('lab')">🧪 MEJA LAB</button>
-    <button onclick="switchTab('panduan')">📖 PANDUAN</button>
-    <button onclick="switchTab('misi')">🎯 MISI</button>
-    <button onclick="switchTab('hasil')">📊 HASIL</button>
-    <button onclick="switchTab('pengaturan')">⚙️ PENGATURAN</button>
-  </div>
-
-  <!-- ===== TAB: MEJA LAB ===== -->
-  <div class="tab-content active" id="tab-lab">
-    <div class="lab-layout">
-      <!-- RAK BAHAN -->
-      <div class="lab-panel">
-        <h3>🧴 Rak Bahan Kimia</h3>
-        <div class="bahan-tabs" id="bahanTabs"></div>
-        <div class="bahan-grid" id="bahanGrid"></div>
-
-        <h3 style="margin-top:16px;">⚗️ Alat Lab</h3>
-        <div class="alat-grid" id="alatGrid"></div>
-      </div>
-
-      <!-- CANVAS AREA -->
-      <div class="canvas-wrap">
-        <div class="canvas-hint" id="canvasHint">💡 Klik bahan di kiri, lalu klik area lab untuk menaruhnya</div>
-        <canvas id="labCanvas"></canvas>
-        <div class="reaction-panel" id="reactionPanel">
-          <h4><span>🔬 Hasil Reaksi</span><span class="close-rp" onclick="closeReactionPanel()">✕</span></h4>
-          <div id="reactionContent"></div>
-        </div>
-        <div class="canvas-controls">
-          <button class="ctrl-btn primary" onclick="addWater()">💧 TAMBAH AIR</button>
-          <button class="ctrl-btn gold" onclick="heatLiquid()">🔥 PANASKAN</button>
-          <button class="ctrl-btn green" onclick="stirLiquid()">⚗️ ADUK</button>
-          <button class="ctrl-btn red" onclick="clearBeaker()">🗑️ KOSONGKAN</button>
-          <button class="ctrl-btn secondary" onclick="resetLab()">↺ RESET</button>
-          <button class="ctrl-btn secondary" onclick="screenshotLab()">📸 SS</button>
+      <div class="room-badge">
+        <div>
+          <div class="lbl">Kode Room</div>
+          <div class="code" id="roomCode">------</div>
         </div>
       </div>
+      <button class="btn-icon" id="themeBtn" title="Mode Terang/Gelap" onclick="toggleTheme()">🌙</button>
+      <button class="btn-icon" id="soundBtn" title="Suara ON/OFF" onclick="toggleSound()">🔊</button>
+      <button class="btn-icon" title="Ganti Peran" onclick="backToLanding()">🚪</button>
+    </div>
+  </div>
 
-      <!-- INFO PANEL -->
-      <div class="lab-panel">
-        <h3>ℹ️ Info Zat</h3>
-        <div id="infoPanel" style="font-size:0.85rem; line-height:1.6; color:var(--dim);">
-          Pilih zat dari rak untuk melihat informasi detail.
+  <div class="main">
+    <!-- STAGE MONITOR -->
+    <div class="stage-monitor" id="stageMonitor">
+      <div class="stage-top">
+        <div class="stage-title">🔴 MONITOR PESERTA</div>
+        <div class="stage-status">
+          <span class="chip stby" id="statusChip">STANDBY</span>
+          <span class="chip" id="roundChip" style="display:none;">Ronde 1</span>
         </div>
-
-        <h3 style="margin-top:16px;">📋 Status Alat</h3>
-        <div id="beakerStatus" style="font-size:0.85rem;">
-          <div style="color:var(--dim);">Gelas kimia kosong</div>
+      </div>
+      <div class="big-buzzer">
+        <div class="idle-display" id="idleDisplay">
+          <div class="idle-icon">⏳</div>
+          <div class="idle-text" id="idleText">MENUNGGU JURI</div>
+          <div class="idle-sub" id="idleSub">Bel akan dibuka ketika juri menekan ARM</div>
         </div>
-
-        <h3 style="margin-top:16px;">💡 Tips</h3>
-        <ul style="font-size:0.78rem; line-height:1.6; color:var(--dim); padding-left:16px;">
-          <li>Klik 2 zat berbeda untuk melihat reaksi</li>
-          <li>Tambahkan air untuk melarutkan</li>
-          <li>Panaskan untuk mempercepat reaksi</li>
-          <li>Uji indikator untuk deteksi pH</li>
-        </ul>
+        <div class="active-display" id="activeDisplay">
+          <div class="buzzer-badge" id="activeBadge">🔔 BEL DITEKAN</div>
+          <div class="buzzer-name" id="activeName">TIM</div>
+          <div class="buzzer-num" id="activeNum">Regu #1</div>
+          <div class="buzzer-time" id="activeTime">--:--</div>
+        </div>
+      </div>
+      <div class="leaderboard">
+        <h4>🏆 Klasemen</h4>
+        <div id="lbContent"></div>
       </div>
     </div>
-  </div>
 
-  <!-- ===== TAB: PANDUAN ===== -->
-  <div class="tab-content" id="tab-panduan">
-    <div class="content-card">
-      <h2>📖 Panduan Penggunaan Lab Maya</h2>
-      <p>Selamat datang di <strong>Virtual Chemistry Lab</strong>! Lab maya ini memungkinkan Anda bereksperimen dengan bahan kimia secara aman dan interaktif.</p>
+    <!-- STAGE PESERTA -->
+    <div class="stage-peserta" id="stagePeserta" style="display:none;">
+      <div class="peserta-header">
+        <div class="peserta-team-badge">
+          <span class="dot" id="pesertaDot"></span>
+          <span class="name" id="pesertaName">PESERTA</span>
+        </div>
+        <span class="peserta-status chip stby" id="pesertaStatus">MENUNGGU JURI</span>
+      </div>
+      <div class="peserta-btn-wrap">
+        <button class="peserta-buzz-btn" id="pesertaBtn" disabled>
+          <span class="b-icon">🔔</span>
+          <span class="b-text" id="pesertaBtnText">TUNGGU</span>
+        </button>
+      </div>
+    </div>
 
-      <h3>🎯 Cara Menggunakan</h3>
-      <div class="step-list">
-        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Pilih Zat</div><div class="step-desc">Klik zat di rak bahan sebelah kiri. Setiap zat memiliki warna dan sifat fisik yang realistis.</div></div></div>
-        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Tambahkan ke Gelas Kimia</div><div class="step-desc">Klik area gelas kimia di canvas untuk menambahkan zat yang sudah dipilih.</div></div></div>
-        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Amati Reaksi</div><div class="step-desc">Jika dua zat yang dicampurkan bereaksi, panel hasil akan muncul otomatis dengan persamaan kimia dan penjelasan.</div></div></div>
-        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Bereksperimen</div><div class="step-desc">Gunakan tombol TAMBAH AIR, PANASKAN, ADUK untuk melihat efek tambahan pada reaksi.</div></div></div>
-        <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Selesaikan Misi</div><div class="step-desc">Buka tab MISI untuk tantangan terstruktur dan dapatkan badge!</div></div></div>
+    <!-- PANEL JURI -->
+    <div class="panel-juri" id="panelJuri">
+      <div class="ctrl-hdr">
+        <h2>👨‍⚖️ Panel Juri</h2>
+        <span class="live-badge" id="liveIndicator">STANDBY</span>
       </div>
 
-      <h3>🧪 Daftar Eksperimen yang Bisa Dicoba</h3>
-      <ol>
-        <li><strong>Netralisasi:</strong> HCl + NaOH → NaCl + H₂O (eksoterm)</li>
-        <li><strong>Endapan Kuning:</strong> Pb(NO₃)₂ + KI → PbI₂↓ (kuning) + KNO₃</li>
-        <li><strong>Gas Hidrogen:</strong> Zn + HCl → ZnCl₂ + H₂↑</li>
-        <li><strong>Endapan Putih:</strong> AgNO₃ + NaCl → AgCl↓ + NaNO₃</li>
-        <li><strong>Gas CO₂:</strong> CaCO₃ + HCl → CaCl₂ + H₂O + CO₂↑</li>
-        <li><strong>Larutan Biru:</strong> CuSO₄ + air → larutan biru</li>
-        <li><strong>Indikator pH:</strong> Fenolftalein + basa → pink</li>
-        <li><strong>Karat Besi:</strong> Fe + O₂ + H₂O → Fe₂O₃·xH₂O</li>
-      </ol>
-
-      <h3>⚠️ Tips Keselamatan</h3>
-      <p>Meskipun ini lab maya, biasakan sikap ilmiah: baca sifat zat, catat hasil, dan jangan mencampur zat berbahaya tanpa tujuan. Di lab sungguhan, selalu gunakan APD!</p>
-    </div>
-  </div>
-
-  <!-- ===== TAB: MISI ===== -->
-  <div class="tab-content" id="tab-misi">
-    <div class="content-card">
-      <h2>🎯 Misi Eksperimen</h2>
-      <p>Selesaikan misi untuk mendapatkan badge dan menguji pemahaman Anda.</p>
-      <div class="misi-grid" id="misiGrid" style="margin-top:20px;"></div>
-    </div>
-  </div>
-
-  <!-- ===== TAB: HASIL ===== -->
-  <div class="tab-content" id="tab-hasil">
-    <div class="content-card">
-      <h2>📊 Log Percobaan</h2>
-      <div class="log-actions">
-        <button class="ctrl-btn primary" onclick="exportLog()">⬇ Export CSV</button>
-        <button class="ctrl-btn gold" onclick="printLog()">🖨️ Print</button>
-        <button class="ctrl-btn red" onclick="clearLog()">🗑️ Hapus Log</button>
+      <!-- PANEL PENGATURAN JUMLAH KELOMPOK -->
+      <div class="settings-panel">
+        <div class="sp-header">
+          <div class="sp-title">👥 Jumlah Kelompok</div>
+          <div class="sp-badge" id="teamCountBadge">2</div>
+        </div>
+        <div class="team-count-stepper">
+          <button onclick="changeTeamCount(-1)" id="btnMinus" aria-label="Kurangi">−</button>
+          <div class="value" id="teamCountValue">2
+            <small>KELOMPOK TAMPIL</small>
+          </div>
+          <button onclick="changeTeamCount(1)" id="btnPlus" aria-label="Tambah">+</button>
+        </div>
+        <div class="quick-count-btns" id="quickCountBtns">
+          <!-- Diisi JS: tombol 2-9 -->
+        </div>
       </div>
-      <div id="logContent"></div>
-    </div>
-  </div>
 
-  <!-- ===== TAB: PENGATURAN ===== -->
-  <div class="tab-content" id="tab-pengaturan">
-    <div class="content-card">
-      <h2>⚙️ Pengaturan</h2>
-      <h3>Tampilan</h3>
-      <div class="setting-row">
-        <span>🌙 Mode Gelap</span>
-        <div class="switch on" id="themeSwitch" onclick="toggleTheme()"></div>
+      <div class="teams-list" id="teamsList"></div>
+
+      <div class="ctrl-actions">
+        <button class="ctrl-btn arm" id="armBtn" onclick="armBuzzer()">🔓 ARM</button>
+        <button class="ctrl-btn reset" onclick="resetRound()">🔄 RESET</button>
+        <button class="ctrl-btn lock" onclick="lockBuzzer()">🔒 LOCK</button>
+        <button class="ctrl-btn secondary" onclick="openSetup()">✏️ NAMA</button>
       </div>
-      <div class="setting-row">
-        <span>🔊 Suara</span>
+
+      <div class="ctrl-actions" id="evalActions" style="display:none;">
+        <button class="ctrl-btn correct" onclick="evaluateAnswer(true)">✅ BENAR (+10)</button>
+        <button class="ctrl-btn wrong" onclick="evaluateAnswer(false)">❌ SALAH (-5)</button>
+      </div>
+
+      <div class="settings-row">
+        <span>🔊 Suara Sistem</span>
         <div class="switch on" id="soundSwitch" onclick="toggleSound()"></div>
       </div>
-      <div class="setting-row">
-        <span>🎵 Musik Latar</span>
-        <div class="switch" id="musicSwitch" onclick="toggleMusic()"></div>
+
+      <div class="ctrl-section">
+        <h3>📜 Riwayat Bel</h3>
+        <div class="history-list" id="historyList">
+          <div style="font-size:0.72rem; color:var(--dim); text-align:center; padding:6px;">Belum ada bel ditekan</div>
+        </div>
       </div>
 
-      <h3 style="margin-top:24px;">Data</h3>
-      <div class="setting-row">
-        <span>📊 Total Reaksi</span>
-        <span id="statReactions" style="color:var(--cyan); font-weight:900;">0</span>
-      </div>
-      <div class="setting-row">
-        <span>🏆 Badge Diperoleh</span>
-        <span id="statBadges" style="color:var(--gold); font-weight:900;">0</span>
-      </div>
-      <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
-        <button class="ctrl-btn red" onclick="resetAll()">🗑️ Reset Semua Data</button>
+      <div class="ctrl-actions" style="grid-template-columns: 1fr;">
+        <button class="ctrl-btn secondary" onclick="resetScores()">🔢 RESET SEMUA SKOR</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- MODAL SETUP NAMA -->
+<div class="modal-overlay hidden" id="setupModal">
+  <div class="modal">
+    <h2>⚙️ Setup Nama Regu</h2>
+    <p class="sub">Ubah nama regu. Jumlah regu diatur lewat panel juri.</p>
+    <label>Nama Regu</label>
+    <div class="team-inputs" id="teamInputs"></div>
+    <button class="btn-start" onclick="saveSetup()">💾 SIMPAN</button>
   </div>
 </div>
 
@@ -460,295 +987,426 @@ body.light .canvas-wrap { background: linear-gradient(180deg, #d4ecfa 0%, #eaf6f
 /* ============================================================
    STATE GLOBAL
    ============================================================ */
+const TEAM_COLORS = ['#ff4757', '#ff9f43', '#26de81', '#45aaf2', '#a55eea', '#fd79a8', '#f6c90e', '#4ecdc4', '#dfe6e9'];
+const TEAM_NAMES = ['Merah', 'Oranye', 'Hijau', 'Biru', 'Ungu', 'Pink', 'Kuning', 'Tosca', 'Putih'];
+const MIN_TEAMS = 2;   // ← minimal 2 regu
+const MAX_TEAMS = 9;   // ← maksimal 9 regu
+
 const state = {
-  theme: 'dark',
+  role: null,
+  teams: [],
+  totalReguAktif: 2,     // default 2
+  buzzerArmed: false,
   soundOn: true,
-  musicOn: false,
-  selectedBahan: null,
-  beakerZat: [],
-  beakerColor: '#3a5a7a',
-  beakerTemp: 25,
-  hasEndapan: false,
-  hasGas: false,
-  bubbles: [],
-  particles: [],
-  reactionLog: [],
-  badges: [],
-  misiSelesai: [],
-  lastReaction: null,
-  waterAdded: false,
-  heated: false,
-  stirred: false,
-  animationFrame: null
+  activeTeam: null,
+  roundNumber: 0,
+  history: [],
+  theme: 'light',
+  pesertaTeamId: null,
+  buzzerTime: 0,
+  roomCode: null,
+  connectedTeams: new Set()
 };
 
 /* ============================================================
-   DATA BAHAN KIMIA
+   FUNGSI BANTUAN
    ============================================================ */
-const bahanKimia = [
-  // Logam
-  { id: 'Na', name: 'Natrium', formula: 'Na', color: '#c0c0c0', category: 'Logam', wujud: 'Padat', sifat: 'Logam alkali, sangat reaktif terhadap air' },
-  { id: 'Mg', name: 'Magnesium', formula: 'Mg', color: '#d4d4d4', category: 'Logam', wujud: 'Padat', sifat: 'Logam ringan, mudah terbakar' },
-  { id: 'Ca', name: 'Kalsium', formula: 'Ca', color: '#e0e0e0', category: 'Logam', wujud: 'Padat', sifat: 'Logam alkali tanah' },
-  { id: 'Fe', name: 'Besi', formula: 'Fe', color: '#708090', category: 'Logam', wujud: 'Padat', sifat: 'Logam transisi, mudah berkarat' },
-  { id: 'Cu', name: 'Tembaga', formula: 'Cu', color: '#b87333', category: 'Logam', wujud: 'Padat', sifat: 'Logam transisi, konduktor baik' },
-  { id: 'Zn', name: 'Seng', formula: 'Zn', color: '#a8a8a8', category: 'Logam', wujud: 'Padat', sifat: 'Logam transisi, bereaksi dengan asam' },
-  // Nonlogam
-  { id: 'O2', name: 'Oksigen', formula: 'O₂', color: '#88ccff', category: 'Nonlogam', wujud: 'Gas', sifat: 'Gas tidak berwarna, pendukung pembakaran' },
-  { id: 'Cl2', name: 'Klorin', formula: 'Cl₂', color: '#c8e64b', category: 'Nonlogam', wujud: 'Gas', sifat: 'Gas kuning-hijau, beracun' },
-  { id: 'S', name: 'Belerang', formula: 'S', color: '#ffe000', category: 'Nonlogam', wujud: 'Padat', sifat: 'Padatan kuning, mudah terbakar' },
-  { id: 'C', name: 'Karbon', formula: 'C', color: '#2a2a2a', category: 'Nonlogam', wujud: 'Padat', sifat: 'Padatan hitam, intan/grafit' },
-  // Asam
-  { id: 'HCl', name: 'Asam Klorida', formula: 'HCl', color: '#f0f0f0', category: 'Asam', wujud: 'Larutan', sifat: 'Asam kuat, pH ≈ 1, korosif' },
-  { id: 'H2SO4', name: 'Asam Sulfat', formula: 'H₂SO₄', color: '#f5f5dc', category: 'Asam', wujud: 'Larutan', sifat: 'Asam kuat, sangat korosif' },
-  { id: 'HNO3', name: 'Asam Nitrat', formula: 'HNO₃', color: '#ffffe0', category: 'Asam', wujud: 'Larutan', sifat: 'Asam kuat, oksidator' },
-  { id: 'CH3COOH', name: 'Asam Asetat', formula: 'CH₃COOH', color: '#f8f8f8', category: 'Asam', wujud: 'Larutan', sifat: 'Asam lemah (cuka)' },
-  // Basa
-  { id: 'NaOH', name: 'Natrium Hidroksida', formula: 'NaOH', color: '#e0f0ff', category: 'Basa', wujud: 'Larutan', sifat: 'Basa kuat, pH ≈ 13, kaustik' },
-  { id: 'KOH', name: 'Kalium Hidroksida', formula: 'KOH', color: '#e8f0ff', category: 'Basa', wujud: 'Larutan', sifat: 'Basa kuat' },
-  { id: 'NH3', name: 'Amonia', formula: 'NH₃', color: '#e0ffe0', category: 'Basa', wujud: 'Larutan', sifat: 'Basa lemah, bau tajam' },
-  // Garam
-  { id: 'NaCl', name: 'Natrium Klorida', formula: 'NaCl', color: '#ffffff', category: 'Garam', wujud: 'Padat', sifat: 'Garam dapur, larut air' },
-  { id: 'CuSO4', name: 'Tembaga Sulfat', formula: 'CuSO₄', color: '#00a8e8', category: 'Garam', wujud: 'Padat', sifat: 'Kristal biru, larutan biru' },
-  { id: 'AgNO3', name: 'Perak Nitrat', formula: 'AgNO₃', color: '#f0f0f0', category: 'Garam', wujud: 'Padat', sifat: 'Kristal putih, mudah teroksidasi' },
-  { id: 'KI', name: 'Kalium Iodida', formula: 'KI', color: '#f0f0f0', category: 'Garam', wujud: 'Padat', sifat: 'Kristal putih, sumber iodida' },
-  { id: 'PbNO3', name: 'Timbal Nitrat', formula: 'Pb(NO₃)₂', color: '#f5f5f5', category: 'Garam', wujud: 'Padat', sifat: 'Kristal putih, beracun' },
-  { id: 'CaCO3', name: 'Kalsium Karbonat', formula: 'CaCO₃', color: '#f0f0e8', category: 'Garam', wujud: 'Padat', sifat: 'Kapur, batu gamping' },
-  // Indikator & Pelarut
-  { id: 'H2O', name: 'Air', formula: 'H₂O', color: '#cce5ff', category: 'Pelarut', wujud: 'Larutan', sifat: 'Pelarut universal' },
-  { id: 'fenolftalein', name: 'Fenolftalein', formula: 'PP', color: '#f0f0f0', category: 'Indikator', wujud: 'Larutan', sifat: 'Bening di asam, pink di basa' },
-  { id: 'lakmus', name: 'Lakmus', formula: 'Lakmus', color: '#d4b0ff', category: 'Indikator', wujud: 'Larutan', sifat: 'Merah di asam, biru di basa' }
-];
+function generateRoomCode() {
+  return String(Math.floor(100000 + Math.random() * 900000));
+}
 
-const kategoriList = ['Logam', 'Nonlogam', 'Asam', 'Basa', 'Garam', 'Indikator', 'Pelarut'];
-
-/* ============================================================
-   DATA ALAT LAB
-   ============================================================ */
-const alatLab = [
-  { id: 'beaker', name: 'Gelas Kimia', icon: '🥛' },
-  { id: 'tabung', name: 'Tabung Reaksi', icon: '🧪' },
-  { id: 'erlenmeyer', name: 'Erlenmeyer', icon: '⚗️' },
-  { id: 'pipet', name: 'Pipet Tetes', icon: '💉' },
-  { id: 'bunsen', name: 'Pembakar', icon: '🔥' },
-  { id: 'termometer', name: 'Termometer', icon: '🌡️' },
-  { id: 'pengaduk', name: 'Pengaduk', icon: '🥢' },
-  { id: 'neraca', name: 'Neraca', icon: '⚖️' },
-  { id: 'corong', name: 'Corong', icon: '🔽' }
-];
-
-/* ============================================================
-   DATABASE REAKSI KIMIA
-   ============================================================ */
-const databaseReaksi = [
-  {
-    id: 'netralisasi-1',
-    reaktan: ['HCl', 'NaOH'],
-    nama: 'Netralisasi Asam-Basa',
-    persamaan: 'HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O(l)',
-    jenis: 'Netralisasi',
-    perubahan: 'Eksoterm (suhu naik), larutan menjadi netral',
-    warna: '#e0f0ff',
-    suhuDelta: +10,
-    penjelasan: 'Asam kuat HCl bereaksi dengan basa kuat NaOH menghasilkan garam NaCl dan air. Reaksi ini eksoterm (melepas kalor).',
-    misi: 'netralisasi'
-  },
-  {
-    id: 'endapan-kuning',
-    reaktan: ['PbNO3', 'KI'],
-    nama: 'Endapan Timbal Iodida',
-    persamaan: 'Pb(NO₃)₂(aq) + 2KI(aq) → PbI₂(s)↓ + 2KNO₃(aq)',
-    jenis: 'Presipitasi',
-    perubahan: 'Terbentuk endapan kuning PbI₂',
-    warna: '#fff8c0',
-    endapan: '#ffd700',
-    penjelasan: 'Timbal(II) iodida (PbI₂) tidak larut dalam air, sehingga mengendap sebagai padatan kuning.',
-    misi: 'endapan-kuning'
-  },
-  {
-    id: 'endapan-putih',
-    reaktan: ['AgNO3', 'NaCl'],
-    nama: 'Endapan Perak Klorida',
-    persamaan: 'AgNO₃(aq) + NaCl(aq) → AgCl(s)↓ + NaNO₃(aq)',
-    jenis: 'Presipitasi',
-    perubahan: 'Terbentuk endapan putih AgCl',
-    warna: '#f8f8f8',
-    endapan: '#ffffff',
-    penjelasan: 'Perak klorida (AgCl) tidak larut dalam air, mengendap sebagai padatan putih.',
-    misi: 'endapan-putih'
-  },
-  {
-    id: 'gas-hidrogen',
-    reaktan: ['Zn', 'HCl'],
-    nama: 'Gas Hidrogen dari Logam + Asam',
-    persamaan: 'Zn(s) + 2HCl(aq) → ZnCl₂(aq) + H₂(g)↑',
-    jenis: 'Redoks',
-    perubahan: 'Gelembung gas H₂, logam Zn larut',
-    warna: '#e8f4ff',
-    gas: true,
-    penjelasan: 'Seng bereaksi dengan asam klorida menghasilkan gas hidrogen dan seng klorida. Gelembung menandakan gas H₂.',
-    misi: 'gas-hidrogen'
-  },
-  {
-    id: 'gas-co2',
-    reaktan: ['CaCO3', 'HCl'],
-    nama: 'Gas Karbon Dioksida',
-    persamaan: 'CaCO₃(s) + 2HCl(aq) → CaCl₂(aq) + H₂O(l) + CO₂(g)↑',
-    jenis: 'Asam-Karbonat',
-    perubahan: 'Gelembung gas CO₂, batu kapur larut',
-    warna: '#f0f8ff',
-    gas: true,
-    penjelasan: 'Kalsium karbonat (batu kapur) bereaksi dengan HCl menghasilkan gas CO₂. Ini adalah reaksi uji karbonat.',
-    misi: 'gas-co2'
-  },
-  {
-    id: 'larutan-biru',
-    reaktan: ['CuSO4', 'H2O'],
-    nama: 'Larutan Tembaga Sulfat Biru',
-    persamaan: 'CuSO₄(s) + H₂O(l) → CuSO₄(aq)',
-    jenis: 'Pelarutan',
-    perubahan: 'Kristal biru larut, larutan biru',
-    warna: '#00a8e8',
-    penjelasan: 'Tembaga(II) sulfat larut dalam air membentuk larutan biru khas ion Cu²⁺.',
-    misi: 'larutan-biru'
-  },
-  {
-    id: 'indikator-basa',
-    reaktan: ['fenolftalein', 'NaOH'],
-    nama: 'Uji Indikator Fenolftalein',
-    persamaan: 'PP + NaOH → larutan pink',
-    jenis: 'Indikator',
-    perubahan: 'Larutan menjadi pink/magenta',
-    warna: '#ff1493',
-    penjelasan: 'Fenolftalein berwarna pink dalam larutan basa (pH > 8.2). Ini uji khas untuk mendeteksi basa.',
-    misi: 'indikator'
-  },
-  {
-    id: 'indikator-asam',
-    reaktan: ['fenolftalein', 'HCl'],
-    nama: 'Uji Indikator dalam Asam',
-    persamaan: 'PP + HCl → larutan bening',
-    jenis: 'Indikator',
-    perubahan: 'Larutan tetap bening',
-    warna: '#f0f0f0',
-    penjelasan: 'Fenolftalein tidak berwarna dalam larutan asam (pH < 8.2).',
-    misi: 'indikator'
-  },
-  {
-    id: 'karat-besi',
-    reaktan: ['Fe', 'O2'],
-    nama: 'Oksidasi Besi (Karat)',
-    persamaan: '4Fe(s) + 3O₂(g) + xH₂O → 2Fe₂O₃·xH₂O(s)',
-    jenis: 'Oksidasi',
-    perubahan: 'Besi berubah coklat kemerahan (karat)',
-    warna: '#8b4513',
-    penjelasan: 'Besi teroksidasi oleh oksigen dan air membentuk karat (besi(III) oksida hidrat).',
-    misi: 'karat'
-  },
-  {
-    id: 'pembakaran-s',
-    reaktan: ['S', 'O2'],
-    nama: 'Pembakaran Belerang',
-    persamaan: 'S(s) + O₂(g) → SO₂(g)',
-    jenis: 'Pembakaran',
-    perubahan: 'Nyala biru, gas SO₂ berbau',
-    warna: '#ffe000',
-    api: true,
-    penjelasan: 'Belerang terbakar dengan oksigen menghasilkan gas sulfur dioksida (SO₂).',
-    misi: 'pembakaran'
-  },
-  {
-    id: 'logam-air',
-    reaktan: ['Na', 'H2O'],
-    nama: 'Natrium + Air',
-    persamaan: '2Na(s) + 2H₂O(l) → 2NaOH(aq) + H₂(g)↑',
-    jenis: 'Redoks',
-    perubahan: 'Reaksi hebat, nyala kuning, gas H₂',
-    warna: '#ffffee',
-    gas: true,
-    api: true,
-    eksoterm: true,
-    penjelasan: 'Natrium bereaksi sangat hebat dengan air menghasilkan natrium hidroksida dan gas hidrogen. Reaksi eksoterm dan dapat menyala.',
-    misi: 'logam-air'
-  },
-  {
-    id: 'asam-basa-lemah',
-    reaktan: ['CH3COOH', 'NH3'],
-    nama: 'Netralisasi Asam Lemah + Basa Lemah',
-    persamaan: 'CH₃COOH(aq) + NH₃(aq) → CH₃COONH₄(aq)',
-    jenis: 'Netralisasi',
-    perubahan: 'Larutan garam amonium asetat',
-    warna: '#f8f8ff',
-    penjelasan: 'Asam asetat dan amonia bereaksi membentuk garam amonium asetat. Reaksi lebih lambat karena keduanya lemah.',
-    misi: 'netralisasi'
-  },
-  {
-    id: 'cu-ammonia',
-    reaktan: ['CuSO4', 'NH3'],
-    nama: 'Kompleks Tembaga-Amonia',
-    persamaan: 'CuSO₄(aq) + 4NH₃(aq) → [Cu(NH₃)₄]SO₄(aq)',
-    jenis: 'Kompleks',
-    perubahan: 'Warna biru tua (biru royal)',
-    warna: '#0044aa',
-    penjelasan: 'Ion Cu²⁺ membentuk kompleks dengan amonia menghasilkan warna biru tua khas ion [Cu(NH₃)₄]²⁺.',
-    misi: 'kompleks'
-  },
-  {
-    id: 'netralisasi-2',
-    reaktan: ['H2SO4', 'KOH'],
-    nama: 'Netralisasi Asam Sulfat + KOH',
-    persamaan: 'H₂SO₄(aq) + 2KOH(aq) → K₂SO₄(aq) + 2H₂O(l)',
-    jenis: 'Netralisasi',
-    perubahan: 'Eksoterm, larutan garam',
-    warna: '#f0f8ff',
-    suhuDelta: +12,
-    penjelasan: 'Asam sulfat bereaksi dengan kalium hidroksida menghasilkan kalium sulfat dan air.',
-    misi: 'netralisasi'
-  },
-  {
-    id: 'endapan-cu-oh',
-    reaktan: ['CuSO4', 'NaOH'],
-    nama: 'Endapan Tembaga(II) Hidroksida',
-    persamaan: 'CuSO₄(aq) + 2NaOH(aq) → Cu(OH)₂(s)↓ + Na₂SO₄(aq)',
-    jenis: 'Presipitasi',
-    perubahan: 'Endapan biru muda',
-    warna: '#87ceeb',
-    endapan: '#b0e0e6',
-    penjelasan: 'Tembaga(II) hidroksida mengendap sebagai padatan biru muda.',
-    misi: 'endapan'
-  },
-  {
-    id: 'netralisasi-3',
-    reaktan: ['HNO3', 'NaOH'],
-    nama: 'Netralisasi Asam Nitrat + NaOH',
-    persamaan: 'HNO₃(aq) + NaOH(aq) → NaNO₃(aq) + H₂O(l)',
-    jenis: 'Netralisasi',
-    perubahan: 'Eksoterm, larutan netral',
-    warna: '#f8f8f8',
-    suhuDelta: +8,
-    penjelasan: 'Asam nitrat bereaksi dengan natrium hidroksida membentuk natrium nitrat dan air.',
-    misi: 'netralisasi'
+function initTeams(n) {
+  state.teams = [];
+  for (let i = 0; i < n; i++) {
+    state.teams.push({
+      id: i,
+      name: 'Regu ' + TEAM_NAMES[i],
+      color: TEAM_COLORS[i],
+      score: 0
+    });
   }
-];
+}
 
 /* ============================================================
-   DATA MISI
+   LANDING
    ============================================================ */
-const daftarMisi = [
-  { id: 'netralisasi', icon: '🧪', title: 'Misi Netralisasi', desc: 'Campurkan asam kuat dengan basa kuat untuk menghasilkan garam dan air.', target: 'Reaksikan HCl + NaOH', reward: '🏅 Ahli Netralisasi' },
-  { id: 'endapan-kuning', icon: '🟡', title: 'Misi Endapan Kuning', desc: 'Buat endapan kuning PbI₂ dari reaksi Pb(NO₃)₂ + KI.', target: 'Reaksikan Pb(NO₃)₂ + KI', reward: '🏅 Detektif Endapan' },
-  { id: 'endapan-putih', icon: '⚪', title: 'Misi Endapan Putih', desc: 'Bentuk endapan putih AgCl dari AgNO₃ + NaCl.', target: 'Reaksikan AgNO₃ + NaCl', reward: '🏅 Pengendap Perak' },
-  { id: 'gas-hidrogen', icon: '💨', title: 'Misi Gas Hidrogen', desc: 'Hasilkan gas H₂ dari logam Zn + HCl.', target: 'Reaksikan Zn + HCl', reward: '🏅 Penjinak Gas' },
-  { id: 'gas-co2', icon: '🫧', title: 'Misi Gas CO₂', desc: 'Hasilkan gas CO₂ dari batu kapur + HCl.', target: 'Reaksikan CaCO₃ + HCl', reward: '🏅 Peniup CO₂' },
-  { id: 'larutan-biru', icon: '🔵', title: 'Misi Kristal Biru', desc: 'Larutkan CuSO₄ dalam air.', target: 'Campurkan CuSO₄ + H₂O', reward: '🏅 Kristalografer' },
-  { id: 'indikator', icon: '🌸', title: 'Misi Indikator', desc: 'Uji fenolftalein pada basa untuk melihat warna pink.', target: 'Campurkan fenolftalein + NaOH', reward: '🏅 Pembaca pH' },
-  { id: 'karat', icon: '🟤', title: 'Misi Karat Besi', desc: 'Oksidasi besi dengan oksigen.', target: 'Campurkan Fe + O₂', reward: '🏅 Pengamat Korosi' },
-  { id: 'pembakaran', icon: '🔥', title: 'Misi Pembakaran', desc: 'Bakar belerang dengan oksigen.', target: 'Campurkan S + O₂', reward: '🏅 Pengendali Api' },
-  { id: 'kompleks', icon: '💠', title: 'Misi Kompleks', desc: 'Bentuk kompleks biru Cu²⁺ dengan amonia.', target: 'Campurkan CuSO₄ + NH₃', reward: '🏅 Kimiawan Kompleks' }
-];
+function enterAsPeserta() {
+  state.role = 'peserta';
+  SFX.click();
+  document.querySelectorAll('.code-digit').forEach(inp => inp.value = '');
+  document.getElementById('codeModal').classList.remove('hidden');
+  setTimeout(() => document.querySelector('.code-digit').focus(), 100);
+}
+
+function enterAsJuri() {
+  state.role = 'juri';
+  SFX.click();
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('app').classList.remove('hidden');
+  document.getElementById('app').classList.remove('peserta-mode');
+  document.getElementById('app').classList.add('juri-mode');
+  document.getElementById('stageMonitor').style.display = 'flex';
+  document.getElementById('stagePeserta').style.display = 'none';
+  document.getElementById('panelJuri').style.display = 'flex';
+
+  state.roomCode = generateRoomCode();
+  document.getElementById('roomCode').textContent = state.roomCode;
+
+  if (state.teams.length === 0) {
+    initTeams(MIN_TEAMS);
+    state.totalReguAktif = MIN_TEAMS;
+  }
+  renderQuickCountBtns();
+  renderTeams();
+  renderLeaderboard();
+  updateStatusChip();
+  updateTeamCountUI();
+  showToast('👨‍⚖️ Anda masuk sebagai JURI. Kode: ' + state.roomCode, 'ok');
+}
+
+function backToLanding() {
+  SFX.click();
+  document.getElementById('landing').style.display = 'flex';
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('codeModal').classList.add('hidden');
+  document.getElementById('pesertaModal').classList.add('hidden');
+  document.getElementById('setupModal').classList.add('hidden');
+  state.role = null;
+  state.pesertaTeamId = null;
+}
 
 /* ============================================================
-   SUARA
+   INPUT KODE OTOMATIS
+   ============================================================ */
+document.querySelectorAll('.code-digit').forEach(inp => {
+  inp.addEventListener('input', (e) => {
+    const val = e.target.value.replace(/\D/g, '');
+    e.target.value = val.slice(-1);
+    if (val && parseInt(e.target.dataset.idx) < 5) {
+      const next = document.querySelector(`.code-digit[data-idx="${parseInt(e.target.dataset.idx) + 1}"]`);
+      if (next) next.focus();
+    }
+    const allFilled = [...document.querySelectorAll('.code-digit')].every(i => i.value);
+    if (allFilled) setTimeout(validateCode, 200);
+  });
+  inp.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !e.target.value) {
+      const prev = document.querySelector(`.code-digit[data-idx="${parseInt(e.target.dataset.idx) - 1}"]`);
+      if (prev) prev.focus();
+    }
+  });
+});
+
+function validateCode() {
+  const code = [...document.querySelectorAll('.code-digit')].map(i => i.value).join('');
+  if (code.length !== 6) {
+    showToast('⚠️ Kode harus 6 digit', 'warn');
+    SFX.fail();
+    return;
+  }
+  if (code !== state.roomCode) {
+    showToast('❌ Kode salah! Minta kode yang benar ke juri', 'warn');
+    SFX.fail();
+    document.querySelectorAll('.code-digit').forEach(i => {
+      i.style.borderColor = '#ee5253';
+      i.style.animation = 'shake 0.4s';
+    });
+    setTimeout(() => {
+      document.querySelectorAll('.code-digit').forEach(i => {
+        i.style.borderColor = '';
+        i.style.animation = '';
+        i.value = '';
+      });
+      document.querySelector('.code-digit').focus();
+    }, 500);
+    return;
+  }
+  SFX.success();
+  document.getElementById('codeModal').classList.add('hidden');
+  openPesertaModal();
+}
+
+/* ============================================================
+   MODAL PESERTA
+   ============================================================ */
+function openPesertaModal() {
+  const box = document.getElementById('pesertaTeamChoices');
+  box.innerHTML = '';
+  const total = state.totalReguAktif || MIN_TEAMS;
+  document.getElementById('pesertaModalSub').textContent = `Pilih regu Anda (${total} regu aktif)`;
+  for (let i = 0; i < total; i++) {
+    const t = state.teams[i] || { name: 'Regu ' + TEAM_NAMES[i], color: TEAM_COLORS[i] };
+    const btn = document.createElement('button');
+    btn.style.cssText = `
+      padding: 20px 8px; border-radius: 14px;
+      border: 3px solid ${t.color};
+      background: #ffffff;
+      color: ${t.color};
+      font-family: inherit; font-weight: 900; font-size: 0.9rem;
+      cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      transition: all 0.15s;
+    `;
+    btn.innerHTML = `<span style="font-size:1.8rem;">${i + 1}</span><span>${t.name}</span>`;
+    btn.onmouseover = () => { btn.style.background = t.color; btn.style.color = 'white'; btn.style.transform = 'scale(1.05)'; };
+    btn.onmouseout = () => { btn.style.background = '#ffffff'; btn.style.color = t.color; btn.style.transform = 'scale(1)'; };
+    btn.onclick = () => selectPesertaTeam(i);
+    box.appendChild(btn);
+  }
+  document.getElementById('pesertaModal').classList.remove('hidden');
+}
+
+function selectPesertaTeam(idx) {
+  state.pesertaTeamId = idx;
+  state.connectedTeams.add(idx);
+  SFX.success();
+  document.getElementById('pesertaModal').classList.add('hidden');
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('app').classList.remove('hidden');
+  document.getElementById('app').classList.remove('juri-mode');
+  document.getElementById('app').classList.add('peserta-mode');
+  document.getElementById('stageMonitor').style.display = 'none';
+  document.getElementById('stagePeserta').style.display = 'flex';
+  document.getElementById('panelJuri').style.display = 'none';
+
+  const t = state.teams[idx];
+  document.getElementById('pesertaDot').style.background = t.color;
+  document.getElementById('pesertaName').textContent = t.name;
+  document.getElementById('pesertaName').style.color = t.color;
+  const btn = document.getElementById('pesertaBtn');
+  btn.style.borderColor = t.color;
+  btn.style.background = `radial-gradient(circle at 35% 30%, ${t.color}dd 0%, ${t.color} 60%, ${t.color}bb 100%)`;
+
+  document.getElementById('roomCode').textContent = state.roomCode;
+  updatePesertaUI();
+  showToast('🙋 Anda masuk sebagai ' + t.name, 'ok');
+}
+
+/* ============================================================
+   ⚙️ PANEL PENGATURAN JUMLAH KELOMPOK
+   ============================================================ */
+function renderQuickCountBtns() {
+  const box = document.getElementById('quickCountBtns');
+  box.innerHTML = '';
+  for (let n = MIN_TEAMS; n <= MAX_TEAMS; n++) {
+    const btn = document.createElement('button');
+    btn.textContent = n;
+    btn.dataset.count = n;
+    btn.onclick = () => setTeamCount(n);
+    box.appendChild(btn);
+  }
+  highlightQuickCountBtn();
+}
+
+function highlightQuickCountBtn() {
+  document.querySelectorAll('.quick-count-btns button').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.count) === state.totalReguAktif);
+  });
+}
+
+function updateTeamCountUI() {
+  document.getElementById('teamCountValue').innerHTML = `${state.totalReguAktif}<small>KELOMPOK TAMPIL</small>`;
+  document.getElementById('teamCountBadge').textContent = state.totalReguAktif;
+  document.getElementById('btnMinus').disabled = state.totalReguAktif <= MIN_TEAMS;
+  document.getElementById('btnPlus').disabled = state.totalReguAktif >= MAX_TEAMS;
+  highlightQuickCountBtn();
+}
+
+function changeTeamCount(delta) {
+  const newCount = state.totalReguAktif + delta;
+  if (newCount < MIN_TEAMS || newCount > MAX_TEAMS) return;
+  setTeamCount(newCount);
+}
+
+function setTeamCount(n) {
+  if (n < MIN_TEAMS || n > MAX_TEAMS) return;
+  state.totalReguAktif = n;
+
+  // Pastikan array teams punya cukup entri
+  while (state.teams.length < n) {
+    const i = state.teams.length;
+    state.teams.push({
+      id: i,
+      name: 'Regu ' + TEAM_NAMES[i],
+      color: TEAM_COLORS[i],
+      score: 0
+    });
+  }
+
+  // Jika ada peserta yang terpilih di luar batas, reset
+  if (state.pesertaTeamId !== null && state.pesertaTeamId >= n) {
+    state.pesertaTeamId = null;
+  }
+
+  // Reset active team jika sudah di luar
+  if (state.activeTeam !== null && state.activeTeam >= n) {
+    state.activeTeam = null;
+  }
+
+  updateTeamCountUI();
+  renderTeams();
+  renderLeaderboard();
+  SFX.click();
+  showToast(`👥 Jumlah kelompok tampil: ${n}`, 'ok');
+}
+
+/* ============================================================
+   SETUP NAMA REGU
+   ============================================================ */
+function openSetup() {
+  renderTeamInputs();
+  setTimeout(() => {
+    state.teams.forEach((t, i) => {
+      const inp = document.getElementById('teamName_' + i);
+      if (inp) inp.value = t.name;
+    });
+  }, 0);
+  document.getElementById('setupModal').classList.remove('hidden');
+}
+
+function renderTeamInputs() {
+  const n = state.totalReguAktif;
+  const box = document.getElementById('teamInputs');
+  box.innerHTML = '';
+  for (let i = 0; i < n; i++) {
+    const div = document.createElement('div');
+    div.className = 'ti';
+    const existingName = state.teams[i] ? state.teams[i].name : 'Regu ' + TEAM_NAMES[i];
+    div.innerHTML = `
+      <div class="n" style="background:${TEAM_COLORS[i]}">${i + 1}</div>
+      <input type="text" id="teamName_${i}" value="${existingName}" maxlength="15">
+    `;
+    box.appendChild(div);
+  }
+}
+
+function saveSetup() {
+  const n = state.totalReguAktif;
+  for (let i = 0; i < n; i++) {
+    const inp = document.getElementById('teamName_' + i);
+    if (inp && state.teams[i]) {
+      state.teams[i].name = inp.value.trim() || ('Regu ' + TEAM_NAMES[i]);
+    }
+  }
+  document.getElementById('setupModal').classList.add('hidden');
+  renderTeams();
+  renderLeaderboard();
+  SFX.success();
+  showToast('✅ Nama regu tersimpan', 'ok');
+}
+
+/* ============================================================
+   RENDER TEAMS
+   ============================================================ */
+function renderTeams() {
+  const list = document.getElementById('teamsList');
+  if (!list) return;
+  list.innerHTML = '';
+  state.teams.forEach((t, i) => {
+    const isActive = i < state.totalReguAktif;
+    const row = document.createElement('div');
+    row.className = 'team-row' +
+      (state.activeTeam === t.id ? ' active' : '') +
+      (!isActive ? ' inactive' : '');
+    const connected = state.connectedTeams.has(t.id);
+    row.innerHTML = `
+      <div class="num" style="background:${t.color}">${t.id + 1}</div>
+      <div class="name">${t.name}${!isActive ? ' <em style="font-size:0.65rem; color:#999;">(nonaktif)</em>' : ''}</div>
+      <span class="conn-status ${connected ? 'on' : 'off'}">${connected ? '● ON' : '○ OFF'}</span>
+      <div class="score">${t.score}</div>
+    `;
+    if (isActive) {
+      row.onclick = () => pressBuzzer(t.id);
+      row.style.cursor = 'pointer';
+    } else {
+      row.style.cursor = 'not-allowed';
+    }
+    list.appendChild(row);
+  });
+  const live = document.getElementById('liveIndicator');
+  if (live) {
+    if (state.buzzerArmed) live.textContent = '🟢 SIAP';
+    else if (state.activeTeam !== null) live.textContent = '🔴 DITEKAN';
+    else live.textContent = 'STANDBY';
+  }
+  updatePesertaUI();
+}
+
+function renderLeaderboard() {
+  const lb = document.getElementById('lbContent');
+  if (!lb) return;
+  lb.innerHTML = '';
+  if (state.teams.length === 0) return;
+  // Hanya tampilkan yang aktif di klasemen
+  const activeTeams = state.teams.slice(0, state.totalReguAktif);
+  const sorted = [...activeTeams].sort((a, b) => b.score - a.score);
+  sorted.forEach((t, i) => {
+    const row = document.createElement('div');
+    row.className = 'lb-row';
+    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+    row.innerHTML = `
+      <span class="lb-rank">${medal}</span>
+      <span class="lb-dot" style="background:${t.color}"></span>
+      <span class="lb-name">${t.name}</span>
+      <span class="lb-score">${t.score}</span>
+    `;
+    lb.appendChild(row);
+  });
+}
+
+function updateStatusChip() {
+  const chip = document.getElementById('statusChip');
+  if (!chip) return;
+  chip.className = 'chip';
+  if (state.buzzerArmed) { chip.classList.add('siap'); chip.textContent = '🟢 SIAP'; }
+  else if (state.activeTeam !== null) { chip.classList.add('hit'); chip.textContent = '🔴 DITEKAN'; }
+  else { chip.classList.add('stby'); chip.textContent = 'STANDBY'; }
+
+  const rc = document.getElementById('roundChip');
+  if (rc) {
+    if (state.roundNumber > 0) { rc.style.display = 'inline-block'; rc.textContent = 'Ronde ' + state.roundNumber; }
+    else rc.style.display = 'none';
+  }
+}
+
+function updatePesertaUI() {
+  if (state.role !== 'peserta') return;
+  const btn = document.getElementById('pesertaBtn');
+  const btnText = document.getElementById('pesertaBtnText');
+  const statusEl = document.getElementById('pesertaStatus');
+  if (!btn) return;
+
+  btn.classList.remove('locked', 'taken', 'success');
+  if (state.activeTeam !== null) {
+    if (state.activeTeam === state.pesertaTeamId) {
+      btn.disabled = true;
+      btn.classList.add('success');
+      btnText.textContent = 'KAMU! 🎉';
+      statusEl.className = 'peserta-status chip siap';
+      statusEl.textContent = '✅ KAMU YANG DULUAN!';
+    } else {
+      btn.disabled = true;
+      btn.classList.add('taken');
+      btnText.textContent = 'SUDAH';
+      statusEl.className = 'peserta-status chip hit';
+      statusEl.textContent = '🔔 ' + state.teams[state.activeTeam].name + ' DULUAN';
+    }
+  } else if (state.buzzerArmed) {
+    btn.disabled = false;
+    btnText.textContent = 'TEKAN!';
+    statusEl.className = 'peserta-status chip siap';
+    statusEl.textContent = '🔔 TEKAN SEKARANG!';
+  } else {
+    btn.disabled = true;
+    btn.classList.add('locked');
+    btnText.textContent = 'TUNGGU';
+    statusEl.className = 'peserta-status chip stby';
+    statusEl.textContent = '⏳ MENUNGGU JURI';
+  }
+}
+
+/* ============================================================
+   SUARA — KERAS & JELAS
    ============================================================ */
 const SFX = (() => {
   let ctx = null;
@@ -757,893 +1415,300 @@ const SFX = (() => {
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
   }
-  function beep(freq, dur, type, gainVal) {
+  function getCompressor() {
+    const ac = c();
+    const comp = ac.createDynamicsCompressor();
+    comp.threshold.value = -20;
+    comp.knee.value = 10;
+    comp.ratio.value = 6;
+    comp.attack.value = 0.005;
+    comp.release.value = 0.2;
+    comp.connect(ac.destination);
+    return comp;
+  }
+  function beep(freq, dur, type, gainVal, useComp) {
     if (!state.soundOn) return;
     const ac = c();
-    const o = ac.createOscillator(), g = ac.createGain();
+    const o = ac.createOscillator();
+    const g = ac.createGain();
     o.type = type || 'sine';
     o.frequency.value = freq;
     const t = ac.currentTime;
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.linearRampToValueAtTime(gainVal || 0.15, t + 0.01);
+    g.gain.linearRampToValueAtTime(gainVal || 0.5, t + 0.005);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    o.connect(g); g.connect(ac.destination);
+    o.connect(g);
+    if (useComp) g.connect(getCompressor());
+    else g.connect(ac.destination);
     o.start(t); o.stop(t + dur);
   }
   return {
-    click() { beep(800, 0.06, 'sine', 0.08); },
-    drop() { beep(500, 0.1, 'triangle', 0.12); setTimeout(() => beep(700, 0.08, 'sine', 0.08), 50); },
-    success() { [523, 659, 784].forEach((f, i) => setTimeout(() => beep(f, 0.15, 'sine', 0.15), i * 80)); },
-    fail() { beep(200, 0.2, 'sawtooth', 0.15); setTimeout(() => beep(150, 0.25, 'sawtooth', 0.12), 100); },
-    bubble() { beep(400 + Math.random() * 400, 0.05, 'sine', 0.05); },
-    pour() { for (let i = 0; i < 5; i++) setTimeout(() => beep(600 + Math.random() * 200, 0.04, 'sine', 0.06), i * 60); }
+    click() { beep(800, 0.06, 'sine', 0.3); },
+    buzz(teamIndex) {
+      const base = 500 + (teamIndex || 0) * 60;
+      beep(base, 0.25, 'square', 0.6, true);
+      beep(base * 1.5, 0.3, 'square', 0.5, true);
+      beep(base * 2, 0.35, 'sawtooth', 0.4, true);
+      setTimeout(() => {
+        beep(base * 1.2, 0.2, 'square', 0.5, true);
+        beep(base * 1.8, 0.25, 'triangle', 0.4, true);
+      }, 180);
+      setTimeout(() => beep(base, 0.4, 'square', 0.4, true), 380);
+      setTimeout(() => beep(base / 2, 0.3, 'sine', 0.6, true), 50);
+    },
+    success() {
+      [523, 659, 784, 1047].forEach((f, i) => {
+        setTimeout(() => beep(f, 0.18, 'sine', 0.5, true), i * 80);
+      });
+    },
+    fail() {
+      beep(300, 0.15, 'sawtooth', 0.5, true);
+      setTimeout(() => beep(200, 0.25, 'sawtooth', 0.5, true), 150);
+    },
+    correct() {
+      [523, 659, 784, 1047, 1319].forEach((f, i) => {
+        setTimeout(() => beep(f, 0.22, 'sine', 0.5, true), i * 90);
+      });
+    },
+    wrong() {
+      beep(250, 0.2, 'sawtooth', 0.5, true);
+      setTimeout(() => beep(180, 0.3, 'sawtooth', 0.5, true), 200);
+      setTimeout(() => beep(140, 0.4, 'sawtooth', 0.45, true), 400);
+    },
+    applause() {
+      const ac = c();
+      if (!state.soundOn) return;
+      const bufferSize = ac.sampleRate * 2;
+      const buffer = ac.createBuffer(1, bufferSize, ac.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 1.5) * 0.6;
+      }
+      const src = ac.createBufferSource();
+      src.buffer = buffer;
+      const filter = ac.createBiquadFilter();
+      filter.type = 'bandpass'; filter.frequency.value = 2200; filter.Q.value = 0.7;
+      const gain = ac.createGain(); gain.gain.value = 0.6;
+      src.connect(filter); filter.connect(gain);
+      gain.connect(getCompressor());
+      src.start();
+    }
   };
 })();
 
 function toggleSound() {
   state.soundOn = !state.soundOn;
-  document.getElementById('soundBtn').textContent = state.soundOn ? '🔊' : '🔇';
   const sw = document.getElementById('soundSwitch');
   if (sw) sw.classList.toggle('on', state.soundOn);
+  const btn = document.getElementById('soundBtn');
+  if (btn) {
+    btn.textContent = state.soundOn ? '🔊' : '🔇';
+    btn.classList.toggle('active', state.soundOn);
+  }
   if (state.soundOn) SFX.click();
   showToast(state.soundOn ? '🔊 Suara aktif' : '🔇 Suara nonaktif');
 }
 
-/* Musik latar */
-let musicCtx = null, musicPlaying = false, musicTimer = null;
-function toggleMusic() {
-  state.musicOn = !state.musicOn;
-  const sw = document.getElementById('musicSwitch');
-  if (sw) sw.classList.toggle('on', state.musicOn);
-  if (state.musicOn) {
-    if (!musicCtx) musicCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (musicCtx.state === 'suspended') musicCtx.resume();
-    musicPlaying = true;
-    playMusicLoop();
-    showToast('🎵 Musik latar aktif');
-  } else {
-    musicPlaying = false;
-    clearTimeout(musicTimer);
-    showToast('🎵 Musik latar nonaktif');
-  }
-}
-function playMusicLoop() {
-  if (!musicPlaying) return;
-  const notes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63];
-  let t = musicCtx.currentTime;
-  notes.forEach((f, i) => {
-    const o = musicCtx.createOscillator(), g = musicCtx.createGain();
-    o.type = 'sine'; o.frequency.value = f;
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.linearRampToValueAtTime(0.03, t + 0.1);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.4);
-    o.connect(g); g.connect(musicCtx.destination);
-    o.start(t); o.stop(t + 0.5);
-    t += 0.5;
-  });
-  musicTimer = setTimeout(playMusicLoop, 3000);
-}
-
 /* ============================================================
-   RENDER RAK BAHAN
+   ARM / RESET / LOCK
    ============================================================ */
-let kategoriAktif = 'Logam';
-function renderBahanTabs() {
-  const tabs = document.getElementById('bahanTabs');
-  tabs.innerHTML = '';
-  kategoriList.forEach(k => {
-    const b = document.createElement('button');
-    b.className = 'bahan-tab' + (k === kategoriAktif ? ' active' : '');
-    b.textContent = k;
-    b.onclick = () => { kategoriAktif = k; renderBahanTabs(); renderBahanGrid(); };
-    tabs.appendChild(b);
-  });
-}
-function renderBahanGrid() {
-  const grid = document.getElementById('bahanGrid');
-  grid.innerHTML = '';
-  bahanKimia.filter(b => b.category === kategoriAktif).forEach(b => {
-    const div = document.createElement('div');
-    div.className = 'bahan-item';
-    div.draggable = true;
-    div.innerHTML = `
-      <div class="bahan-icon" style="background:${b.color}"></div>
-      <div class="bahan-info">
-        <div class="bahan-name">${b.name}</div>
-        <div class="bahan-formula">${b.formula}</div>
-      </div>
-    `;
-    div.onclick = () => selectBahan(b);
-    div.ondragstart = (e) => {
-      state.selectedBahan = b;
-      div.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'copy';
-    };
-    div.ondragend = () => div.classList.remove('dragging');
-    grid.appendChild(div);
-  });
-}
+function armBuzzer() {
+  if (state.totalReguAktif === 0) { showToast('⚠️ Atur jumlah kelompok dulu', 'warn'); return; }
+  state.buzzerArmed = true;
+  state.activeTeam = null;
+  state.roundNumber++;
+  state.buzzerTime = 0;
 
-function selectBahan(b) {
-  state.selectedBahan = b;
+  document.getElementById('armBtn').disabled = true;
+  document.getElementById('evalActions').style.display = 'none';
+
+  document.getElementById('idleDisplay').style.display = 'flex';
+  document.getElementById('activeDisplay').classList.remove('show');
+  document.getElementById('idleText').textContent = 'BEL TERBUKA!';
+  document.getElementById('idleSub').textContent = 'Tekan tombol bel secepat mungkin!';
+
+  updateStatusChip();
+  renderTeams();
+  updatePesertaUI();
+
   SFX.click();
-  document.querySelectorAll('.bahan-item').forEach(el => el.style.borderColor = 'transparent');
-  document.querySelectorAll('.bahan-item').forEach(el => {
-    if (el.querySelector('.bahan-name').textContent === b.name) {
-      el.style.borderColor = 'var(--cyan)';
-    }
-  });
-  document.getElementById('infoPanel').innerHTML = `
-    <div style="font-weight:900; color:var(--cyan); font-size:1rem; margin-bottom:6px;">${b.name}</div>
-    <div style="font-family:'Courier New', monospace; color:var(--gold); font-size:0.9rem; margin-bottom:8px;">${b.formula}</div>
-    <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-      <div style="width:24px; height:24px; border-radius:50%; background:${b.color}; border:2px solid rgba(255,255,255,0.3);"></div>
-      <span style="font-size:0.78rem;">${b.wujud}</span>
-    </div>
-    <div style="font-size:0.82rem; line-height:1.5;">${b.sifat}</div>
-    <div style="margin-top:10px; padding:8px; background:rgba(0,229,255,0.08); border-radius:8px; font-size:0.75rem; color:var(--cyan);">
-      💡 Klik area gelas kimia untuk menambahkan
-    </div>
-  `;
-  document.getElementById('canvasHint').textContent = `💡 ${b.name} dipilih — klik gelas kimia untuk menambahkan`;
+  showToast('🔓 RONDE ' + state.roundNumber + ' — BEL DIBUKA!', 'ok');
+}
+
+function resetRound() {
+  state.buzzerArmed = false;
+  state.activeTeam = null;
+  state.buzzerTime = 0;
+
+  const armBtn = document.getElementById('armBtn');
+  if (armBtn) armBtn.disabled = false;
+  document.getElementById('evalActions').style.display = 'none';
+  document.getElementById('activeDisplay').classList.remove('show');
+  document.getElementById('idleDisplay').style.display = 'flex';
+  document.getElementById('idleText').textContent = 'SIAP RONDE BARU';
+  document.getElementById('idleSub').textContent = 'Tekan ARM untuk membuka bel';
+
+  updateStatusChip();
+  renderTeams();
+  updatePesertaUI();
+
+  SFX.click();
+  showToast('🔄 Ronde direset');
+}
+
+function lockBuzzer() {
+  state.buzzerArmed = false;
+  state.activeTeam = null;
+
+  const armBtn = document.getElementById('armBtn');
+  if (armBtn) armBtn.disabled = false;
+  document.getElementById('evalActions').style.display = 'none';
+  document.getElementById('activeDisplay').classList.remove('show');
+  document.getElementById('idleDisplay').style.display = 'flex';
+  document.getElementById('idleText').textContent = '🔒 TERKUNCI';
+  document.getElementById('idleSub').textContent = 'Bel dikunci oleh juri';
+
+  updateStatusChip();
+  renderTeams();
+  updatePesertaUI();
+
+  SFX.click();
+  showToast('🔒 Bel dikunci');
 }
 
 /* ============================================================
-   RENDER ALAT
+   PRESS BUZZER
    ============================================================ */
-function renderAlat() {
-  const grid = document.getElementById('alatGrid');
-  grid.innerHTML = '';
-  alatLab.forEach(a => {
-    const div = document.createElement('div');
-    div.className = 'alat-item';
-    div.innerHTML = `<div class="alat-icon">${a.icon}</div><div class="alat-name">${a.name}</div>`;
-    div.onclick = () => showToast(`🛠️ ${a.name} — alat tersedia di meja lab`);
-    grid.appendChild(div);
-  });
-}
-
-/* ============================================================
-   CANVAS LAB
-   ============================================================ */
-const labCanvas = document.getElementById('labCanvas');
-const labCtx = labCanvas.getContext('2d');
-let beakerBounds = { x: 0, y: 0, w: 0, h: 0 };
-
-function resizeCanvas() {
-  const wrap = labCanvas.parentElement;
-  const rect = wrap.getBoundingClientRect();
-  labCanvas.width = rect.width;
-  labCanvas.height = Math.max(500, rect.height - 60);
-  const bw = Math.min(280, labCanvas.width * 0.45);
-  const bh = Math.min(320, labCanvas.height * 0.55);
-  beakerBounds = {
-    x: (labCanvas.width - bw) / 2,
-    y: labCanvas.height * 0.3,
-    w: bw,
-    h: bh
-  };
-  drawLab();
-}
-
-labCanvas.addEventListener('click', (e) => {
-  const rect = labCanvas.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  // cek apakah klik di dalam gelas kimia
-  if (x > beakerBounds.x && x < beakerBounds.x + beakerBounds.w &&
-      y > beakerBounds.y && y < beakerBounds.y + beakerBounds.h) {
-    if (state.selectedBahan) {
-      addZatToBeaker(state.selectedBahan);
-    } else {
-      showToast('⚠️ Pilih zat terlebih dahulu', 'warn');
-    }
+function pressBuzzer(teamId) {
+  if (teamId === undefined) {
+    teamId = state.pesertaTeamId;
+    if (teamId === null || teamId === undefined) return;
   }
-});
 
-labCanvas.addEventListener('dragover', (e) => {
-  e.preventDefault();
-  e.dataTransfer.dropEffect = 'copy';
-});
-labCanvas.addEventListener('drop', (e) => {
-  e.preventDefault();
-  if (state.selectedBahan) {
-    addZatToBeaker(state.selectedBahan);
+  // Cek apakah regu ini aktif (di dalam totalReguAktif)
+  if (teamId >= state.totalReguAktif) {
+    showToast('⚠️ Regu ini tidak aktif', 'warn');
+    return;
   }
-});
 
-/* ============================================================
-   LOGIKA REAKSI
-   ============================================================ */
-function addZatToBeaker(bahan) {
-  if (state.beakerZat.length >= 4) {
-    showToast('⚠️ Gelas penuh — kosongkan dulu', 'warn');
+  if (!state.buzzerArmed) {
+    showToast('🔒 Bel belum dibuka!', 'warn');
     SFX.fail();
     return;
   }
-  state.beakerZat.push(bahan);
-  SFX.drop();
-  SFX.pour();
-
-  // Update warna cairan
-  updateBeakerColor();
-
-  // Cek reaksi
-  checkReaction();
-
-  // Update status
-  updateBeakerStatus();
-  drawLab();
-}
-
-function updateBeakerColor() {
-  if (state.beakerZat.length === 0) {
-    state.beakerColor = '#3a5a7a';
+  if (state.activeTeam !== null) {
+    showToast('⚠️ Sudah ada yang lebih dulu!', 'warn');
     return;
   }
-  // warna campur: rata-rata dari warna zat (kalau tidak ada reaksi yang override)
-  if (!state.lastReaction) {
-    let r = 0, g = 0, b = 0;
-    state.beakerZat.forEach(z => {
-      const c = hexToRgb(z.color);
-      r += c.r; g += c.g; b += c.b;
-    });
-    const n = state.beakerZat.length;
-    state.beakerColor = `rgb(${Math.round(r/n)}, ${Math.round(g/n)}, ${Math.round(b/n)})`;
-  }
-}
 
-function hexToRgb(hex) {
-  // handle rgb() string
-  if (hex.startsWith('rgb')) {
-    const m = hex.match(/\d+/g);
-    return { r: +m[0], g: +m[1], b: +m[2] };
-  }
-  const f = parseInt(hex.slice(1), 16);
-  return { r: (f >> 16) & 255, g: (f >> 8) & 255, b: f & 255 };
-}
+  state.activeTeam = teamId;
+  state.buzzerArmed = false;
+  state.buzzerTime = Date.now();
 
-function checkReaction() {
-  if (state.beakerZat.length < 2) return;
-  const ids = state.beakerZat.map(z => z.id);
-  // cari reaksi yang cocok (urutan bebas)
-  for (const reaksi of databaseReaksi) {
-    const [a, b] = reaksi.reaktan;
-    if (ids.includes(a) && ids.includes(b)) {
-      triggerReaction(reaksi);
-      return;
-    }
-  }
-  // tidak ada reaksi
-  state.lastReaction = null;
-  state.hasGas = false;
-  state.hasEndapan = false;
-  if (state.beakerZat.length >= 2) {
-    showToast('💧 Zat tercampur, tidak terjadi reaksi kimia signifikan', 'warn');
-  }
-}
+  const team = state.teams[teamId];
 
-function triggerReaction(reaksi) {
-  state.lastReaction = reaksi;
-  state.hasGas = !!reaksi.gas;
-  state.hasEndapan = !!reaksi.endapan;
-  state.beakerColor = reaksi.warna;
-
-  // Efek suhu
-  if (reaksi.suhuDelta) {
-    state.beakerTemp += reaksi.suhuDelta;
+  const armBtn = document.getElementById('armBtn');
+  if (armBtn) armBtn.disabled = false;
+  document.getElementById('idleDisplay').style.display = 'none';
+  const active = document.getElementById('activeDisplay');
+  if (active) {
+    active.classList.add('show');
+    active.style.color = team.color;
+    document.getElementById('activeBadge').textContent = '🔔 BEL DITEKAN';
+    document.getElementById('activeBadge').style.background = team.color;
+    document.getElementById('activeName').textContent = team.name;
+    document.getElementById('activeName').style.color = team.color;
+    document.getElementById('activeNum').textContent = 'Regu #' + (teamId + 1);
+    document.getElementById('activeTime').textContent = new Date().toLocaleTimeString('id-ID');
   }
 
-  // Buat partikel
-  if (reaksi.gas) createGasParticles();
-  if (reaksi.endapan) createEndapanParticles();
-  if (reaksi.api) createApiEffect();
+  document.getElementById('evalActions').style.display = 'grid';
 
-  // Suara
-  SFX.success();
-  if (reaksi.gas) {
-    for (let i = 0; i < 5; i++) setTimeout(() => SFX.bubble(), i * 100);
-  }
+  SFX.buzz(teamId);
+  setTimeout(() => SFX.applause(), 500);
 
-  // Tampilkan panel hasil
-  showReactionPanel(reaksi);
-
-  // Tambahkan ke log
-  addToLog(reaksi);
-
-  // Cek misi
-  if (reaksi.misi) completeMisi(reaksi.misi, reaksi);
-
-  // Efek khusus
-  if (reaksi.id === 'logam-air') {
-    showToast('💥 Reaksi hebat! Natrium bereaksi dengan air!', 'warn');
-  }
-}
-
-function showReactionPanel(reaksi) {
-  const panel = document.getElementById('reactionPanel');
-  const content = document.getElementById('reactionContent');
-  content.innerHTML = `
-    <div style="color:var(--gold); font-weight:900; font-size:1rem; margin-bottom:8px;">${reaksi.nama}</div>
-    <div class="eq">${reaksi.persamaan}</div>
-    <div class="row"><span>Jenis</span><span>${reaksi.jenis}</span></div>
-    <div class="row"><span>Perubahan</span><span>${reaksi.perubahan}</span></div>
-    ${reaksi.suhuDelta ? `<div class="row"><span>Suhu</span><span>${reaksi.suhuDelta > 0 ? '+' : ''}${reaksi.suhuDelta}°C (${reaksi.suhuDelta > 0 ? 'eksoterm' : 'endoterm'})</span></div>` : ''}
-    ${reaksi.endapan ? `<div class="row"><span>Endapan</span><span style="color:${reaksi.endapan};">Terbentuk</span></div>` : ''}
-    ${reaksi.gas ? `<div class="row"><span>Gas</span><span>Terbentuk</span></div>` : ''}
-    <div class="explain">${reaksi.penjelasan}</div>
-    <button class="ctrl-btn primary" style="width:100%; margin-top:12px;" onclick="saveReactionToLog()">💾 SIMPAN KE LOG</button>
-  `;
-  panel.classList.add('show');
-}
-
-function closeReactionPanel() {
-  document.getElementById('reactionPanel').classList.remove('show');
-}
-
-function saveReactionToLog() {
-  showToast('💾 Reaksi tersimpan di log', 'ok');
-  closeReactionPanel();
-}
-
-/* ============================================================
-   PARTIKEL
-   ============================================================ */
-function createGasParticles() {
-  for (let i = 0; i < 20; i++) {
-    state.bubbles.push({
-      x: beakerBounds.x + 20 + Math.random() * (beakerBounds.w - 40),
-      y: beakerBounds.y + beakerBounds.h - 10,
-      r: 2 + Math.random() * 4,
-      vy: -0.5 - Math.random() * 1.5,
-      life: 200 + Math.random() * 100
-    });
-  }
-}
-
-function createEndapanParticles() {
-  for (let i = 0; i < 30; i++) {
-    state.particles.push({
-      x: beakerBounds.x + 20 + Math.random() * (beakerBounds.w - 40),
-      y: beakerBounds.y + 30 + Math.random() * (beakerBounds.h - 60),
-      r: 1 + Math.random() * 3,
-      vy: 0.3 + Math.random() * 0.5,
-      color: state.lastReaction.endapan,
-      life: 300
-    });
-  }
-}
-
-function createApiEffect() {
-  for (let i = 0; i < 15; i++) {
-    state.particles.push({
-      x: beakerBounds.x + beakerBounds.w / 2 + (Math.random() - 0.5) * 100,
-      y: beakerBounds.y - Math.random() * 40,
-      r: 3 + Math.random() * 6,
-      vy: -1 - Math.random() * 2,
-      color: Math.random() > 0.5 ? '#ff4757' : '#ffc400',
-      life: 60
-    });
-  }
-}
-
-/* ============================================================
-   DRAW LAB
-   ============================================================ */
-function drawLab() {
-  const w = labCanvas.width, h = labCanvas.height;
-  const isLight = state.theme === 'light';
-
-  // background meja
-  const grad = labCtx.createLinearGradient(0, 0, 0, h);
-  if (isLight) {
-    grad.addColorStop(0, '#d4ecfa');
-    grad.addColorStop(1, '#eaf6fd');
-  } else {
-    grad.addColorStop(0, '#0a1628');
-    grad.addColorStop(1, '#050a12');
-  }
-  labCtx.fillStyle = grad;
-  labCtx.fillRect(0, 0, w, h);
-
-  // grid meja
-  labCtx.strokeStyle = isLight ? 'rgba(15,40,71,0.06)' : 'rgba(0,229,255,0.04)';
-  labCtx.lineWidth = 1;
-  for (let x = 0; x < w; x += 40) {
-    labCtx.beginPath(); labCtx.moveTo(x, 0); labCtx.lineTo(x, h); labCtx.stroke();
-  }
-  for (let y = 0; y < h; y += 40) {
-    labCtx.beginPath(); labCtx.moveTo(0, y); labCtx.lineTo(w, y); labCtx.stroke();
-  }
-
-  // meja
-  const tableY = beakerBounds.y + beakerBounds.h + 30;
-  labCtx.fillStyle = isLight ? 'rgba(90,120,148,0.2)' : 'rgba(0,229,255,0.05)';
-  labCtx.fillRect(0, tableY, w, h - tableY);
-  labCtx.strokeStyle = isLight ? 'rgba(90,120,148,0.4)' : 'rgba(0,229,255,0.2)';
-  labCtx.lineWidth = 2;
-  labCtx.beginPath(); labCtx.moveTo(0, tableY); labCtx.lineTo(w, tableY); labCtx.stroke();
-
-  // beaker (gelas kimia)
-  drawBeaker();
-
-  // bubbles (gas)
-  state.bubbles = state.bubbles.filter(b => b.life > 0);
-  state.bubbles.forEach(b => {
-    labCtx.fillStyle = 'rgba(180, 230, 255, 0.6)';
-    labCtx.beginPath();
-    labCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-    labCtx.fill();
-    labCtx.strokeStyle = 'rgba(255,255,255,0.4)';
-    labCtx.stroke();
-    b.y += b.vy;
-    b.life--;
-  });
-
-  // particles (endapan / api)
-  state.particles = state.particles.filter(p => p.life > 0);
-  state.particles.forEach(p => {
-    labCtx.fillStyle = p.color;
-    labCtx.globalAlpha = Math.min(1, p.life / 60);
-    labCtx.beginPath();
-    labCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    labCtx.fill();
-    labCtx.globalAlpha = 1;
-    p.y += p.vy;
-    p.life--;
-  });
-
-  // thermometer
-  drawThermometer();
-
-  // label
-  labCtx.fillStyle = isLight ? '#0f2847' : '#8fa3bf';
-  labCtx.font = 'bold 12px sans-serif';
-  labCtx.textAlign = 'center';
-  labCtx.fillText('GELAS KIMIA', beakerBounds.x + beakerBounds.w / 2, beakerBounds.y - 10);
-
-  // request animation
-  if (state.bubbles.length > 0 || state.particles.length > 0) {
-    if (!state.animationFrame) {
-      state.animationFrame = requestAnimationFrame(animateLoop);
-    }
-  } else {
-    if (state.animationFrame) {
-      cancelAnimationFrame(state.animationFrame);
-      state.animationFrame = null;
-    }
-  }
-}
-
-function animateLoop() {
-  state.animationFrame = null;
-  drawLab();
-}
-
-function drawBeaker() {
-  const { x, y, w, h } = beakerBounds;
-  const isLight = state.theme === 'light';
-
-  // Shadow
-  labCtx.fillStyle = 'rgba(0,0,0,0.2)';
-  labCtx.beginPath();
-  labCtx.ellipse(x + w/2, y + h + 15, w/2 + 10, 10, 0, 0, Math.PI*2);
-  labCtx.fill();
-
-  // Body beaker (glass)
-  labCtx.fillStyle = isLight ? 'rgba(200,220,240,0.3)' : 'rgba(150,180,220,0.08)';
-  labCtx.beginPath();
-  labCtx.moveTo(x, y);
-  labCtx.lineTo(x, y + h - 20);
-  labCtx.quadraticCurveTo(x, y + h, x + 20, y + h);
-  labCtx.lineTo(x + w - 20, y + h);
-  labCtx.quadraticCurveTo(x + w, y + h, x + w, y + h - 20);
-  labCtx.lineTo(x + w, y);
-  labCtx.closePath();
-  labCtx.fill();
-
-  // Liquid inside
-  if (state.beakerZat.length > 0) {
-    const liquidH = h * 0.6;
-    const liquidY = y + h - liquidH - 5;
-
-    labCtx.save();
-    labCtx.beginPath();
-    labCtx.moveTo(x + 5, liquidY);
-    labCtx.lineTo(x + 5, y + h - 25);
-    labCtx.quadraticCurveTo(x + 5, y + h - 5, x + 25, y + h - 5);
-    labCtx.lineTo(x + w - 25, y + h - 5);
-    labCtx.quadraticCurveTo(x + w - 5, y + h - 5, x + w - 5, y + h - 25);
-    labCtx.lineTo(x + w - 5, liquidY);
-    // gelombang permukaan
-    const t = Date.now() / 500;
-    const wave1 = Math.sin(t) * 3;
-    const wave2 = Math.cos(t * 1.3) * 2;
-    labCtx.quadraticCurveTo(x + w/2, liquidY - 4 + wave1, x + w - 5, liquidY + wave2);
-    labCtx.closePath();
-
-    labCtx.fillStyle = state.beakerColor;
-    labCtx.fill();
-
-    // glow effect
-    labCtx.globalAlpha = 0.3;
-    labCtx.fillStyle = state.beakerColor;
-    labCtx.fill();
-    labCtx.globalAlpha = 1;
-    labCtx.restore();
-
-    // endapan di bawah
-    if (state.hasEndapan && state.lastReaction && state.lastReaction.endapan) {
-      labCtx.fillStyle = state.lastReaction.endapan;
-      labCtx.globalAlpha = 0.8;
-      labCtx.beginPath();
-      labCtx.ellipse(x + w/2, y + h - 15, w/2 - 25, 10, 0, 0, Math.PI*2);
-      labCtx.fill();
-      labCtx.globalAlpha = 1;
-    }
-  }
-
-  // Beaker outline
-  labCtx.strokeStyle = isLight ? 'rgba(90,120,148,0.6)' : 'rgba(0,229,255,0.4)';
-  labCtx.lineWidth = 3;
-  labCtx.beginPath();
-  labCtx.moveTo(x, y);
-  labCtx.lineTo(x, y + h - 20);
-  labCtx.quadraticCurveTo(x, y + h, x + 20, y + h);
-  labCtx.lineTo(x + w - 20, y + h);
-  labCtx.quadraticCurveTo(x + w, y + h, x + w, y + h - 20);
-  labCtx.lineTo(x + w, y);
-  labCtx.stroke();
-
-  // Spout (bibir gelas)
-  labCtx.beginPath();
-  labCtx.moveTo(x + w, y);
-  labCtx.lineTo(x + w + 15, y - 8);
-  labCtx.stroke();
-
-  // Measurement lines
-  labCtx.strokeStyle = isLight ? 'rgba(90,120,148,0.3)' : 'rgba(0,229,255,0.2)';
-  labCtx.lineWidth = 1;
-  for (let i = 1; i <= 4; i++) {
-    const ly = y + (h / 5) * i;
-    labCtx.beginPath();
-    labCtx.moveTo(x + 5, ly);
-    labCtx.lineTo(x + 20, ly);
-    labCtx.stroke();
-  }
-}
-
-function drawThermometer() {
-  const tx = beakerBounds.x + beakerBounds.w + 40;
-  const ty = beakerBounds.y + 20;
-  const tw = 14, th = beakerBounds.h - 30;
-
-  // Tube
-  labCtx.fillStyle = state.theme === 'light' ? 'rgba(200,220,240,0.6)' : 'rgba(150,180,220,0.15)';
-  labCtx.beginPath();
-  labCtx.roundRect(tx, ty, tw, th, 7);
-  labCtx.fill();
-  labCtx.strokeStyle = 'rgba(0,229,255,0.4)';
-  labCtx.lineWidth = 2;
-  labCtx.stroke();
-
-  // Bulb
-  labCtx.beginPath();
-  labCtx.arc(tx + tw/2, ty + th + 8, 12, 0, Math.PI*2);
-  labCtx.fillStyle = '#ff4757';
-  labCtx.fill();
-
-  // Mercury (temp 25-100°C)
-  const tempPct = Math.min(1, Math.max(0, (state.beakerTemp - 20) / 80));
-  const mercuryH = (th - 10) * tempPct;
-  labCtx.fillStyle = '#ff4757';
-  labCtx.beginPath();
-  labCtx.roundRect(tx + 3, ty + th - 5 - mercuryH, tw - 6, mercuryH, 3);
-  labCtx.fill();
-
-  // Label temp
-  labCtx.fillStyle = state.theme === 'light' ? '#0f2847' : '#8fa3bf';
-  labCtx.font = 'bold 11px sans-serif';
-  labCtx.textAlign = 'center';
-  labCtx.fillText(state.beakerTemp + '°C', tx + tw/2, ty + th + 32);
-}
-
-/* ============================================================
-   KONTROL LAB
-   ============================================================ */
-function addWater() {
-  if (state.beakerZat.length === 0) {
-    showToast('⚠️ Tambahkan zat dulu', 'warn');
-    return;
-  }
-  const air = bahanKimia.find(b => b.id === 'H2O');
-  if (air && !state.beakerZat.find(z => z.id === 'H2O')) {
-    addZatToBeaker(air);
-    showToast('💧 Air ditambahkan');
-  } else {
-    showToast('💧 Air sudah ada di gelas', 'warn');
-  }
-}
-
-function heatLiquid() {
-  if (state.beakerZat.length === 0) {
-    showToast('⚠️ Gelas kosong', 'warn');
-    return;
-  }
-  state.beakerTemp += 15;
-  SFX.click();
-  showToast('🔥 Dipanaskan: suhu ' + state.beakerTemp + '°C');
-  drawLab();
-}
-
-function stirLiquid() {
-  if (state.beakerZat.length === 0) {
-    showToast('⚠️ Gelas kosong', 'warn');
-    return;
-  }
-  state.stirred = true;
-  SFX.click();
-  // percepat animasi
-  for (let i = 0; i < 5; i++) setTimeout(() => SFX.bubble(), i * 100);
-  showToast('⚗️ Diaduk — reaksi dipercepat');
-  drawLab();
-}
-
-function clearBeaker() {
-  state.beakerZat = [];
-  state.beakerColor = '#3a5a7a';
-  state.beakerTemp = 25;
-  state.hasGas = false;
-  state.hasEndapan = false;
-  state.lastReaction = null;
-  state.bubbles = [];
-  state.particles = [];
-  closeReactionPanel();
-  updateBeakerStatus();
-  drawLab();
-  SFX.click();
-  showToast('🗑️ Gelas dikosongkan');
-}
-
-function resetLab() {
-  clearBeaker();
-  state.selectedBahan = null;
-  document.getElementById('infoPanel').innerHTML = '<div style="color:var(--dim); font-size:0.85rem;">Pilih zat dari rak untuk melihat informasi detail.</div>';
-  document.getElementById('canvasHint').textContent = '💡 Klik bahan di kiri, lalu klik area lab untuk menaruhnya';
-  document.querySelectorAll('.bahan-item').forEach(el => el.style.borderColor = 'transparent');
-  showToast('↺ Lab direset');
-}
-
-function screenshotLab() {
-  const link = document.createElement('a');
-  link.download = 'lab-maya-' + Date.now() + '.png';
-  link.href = labCanvas.toDataURL();
-  link.click();
-  SFX.click();
-  showToast('📸 Screenshot disimpan', 'ok');
-}
-
-function updateBeakerStatus() {
-  const el = document.getElementById('beakerStatus');
-  if (state.beakerZat.length === 0) {
-    el.innerHTML = '<div style="color:var(--dim);">Gelas kimia kosong</div>';
-    return;
-  }
-  let html = '<div style="display:flex; flex-direction:column; gap:4px;">';
-  state.beakerZat.forEach(z => {
-    html += `<div style="display:flex; align-items:center; gap:6px; font-size:0.82rem;">
-      <div style="width:12px; height:12px; border-radius:50%; background:${z.color};"></div>
-      <span>${z.name}</span>
-    </div>`;
-  });
-  html += `<div style="margin-top:8px; font-size:0.75rem; color:var(--dim);">Suhu: ${state.beakerTemp}°C</div>`;
-  html += '</div>';
-  el.innerHTML = html;
-}
-
-/* ============================================================
-   LOG REAKSI
-   ============================================================ */
-function addToLog(reaksi) {
-  const entry = {
+  state.history.push({
     time: new Date().toLocaleString('id-ID'),
-    nama: reaksi.nama,
-    persamaan: reaksi.persamaan,
-    jenis: reaksi.jenis,
-    zat: state.beakerZat.map(z => z.formula).join(' + ')
-  };
-  state.reactionLog.push(entry);
-  updateStats();
-  renderLog();
-  // save to localStorage
-  try {
-    localStorage.setItem('labLog', JSON.stringify(state.reactionLog));
-    localStorage.setItem('labBadges', JSON.stringify(state.badges));
-    localStorage.setItem('labMisi', JSON.stringify(state.misiSelesai));
-  } catch(e) {}
+    teamId: teamId,
+    teamName: team.name
+  });
+  renderHistory();
+
+  updatePesertaUI();
+  renderTeams();
+  updateStatusChip();
+
+  if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+
+  showToast('🔔 ' + team.name + ' menekan bel!', 'ok');
 }
 
-function renderLog() {
-  const el = document.getElementById('logContent');
-  if (state.reactionLog.length === 0) {
-    el.innerHTML = `
-      <div class="log-empty">
-        <div class="log-icon">📋</div>
-        <div style="font-weight:700;">Belum ada percobaan</div>
-        <div style="font-size:0.85rem; margin-top:6px;">Lakukan reaksi di Meja Lab untuk mencatat log</div>
-      </div>`;
+function renderHistory() {
+  const hl = document.getElementById('historyList');
+  if (!hl) return;
+  hl.innerHTML = '';
+  if (state.history.length === 0) {
+    hl.innerHTML = '<div style="font-size:0.72rem; color:#999; text-align:center; padding:6px;">Belum ada bel ditekan</div>';
     return;
   }
-  let html = '<table class="log-table"><thead><tr><th>#</th><th>Waktu</th><th>Reaksi</th><th>Persamaan</th><th>Jenis</th></tr></thead><tbody>';
-  state.reactionLog.forEach((log, i) => {
-    html += `<tr><td>${i+1}</td><td>${log.time}</td><td>${log.nama}</td><td class="eq">${log.persamaan}</td><td>${log.jenis}</td></tr>`;
-  });
-  html += '</tbody></table>';
-  el.innerHTML = html;
-}
-
-function exportLog() {
-  if (state.reactionLog.length === 0) { showToast('⚠️ Log kosong', 'warn'); return; }
-  let csv = 'Waktu,Nama Reaksi,Persamaan Kimia,Jenis,Zat\n';
-  state.reactionLog.forEach(l => {
-    csv += `"${l.time}","${l.nama}","${l.persamaan}","${l.jenis}","${l.zat}"\n`;
-  });
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'log-lab-' + Date.now() + '.csv'; a.click();
-  URL.revokeObjectURL(url);
-  SFX.click();
-  showToast('⬇ CSV diunduh', 'ok');
-}
-
-function printLog() {
-  window.print();
-}
-
-function clearLog() {
-  if (!confirm('Hapus semua log percobaan?')) return;
-  state.reactionLog = [];
-  renderLog();
-  updateStats();
-  localStorage.removeItem('labLog');
-  showToast('🗑️ Log dihapus');
-}
-
-/* ============================================================
-   MISI
-   ============================================================ */
-function renderMisi() {
-  const grid = document.getElementById('misiGrid');
-  grid.innerHTML = '';
-  daftarMisi.forEach(m => {
-    const done = state.misiSelesai.includes(m.id);
-    const card = document.createElement('div');
-    card.className = 'misi-card' + (done ? ' selesai' : '');
-    card.innerHTML = `
-      <div class="misi-icon">${m.icon}</div>
-      <div class="misi-title">${m.title}</div>
-      <div class="misi-desc">${m.desc}</div>
-      <div class="misi-target">🎯 ${m.target}</div>
-      <div class="misi-reward">${m.reward}</div>
+  [...state.history].reverse().slice(0, 10).forEach(h => {
+    const item = document.createElement('div');
+    item.className = 'history-item';
+    item.innerHTML = `
+      <span class="h-team">${h.teamName}</span>
+      <span class="h-time">${h.time.split(' ')[1] || ''}</span>
     `;
-    grid.appendChild(card);
+    hl.appendChild(item);
   });
 }
 
-function completeMisi(misiId, reaksi) {
-  if (state.misiSelesai.includes(misiId)) return;
-  state.misiSelesai.push(misiId);
-  const misi = daftarMisi.find(m => m.id === misiId);
-  if (misi && !state.badges.includes(misi.reward)) {
-    state.badges.push(misi.reward);
-    SFX.success();
-    showToast('🏆 Misi selesai! ' + misi.reward, 'ok');
-    // konfeti kecil
-    launchConfetti();
+/* ============================================================
+   EVALUASI
+   ============================================================ */
+function evaluateAnswer(isCorrect) {
+  if (state.activeTeam === null) return;
+  const team = state.teams[state.activeTeam];
+  if (isCorrect) {
+    team.score += 10;
+    SFX.correct();
+    SFX.applause();
+    showToast('✅ ' + team.name + ' BENAR! +10', 'ok');
+  } else {
+    team.score = Math.max(0, team.score - 5);
+    SFX.wrong();
+    showToast('❌ ' + team.name + ' SALAH! -5', 'warn');
   }
-  updateStats();
-  renderMisi();
-  try {
-    localStorage.setItem('labBadges', JSON.stringify(state.badges));
-    localStorage.setItem('labMisi', JSON.stringify(state.misiSelesai));
-  } catch(e) {}
+
+  renderTeams();
+  renderLeaderboard();
+
+  document.getElementById('evalActions').style.display = 'none';
+  document.getElementById('activeDisplay').classList.remove('show');
+  document.getElementById('idleDisplay').style.display = 'flex';
+  document.getElementById('idleText').textContent = isCorrect ? '✅ JAWABAN BENAR' : '❌ JAWABAN SALAH';
+  document.getElementById('idleSub').textContent = 'Tekan ARM untuk ronde berikutnya';
+
+  state.activeTeam = null;
+  updateStatusChip();
+  updatePesertaUI();
 }
 
-/* ============================================================
-   KONFETI
-   ============================================================ */
-function launchConfetti() {
-  const canvas = document.createElement('canvas');
-  canvas.style.cssText = 'position:fixed; inset:0; pointer-events:none; z-index:999;';
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  document.body.appendChild(canvas);
-  const ctx = canvas.getContext('2d');
-  const colors = ['#00e5ff', '#ffc400', '#ff4757', '#2ed573', '#a55eea', '#ff6b9d'];
-  const particles = [];
-  for (let i = 0; i < 80; i++) {
-    particles.push({
-      x: canvas.width / 2, y: canvas.height / 2,
-      vx: (Math.random() - 0.5) * 12,
-      vy: (Math.random() - 0.5) * 12 - 3,
-      size: Math.random() * 6 + 3,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      rotation: Math.random() * Math.PI * 2,
-      rotSpeed: (Math.random() - 0.5) * 0.3,
-      life: 80 + Math.random() * 40
-    });
-  }
-  let frames = 0;
-  function anim() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      p.vy += 0.15;
-      p.rotation += p.rotSpeed;
-      p.life--;
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rotation);
-      ctx.fillStyle = p.color;
-      ctx.globalAlpha = Math.min(1, p.life / 40);
-      ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
-      ctx.restore();
-    });
-    frames++;
-    if (frames < 120) requestAnimationFrame(anim);
-    else canvas.remove();
-  }
-  anim();
-}
-
-/* ============================================================
-   UPDATE STATS
-   ============================================================ */
-function updateStats() {
-  document.getElementById('reactionCount').textContent = state.reactionLog.length;
-  document.getElementById('badgeCount').textContent = state.badges.length;
-  document.getElementById('statReactions').textContent = state.reactionLog.length;
-  document.getElementById('statBadges').textContent = state.badges.length;
-}
-
-/* ============================================================
-   TAB SWITCH
-   ============================================================ */
-function switchTab(tab) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+function resetScores() {
+  if (!confirm('Reset semua skor ke 0?')) return;
+  state.teams.forEach(t => t.score = 0);
+  renderTeams();
+  renderLeaderboard();
   SFX.click();
-  if (tab === 'lab') setTimeout(resizeCanvas, 50);
-  if (tab === 'misi') renderMisi();
-  if (tab === 'hasil') renderLog();
+  showToast('🔢 Semua skor direset');
 }
 
 /* ============================================================
    THEME
    ============================================================ */
 function toggleTheme() {
-  state.theme = state.theme === 'dark' ? 'light' : 'dark';
-  document.body.classList.toggle('light', state.theme === 'light');
-  document.getElementById('themeBtn').textContent = state.theme === 'dark' ? '🌙' : '☀️';
-  const sw = document.getElementById('themeSwitch');
-  if (sw) sw.classList.toggle('on', state.theme === 'dark');
-  drawLab();
-  SFX.click();
-}
-
-/* ============================================================
-   FULLSCREEN / PRESENTASI
-   ============================================================ */
-function togglePresentation() {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch(() => {});
-    showToast('⛶ Mode presentasi aktif');
-  } else {
-    document.exitFullscreen().catch(() => {});
-  }
+  state.theme = state.theme === 'light' ? 'dark' : 'light';
+  document.body.classList.toggle('dark', state.theme === 'dark');
+  document.getElementById('themeBtn').textContent = state.theme === 'dark' ? '☀️' : '🌙';
   SFX.click();
 }
 
@@ -1660,54 +1725,44 @@ function showToast(msg, type) {
 }
 
 /* ============================================================
-   RESET SEMUA
+   INIT
    ============================================================ */
-function resetAll() {
-  if (!confirm('Reset SEMUA data (log, badge, misi)?')) return;
-  state.reactionLog = [];
-  state.badges = [];
-  state.misiSelesai = [];
-  localStorage.removeItem('labLog');
-  localStorage.removeItem('labBadges');
-  localStorage.removeItem('labMisi');
-  renderLog();
-  renderMisi();
-  updateStats();
-  showToast('🗑️ Semua data direset');
-}
+document.addEventListener('DOMContentLoaded', () => {
+  const pBtn = document.getElementById('pesertaBtn');
+  pBtn.addEventListener('click', (e) => {
+    const rect = pBtn.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+    pBtn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
 
-/* ============================================================
-   LOAD STATE
-   ============================================================ */
-function loadState() {
-  try {
-    const log = localStorage.getItem('labLog');
-    const badges = localStorage.getItem('labBadges');
-    const misi = localStorage.getItem('labMisi');
-    if (log) state.reactionLog = JSON.parse(log);
-    if (badges) state.badges = JSON.parse(badges);
-    if (misi) state.misiSelesai = JSON.parse(misi);
-  } catch(e) {}
-  updateStats();
-}
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+    pressBuzzer(state.pesertaTeamId);
+  });
 
-/* ============================================================
-   INISIALISASI
-   ============================================================ */
-window.addEventListener('DOMContentLoaded', () => {
-  loadState();
-  renderBahanTabs();
-  renderBahanGrid();
-  renderAlat();
-  renderMisi();
-  renderLog();
-  updateStats();
-  updateBeakerStatus();
-  resizeCanvas();
-  window.addEventListener('resize', () => setTimeout(resizeCanvas, 100));
-  // animasi permukaan cairan
-  setInterval(() => { if (state.beakerZat.length > 0) drawLab(); }, 100);
-  showToast('🧪 Selamat datang di Virtual Chemistry Lab!');
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
+    if (state.role === 'juri') {
+      if (e.key === 'a' || e.key === 'A') armBuzzer();
+      if (e.key === 'r' || e.key === 'R') resetRound();
+      if (e.key === 'l' || e.key === 'L') lockBuzzer();
+      if (e.key === 'm' || e.key === 'M') toggleSound();
+      const num = parseInt(e.key);
+      if (num >= 1 && num <= state.totalReguAktif) {
+        pressBuzzer(num - 1);
+      }
+    }
+    if (state.role === 'peserta' && (e.key === ' ' || e.key === 'Enter')) {
+      e.preventDefault();
+      if (state.buzzerArmed && !state.activeTeam) {
+        pressBuzzer(state.pesertaTeamId);
+      }
+    }
+  });
 });
 </script>
 </body>
